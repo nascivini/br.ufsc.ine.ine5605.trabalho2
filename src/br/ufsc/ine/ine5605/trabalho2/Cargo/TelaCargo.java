@@ -60,12 +60,12 @@ public class TelaCargo extends JFrame{
         botaoListagem.addActionListener(gerenciador);
         botaoVoltar.addActionListener(gerenciador);
       
-        container.add(descricaoPrincipal);
-        container.add(botaoCadastro);
-        container.add(botaoExclusao);
-        container.add(botaoAlteracao);
-        container.add(botaoListagem);
-        container.add(botaoVoltar);
+        container.add(descricaoPrincipal, Container.TOP_ALIGNMENT, 0);
+        container.add(botaoCadastro, Container.TOP_ALIGNMENT, 1);
+        container.add(botaoExclusao, Container.TOP_ALIGNMENT, 2);
+        container.add(botaoAlteracao, Container.TOP_ALIGNMENT, 3);
+        container.add(botaoListagem, Container.TOP_ALIGNMENT, 4);
+        container.add(botaoVoltar, Container.TOP_ALIGNMENT, 5);
         
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
