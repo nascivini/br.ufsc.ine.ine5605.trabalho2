@@ -40,4 +40,8 @@ public class ControladorPrincipal {
         return controladorAcesso;
     }    
     
+    public void executar(){
+        this.telaPrincipal.setVisible(true);
+    }
+    
 }

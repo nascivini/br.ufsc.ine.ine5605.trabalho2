@@ -19,7 +19,7 @@ public class ClassePrincipal {
      */
     public static void main(String[] args) {
         ControladorPrincipal ctrl = new ControladorPrincipal();
-        ctrl.getTelaPrincipal().inicia();
+        ctrl.getTelaPrincipal().getContentPane();
     
     }
 }

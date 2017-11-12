@@ -1,7 +1,13 @@
 package br.ufsc.ine.ine5605.trabalho2.Principal;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
@@ -9,9 +15,13 @@ import java.util.Scanner;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public class TelaPrincipal {
+public class TelaPrincipal extends JFrame {
     private final ControladorPrincipal controladorPrincipal;
-    private final Scanner teclado;
+    private JLabel descricao;
+    private JButton botaoCargo;
+    private JButton botaoFuncionario;
+    private JButton botaoAcesso;
+    private JButton sair;
     
     /**
      * Recebe o controladorPrincipal como parametro para possibilitar a
@@ -19,60 +29,67 @@ public class TelaPrincipal {
      * @param controladorPrincipal controladorPrincipal em execução no programa
      */
     public TelaPrincipal(ControladorPrincipal controladorPrincipal) {
+        super("Sistema de Acesso à Porta do Financeiro");
         this.controladorPrincipal = controladorPrincipal;
-        this.teclado = new Scanner(System.in);
+        this.inicializarComponentes();
+    }
+    
+    private void inicializarComponentes(){
+        Container container = this.getContentPane();
+        container.setLayout(new FlowLayout());
+        GerenciadorBotoesPrincipal gerenciador = new GerenciadorBotoesPrincipal();
+        
+        descricao =  new JLabel();
+        botaoCargo = new JButton();
+        botaoFuncionario = new JButton();
+        botaoAcesso = new JButton();
+        sair = new JButton();
+        
+        descricao.setText("Clique nos botões para acessar os módulos.");
+        botaoCargo.setText("Cargos");
+        botaoFuncionario.setText("Funcionarios");
+        botaoAcesso.setText("Acessos");
+        sair.setText("Sair do Sistema");
+        
+        botaoCargo.addActionListener(gerenciador);
+        botaoFuncionario.addActionListener(gerenciador);
+        botaoAcesso.addActionListener(gerenciador);
+        sair.addActionListener(gerenciador);
+        
+        container.add(descricao);
+        container.add(botaoCargo);
+        container.add(botaoFuncionario);
+        container.add(botaoAcesso);
+        container.add(sair);
+        
+        container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        
+        this.setVisible(true);
+        this.setSize(700, 100);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
     
     public ControladorPrincipal getControladorPrincipal(){
         return this.controladorPrincipal;
     }
     
-    /**
-     * Inicia a tela com o Menu das opções principais do sistema. Trata exceções do tipo 
-     * IllegalArgumentException e InputMismatchException que possam vir dos ontros controladores, impedindo a finalização do programa.
-     *
-     */
-    public void inicia(){
-        int opcao = 0;
-        try{
-            System.out.println("--- Bem vindo ao sistema! ---");
-            System.out.println("--- Para acessar os módulos, escolha uma das opções abaixo e tecle enter. ---");
-            System.out.println("--- 1 - Cargos ---");
-            System.out.println("--- 2 - Funcionarios ---");
-            System.out.println("--- 3 - Acessar Setor Financeiro  ---");
-            System.out.println("--- 4 - Sair  ---");
-        
-            try{
-                opcao = teclado.nextInt();
+    public class GerenciadorBotoesPrincipal implements ActionListener{
+    
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == botaoCargo){
+                controladorPrincipal.getControladorCargo().getTelaCargo().setVisible(true);
             }
-            catch(InputMismatchException e){
-                throw new IllegalArgumentException("Opção inválida! Escolha uma opção dentre as opções na lista.");
+            else if(e.getSource() == botaoFuncionario){
+                controladorPrincipal.getControladorFuncionario().getTelaFuncionario().setVisible(true);
             }
-            switch(opcao){
-                case(1):
-                    this.getControladorPrincipal().getControladorCargo().getTelaCargo().inicia();
-                    break;
-                
-                case(2):
-                    this.getControladorPrincipal().getControladorFuncionario().getTelaFuncionario().inicia();
-                    break;
-                
-                case(3):
-                    this.getControladorPrincipal().getControladorAcesso().getTelaAcesso().inicia();
-                    break;
-                
-                case (4):
-                    System.exit(0);
-            
-                default:    
-                    throw new IllegalArgumentException("Opção inválida! Escolha uma opção dentre as opções da lista.");
+            else if(e.getSource() == botaoAcesso){
+                controladorPrincipal.getControladorAcesso().getTelaAcesso().setVisible(true);
+            }
+            else if(e.getSource() == sair){
+                System.exit(0);
             }
         }
-        catch(IllegalArgumentException e){
-            e.getMessage();
-            String [] args = null;
-            ClassePrincipal.main(args);
-        }    
-    }  
-        
-    }
+    }    
+ }
