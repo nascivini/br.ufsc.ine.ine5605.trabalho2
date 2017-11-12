@@ -3,6 +3,7 @@ package br.ufsc.ine.ine5605.trabalho2.Acesso;
 import br.ufsc.ine.ine5605.trabalho2.Principal.ClassePrincipal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import javax.swing.JFrame;
 
 /**
  *
@@ -10,7 +11,7 @@ import java.util.Scanner;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public class TelaAcesso {
+public class TelaAcesso extends JFrame {
 
     private final Scanner teclado;
     private final ControladorAcesso controladorAcesso;

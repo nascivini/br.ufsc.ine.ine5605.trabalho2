@@ -1,9 +1,19 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
+import java.awt.CardLayout;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -11,65 +21,61 @@ import java.util.Scanner;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public class TelaCargo {
+public class TelaCargo extends JFrame{
 
     private final ControladorCargo controladorCargo;
-    private final Scanner teclado;
-
+    private JLabel descricaoPrincipal;
+    private JButton botaoCadastro, botaoExclusao, botaoAlteracao, botaoListagem, botaoVoltar;
+    private JPanel painelPrincipal, painelCadastro, painelExclusao, painelAlteracao, painelListagem;
+    private JButton botaoConfirmarCadastro, botaoLimparCadastro;
+    private JTextField nomeCadastro, horario1, horario2, horario3;
+    
     public TelaCargo(ControladorCargo controladorCargo) {
+        super("Tela de Manutenção de Cargos");
         this.controladorCargo = controladorCargo;
-        teclado = new Scanner(System.in);
+        this.inicializarComponentes();
     }
-
+    
+    /**
+     * Inicializa todos os componentes da Tela e Subtelas do módulo Cargo. É utilizado apenas pelo construtor da classe TelaCargo.
+     * Também "mostra" a tela pela primeira vez.
+     */
+    private void inicializarComponentes(){
+        Container container = this.getContentPane();
+        container.setLayout(new GridLayout());
+        GerenciadorBotoesCargo gerenciador = new GerenciadorBotoesCargo();
+        
+        this.painelPrincipal = new JPanel(new CardLayout());
+                
+        this.botaoCadastro = new JButton("Cadastrar um Cargo");
+        this.botaoExclusao = new JButton("Excluir um Cargo");
+        this.botaoAlteracao = new JButton("Alterar um Cargo");
+        this.botaoListagem = new JButton("Listar Cargos Cadastrados");
+        this.botaoVoltar = new JButton("Voltar ao Menu Principal");
+        this.descricaoPrincipal = new JLabel("Clique nos botões para acessar os módulos.");
+                  
+        botaoCadastro.addActionListener(gerenciador);
+        botaoExclusao.addActionListener(gerenciador);
+        botaoAlteracao.addActionListener(gerenciador);
+        botaoListagem.addActionListener(gerenciador);
+        botaoVoltar.addActionListener(gerenciador);
+      
+        container.add(descricaoPrincipal);
+        container.add(botaoCadastro);
+        container.add(botaoExclusao);
+        container.add(botaoAlteracao);
+        container.add(botaoListagem);
+        container.add(botaoVoltar);
+        
+        container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        
+        this.setSize(700, 100);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   
+    }
+    
     public ControladorCargo getControladorCargo() {
         return controladorCargo;
-    }
-
-    /**
-     * Inicia a tela com o Menu das opções para o módulo Cargo. Pode jogar
-     * exceções do tipo IllegalArgumentException e InputMismatchException.
-     *
-     * @throws IllegalArgumentException Caso seja digitada uma opção inválida.
-     * @throws InputMismatchException Caso seja digitado um caractere inválido.
-     */
-    public void inicia() throws IllegalArgumentException, InputMismatchException {
-
-        System.out.println("--- Menu de Cadastro de Cargos: ---");
-        System.out.println("Escolha a opção desejada, insira o número e tecle enter: ---");
-        System.out.println("1 - Cadastrar um Cargo");
-        System.out.println("2 - Excluir um Cargo");
-        System.out.println("3 - Alterar os dados de um Cargo");
-        System.out.println("4 - Listar os cargos já cadastrados");
-        System.out.println("5 - Voltar ao Menu Principal");
-
-        try {
-            int opcao = teclado.nextInt();
-
-            teclado.nextLine();
-            switch (opcao) {
-                case (1):
-                    this.cadastroCargos();
-                    break;
-                case (2):
-                    this.exclusaoCargos();
-                    break;
-                case (3):
-                    this.alteracaoCargos();
-                    break;
-                case (4):
-                    this.listarCargos();
-                    break;
-                case (5):
-                    this.getControladorCargo().getControladorPrincipal().getTelaPrincipal().inicia();
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Opção Inválida! Escolha uma opção dentre das opções na lista.");
-            String[] args = null;
-            this.inicia();
-        }
     }
 
     /**
@@ -79,15 +85,25 @@ public class TelaCargo {
      * geraSequencialCargo, reduzSequencialCargo e findCargoByNome do
      * controladorCargo.
      */
-    private void cadastroCargos() {
-        System.out.println("Cadastro de Cargos");
-        System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, seu cargo será cadastrado no sistema.");
-
-        int codigo = this.getControladorCargo().geraSequencialCargo();
-        System.out.println("Còdigo do novo cargo (gerado automaticamente) : " + codigo + ".");
-
-        System.out.println("Nome: ");
-        String nome = teclado.nextLine();
+    private void inicializarComponentesCadastro() {
+        
+        this.painelCadastro.setToolTipText("Cadastro de Cargos");
+        this.painelCadastro = new JPanel(new GridLayout(4, 2));
+        
+        this.nomeCadastro = new JTextField();
+        this.codigoCadastroCargo = new JLabel("Código do novo cargo(gerado automaticamente):" + this.getControladorCargo().geraSequencialCargo()+ ".");
+        this.horario1 = new JTextField();
+        this.horario2 = new JTextField();
+        this.horario3 = new JTextField();
+        this.botaoConfirmarCadastro = new JButton("Cadastrar");
+        this.botaoLimparCadastro = new JButton("Limpar Dados");
+        
+        this.painelCadastro.add(nomeCadastro, 1, 0);
+        this.painelCadastro.add(horario1, 2, 0);
+        this.painelCadastro.add(horario2, 2, 1);
+        this.painelCadastro.add(horario3, 2, 2);
+        this.painelCadastro.add(botaoConfirmarCadastro, 4, 1);
+        this.painelCadastro.add(botaoLimparCadastro, 4, 2);
 
         try {
             if (this.getControladorCargo().findCargoByNome(nome)) {
@@ -469,4 +485,31 @@ public class TelaCargo {
         this.getControladorCargo().listarCargos();
         this.inicia();
     }
+    
+    private class GerenciadorBotoesCargo implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == botaoCadastro){
+                setVisible(false);
+                cadastroCargos();
+            }
+            else if(e.getSource() == botaoExclusao){
+                setVisible(false);
+                exclusaoCargos();
+            }
+            else if(e.getSource() == botaoAlteracao){
+                setVisible(false);
+                alteracaoCargos();
+            }
+            else if(e.getSource() == botaoListagem){
+                setVisible(false);
+                listarCargos();
+            }
+            else if(e.getSource() == botaoVoltar){
+                setVisible(false);
+            }
+        }
+        
+    }
+    
 }

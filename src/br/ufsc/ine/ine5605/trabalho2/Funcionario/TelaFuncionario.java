@@ -12,8 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import javax.swing.JFrame;
 
-public class TelaFuncionario {
+public class TelaFuncionario extends JFrame {
     private final Scanner teclado;
     private final ControladorFuncionario controladorFuncionario;
 
