@@ -1,9 +1,18 @@
 package br.ufsc.ine.ine5605.trabalho2.Acesso;
 
 import br.ufsc.ine.ine5605.trabalho2.Principal.ClassePrincipal;
+import java.awt.CardLayout;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.InputMismatchException;
-import java.util.Scanner;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import sun.awt.im.CompositionArea;
 
 /**
  *
@@ -13,8 +22,10 @@ import javax.swing.JFrame;
  */
 public class TelaAcesso extends JFrame {
 
-    private final Scanner teclado;
     private final ControladorAcesso controladorAcesso;
+    private JButton realizarA, listarA, voltar;
+    private JLabel descricao;
+    private JPanel painelAcesso, painelListagem;
 
     /**
      * Recebe o controlador Acesso como parametro para possibilitar a
@@ -23,7 +34,7 @@ public class TelaAcesso extends JFrame {
      */
     public TelaAcesso(ControladorAcesso controladorAcesso) {
         this.controladorAcesso = controladorAcesso;
-        this.teclado = new Scanner(System.in);
+        this.inicia();
     }
 
     public ControladorAcesso getControladorAcesso() {
@@ -34,6 +45,37 @@ public class TelaAcesso extends JFrame {
      * @throws IllegalArgumentException Caso seja digitada uma opção inválida.
      * @throws InputMismatchException Caso seja digitado um caractere inválido.
      */
+    public void inicia() {
+        
+        Container container = this.getContentPane();
+        container.setLayout(new GridBagLayout());
+        this.painelAcesso = new JPanel(new GridBagLayout());
+        this.painelListagem = new JPanel(new GridBagLayout());
+        GerenciadorBotoesAcesso gerenciador = new GerenciadorBotoesAcesso();
+       
+        this.descricao = new JLabel("--- Clique para escolher a opcao ---");
+        this.realizarA = new JButton("Realizar um acesso");
+        this.listarA = new JButton("Listar Acessos Negados");
+        this.voltar = new JButton("Voltar ao Menu Principal");
+        
+        this.realizarA.addActionListener(gerenciador);
+        this.listarA.addActionListener(gerenciador);
+        this.voltar.addActionListener(gerenciador);
+        
+        this.painelAcesso.add(this.descricao, GridBagConstraints.FIRST_LINE_START);
+        this.painelAcesso.add(this.realizarA, GridBagConstraints.PAGE_START);
+        this.painelAcesso.add(this.listarA, GridBagConstraints.FIRST_LINE_END);
+        this.painelAcesso.add(this.voltar, GridBagConstraints.LINE_START);
+        
+        this.setSize(700, 100);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        container.setVisible(true);
+        this.painelAcesso.setVisible(true);
+    }
+    
+  /*  
     public void inicia() throws IllegalArgumentException, InputMismatchException {
         System.out.println("--- Menu para Acesso / Controle de Acesso: ---");
         System.out.println("Escolha a opcao desejada, insira o numero e tecle enter: ---");
@@ -64,6 +106,8 @@ public class TelaAcesso extends JFrame {
             ClassePrincipal.main(args);
         }
     }
+    */
+    
     /**
      * Inicia a tela de listagem de acessos negados. Faz o tratamento dos dados inseridos pelo usuário e, 
      * antes da exclusão, verifica a existência do cargo utilizando se dos métodos de controladorAcesso.
@@ -75,8 +119,9 @@ public class TelaAcesso extends JFrame {
         System.out.println("2 - Listar acessos negados por matricula");
         System.out.println("3 - Listar acessos negados por motivo");
         System.out.println("4 - Voltar ao menu geral Acesso.");
-
-        int opcao = teclado.nextInt();
+        
+        int opcao = 0;
+        //int opcao = teclado.nextInt();
         try {
             switch (opcao) {
                 case (1):
@@ -85,7 +130,8 @@ public class TelaAcesso extends JFrame {
                     break;
                 case (2):
                     System.out.println("Digite a matricula e tecle enter: ---");
-                    int matricula = teclado.nextInt();
+                    //int matricula = teclado.nextInt();
+                    int matricula = 0;
                     this.getControladorAcesso().findAcessosNegadosByMatricula(matricula);
                     this.menuAcessosNegados();
                     break;
@@ -97,7 +143,8 @@ public class TelaAcesso extends JFrame {
                     System.out.println("4 - BLOQUEADO");
                     System.out.println("5 - OUTRO");
 
-                    int opcaoMotivo = teclado.nextInt();
+                    int opcaoMotivo = 0;
+                   // int opcaoMotivo = teclado.nextInt();
                     MotivoAcesso motivo = MotivoAcesso.OK;
                     try {
                         switch (opcaoMotivo) {
@@ -146,11 +193,17 @@ public class TelaAcesso extends JFrame {
      */
     private void realizarAcesso() {
 		System.out.println("Digite a hora atual. Ex.: 22");
-		int hora = teclado.nextInt();
+                int hora = 0;
+		//int hora = teclado.nextInt();
+                        
 		System.out.println("Digite o minuto atual. Ex.: 53");
-		int minuto = teclado.nextInt();
+                int minuto = 0;
+		//int minuto = teclado.nextInt();
+                
         System.out.println("Agora digite a matricula na qual deseja efetuar o acesso");
-        int matricula = teclado.nextInt();
+        int matricula = 0;
+        //int matricula = teclado.nextInt();
+        
         if (this.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().validaMatricula(matricula)) {
             Acesso acesso = this.getControladorAcesso().verificaAcesso(matricula, hora, minuto);
             switch (acesso.getMotivo()) {
@@ -179,6 +232,26 @@ public class TelaAcesso extends JFrame {
         else {
             System.out.println("Matricula nao encontrada.");
             this.realizarAcesso();
+        }
+    }
+
+    private class GerenciadorBotoesAcesso implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == realizarA){
+                setVisible(false);
+                realizarAcesso();
+            }
+            else if(e.getSource() == listarA){
+                setVisible(false);
+                menuAcessosNegados();
+                
+            }
+            else if(e.getSource() == voltar){
+                setVisible(false);
+                inicia();
+            }
         }
     }
 

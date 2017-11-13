@@ -1,5 +1,6 @@
 package br.ufsc.ine.ine5605.trabalho2.Acesso;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Calendar;
  * @author Marco Aurelio Geremias
  */
 
-public class Acesso {
+public class Acesso implements Serializable{
 
     private final Calendar horario;
     private final int matricula;
