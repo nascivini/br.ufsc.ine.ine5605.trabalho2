@@ -4,8 +4,10 @@ import java.awt.CardLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -42,8 +44,9 @@ public class TelaCargo extends JFrame{
      */
     private void inicializarComponentes(){
         Container container = this.getContentPane();
-        container.setLayout(new GridLayout());
+        container.setLayout(new GridBagLayout());
         GerenciadorBotoesCargo gerenciador = new GerenciadorBotoesCargo();
+        GridBagConstraints c = new GridBagConstraints(); 
                 
         this.botaoCadastro = new JButton("Cadastrar um Cargo");
         this.botaoExclusao = new JButton("Excluir um Cargo");
@@ -57,17 +60,33 @@ public class TelaCargo extends JFrame{
         botaoAlteracao.addActionListener(gerenciador);
         botaoListagem.addActionListener(gerenciador);
         botaoVoltar.addActionListener(gerenciador);
-      
-        container.add(descricaoPrincipal, Container.TOP_ALIGNMENT, 0);
-        container.add(botaoCadastro, Container.TOP_ALIGNMENT, 1);
-        container.add(botaoExclusao, Container.TOP_ALIGNMENT, 2);
-        container.add(botaoAlteracao, Container.TOP_ALIGNMENT, 3);
-        container.add(botaoListagem, Container.TOP_ALIGNMENT, 4);
-        container.add(botaoVoltar, Container.TOP_ALIGNMENT, 5);
         
-        container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(10, 0, 0, 0);
+        container.add(descricaoPrincipal, c);
         
-        this.setSize(700, 100);
+        c.gridx = 0;
+        c.gridy = 2;
+        container.add(botaoCadastro, c);
+        
+        c.gridx = 0;
+        c.gridy = 4;        
+        container.add(botaoExclusao, c);
+        
+        c.gridx = 0;
+        c.gridy = 6;        
+        container.add(botaoAlteracao, c);
+        
+        c.gridx = 0;
+        c.gridy = 8;        
+        container.add(botaoListagem, c);
+        
+        c.gridx = 0;
+        c.gridy = 10;        
+        container.add(botaoVoltar, c);
+        
+        this.setSize(300, 300);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   
     }
@@ -497,7 +516,7 @@ public class TelaCargo extends JFrame{
             }
             else if(e.getSource() == botaoAlteracao){
                 setVisible(false);
-                telaAlteracaocargo.setVisible(true);
+                telaAlteracaoCargo.setVisible(true);
             }
             else if(e.getSource() == botaoListagem){
                 setVisible(false);

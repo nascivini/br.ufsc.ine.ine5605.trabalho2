@@ -7,9 +7,10 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.Container;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import javax.swing.BoxLayout;
+import java.awt.Insets;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -36,6 +37,7 @@ public class TelaCadastroCargo extends JFrame {
     private void inicializarComponentes() {
         Container container = this.getContentPane();
         container.setLayout(new GridLayout(5, 1));
+        GridBagConstraints c = new GridBagConstraints();
         
         TipoCargo[] tiposCargo = {TipoCargo.COMUM, TipoCargo.CONVIDADO, TipoCargo.GERENCIAL};
         
@@ -46,13 +48,26 @@ public class TelaCadastroCargo extends JFrame {
         this.horario1 = new JTextField();
         this.horario2 = new JTextField();
         
-        container.add(codigo, 1);
-        container.add(tipo, 2);
-        container.add(nome, 3);
-        container.add(horario1, 4);
-        container.add(horario2, 5);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(10, WIDTH, WIDTH, WIDTH);
+        container.add(codigo, c);
+        
+        container.add(tipo, c);
+        c.gridx = 0;
+        c.gridy = 1;        
+        container.add(nome, c);
+        
+        c.gridx = 0;
+        c.gridy = 2;
+        container.add(horario1, c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        container.add(horario2, c);
         
         this.setSize(600, 400);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
