@@ -2,9 +2,14 @@ package br.ufsc.ine.ine5605.trabalho2.Principal;
 
 import java.awt.ComponentOrientation;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.awt.image.ImageObserver.WIDTH;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,8 +42,10 @@ public class TelaPrincipal extends JFrame {
     
     private void inicializarComponentes(){
         Container container = this.getContentPane();
-        container.setLayout(new FlowLayout());
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
         GerenciadorBotoesPrincipal gerenciador = new GerenciadorBotoesPrincipal();
+        
         
         descricao =  new JLabel();
         botaoCargo = new JButton();
@@ -57,16 +64,37 @@ public class TelaPrincipal extends JFrame {
         botaoAcesso.addActionListener(gerenciador);
         sair.addActionListener(gerenciador);
         
-        container.add(descricao);
-        container.add(botaoCargo);
-        container.add(botaoFuncionario);
-        container.add(botaoAcesso);
-        container.add(sair);
+        Dimension d = new Dimension(100, 100);
         
-        container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        botaoCargo.setPreferredSize(d);
+        botaoFuncionario.setPreferredSize(d);
+        botaoAcesso.setPreferredSize(d);
+        sair.setPreferredSize(d);
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(10, WIDTH, WIDTH, WIDTH);
+        container.add(descricao, c);
+        
+        c.gridx = 0;
+        c.gridy = 1;
+        container.add(botaoCargo, c);
+        
+        c.gridx = 0;
+        c.gridy = 2;
+        container.add(botaoFuncionario, c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        container.add(botaoAcesso, c);
+        
+        c.gridx = 0;
+        c.gridy = 4;
+        container.add(sair, c);
+        
         
         this.setVisible(true);
-        this.setSize(700, 100);
+        this.setSize(300, 300);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
