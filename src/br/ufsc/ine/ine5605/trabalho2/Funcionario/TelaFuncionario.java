@@ -6,18 +6,26 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.InputMismatchException;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class TelaFuncionario extends JFrame {
     //private final Scanner teclado;
+    private Image image;
     private final ControladorFuncionario controladorFuncionario;
     private JLabel descricao;
     private JButton botaoCadastrar;
@@ -26,13 +34,19 @@ public class TelaFuncionario extends JFrame {
     private JButton botaoListar;
     private JButton botaoVoltar;
     private JButton sair;
+    private boolean shouldFill;
+    private boolean shouldWeightX;
 
     public TelaFuncionario(ControladorFuncionario controladorFuncionario){
         super("Configurações de Funcionário");
         this.controladorFuncionario = controladorFuncionario;
         inicializarComponentesFuncionario();
+        getContentPane().setBackground(Color.PINK); 
         //this.teclado = new Scanner(System.in);
+
     }
+    
+    
     
     /**
      * Inicia a tela com o Menu das opções para o módulo Funcionário. Pode jogar
@@ -52,9 +66,11 @@ public class TelaFuncionario extends JFrame {
     
     private void inicializarComponentesFuncionario(){
         Container container = this.getContentPane();
-        container.setLayout(new FlowLayout());
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
         GerenciadorBotoesFuncionario gerenciador = new GerenciadorBotoesFuncionario();
         
+        this.image = this.getImage("http://www.bellunotec.com.br/wp-content/uploads/2017/05/86390-saiba-como-aumentar-a-retencao-de-funcionarios-na-empresa.png");
         descricao =  new JLabel();
         botaoCadastrar = new JButton();
         botaoExcluir = new JButton();
@@ -62,14 +78,17 @@ public class TelaFuncionario extends JFrame {
         botaoListar = new JButton();
         botaoVoltar = new JButton();
         sair = new JButton();
+       
         
-        descricao.setText("Clique em uma das opções:");
+    
+        
+        descricao.setText("Clique em uma das opções: ");
         botaoCadastrar.setText("Cadastrar");
         botaoExcluir.setText("Excluir");
         botaoAlterar.setText("Alterar");
         botaoListar.setText("Listar");
         botaoVoltar.setText("Voltar ao Menu Principal");
-        sair.setText("Sair do Sistema");
+        sair.setText("Sair");
         
         botaoCadastrar.addActionListener(gerenciador);
         botaoExcluir.addActionListener(gerenciador);
@@ -77,6 +96,8 @@ public class TelaFuncionario extends JFrame {
         botaoListar.addActionListener(gerenciador);
         botaoVoltar.addActionListener(gerenciador);
         sair.addActionListener(gerenciador);
+        
+        
         
         container.add(descricao);
         container.add(botaoCadastrar);
@@ -88,10 +109,18 @@ public class TelaFuncionario extends JFrame {
         
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
-        this.setSize(800, 100);
+        this.setSize(800, 800);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
+    
+       public Image getImage(String path) {
+        URL imageURL = getClass().getResource(path);
+        if (imageURL == null)
+            return null;
+        return new ImageIcon(imageURL).getImage();    
+    }
+
         
         private class GerenciadorBotoesFuncionario implements ActionListener{
         @Override
