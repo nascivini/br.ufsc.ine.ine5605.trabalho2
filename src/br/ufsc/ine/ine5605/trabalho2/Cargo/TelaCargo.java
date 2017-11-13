@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,13 +27,12 @@ public class TelaCargo extends JFrame{
     private final ControladorCargo controladorCargo;
     private JLabel descricaoPrincipal;
     private JButton botaoCadastro, botaoExclusao, botaoAlteracao, botaoListagem, botaoVoltar;
-    private JPanel painelPrincipal, painelCadastro, painelExclusao, painelAlteracao, painelListagem;
-    private JButton botaoConfirmarCadastro, botaoLimparCadastro;
-    private JTextField nomeCadastro, horario1, horario2, horario3;
+    private TelaCadastroCargo telaCadastroCargo;
     
     public TelaCargo(ControladorCargo controladorCargo) {
         super("Tela de Manutenção de Cargos");
         this.controladorCargo = controladorCargo;
+        this.telaCadastroCargo = new TelaCadastroCargo(this);
         this.inicializarComponentes();
     }
     
@@ -44,8 +44,6 @@ public class TelaCargo extends JFrame{
         Container container = this.getContentPane();
         container.setLayout(new GridLayout());
         GerenciadorBotoesCargo gerenciador = new GerenciadorBotoesCargo();
-        
-        this.painelPrincipal = new JPanel(new CardLayout());
                 
         this.botaoCadastro = new JButton("Cadastrar um Cargo");
         this.botaoExclusao = new JButton("Excluir um Cargo");
@@ -491,19 +489,19 @@ public class TelaCargo extends JFrame{
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == botaoCadastro){
                 setVisible(false);
-                cadastroCargos();
+                telaCadastroCargo.setVisible(true);
             }
             else if(e.getSource() == botaoExclusao){
                 setVisible(false);
-                exclusaoCargos();
+                telaExclusaoCargo.setVisible(true);
             }
             else if(e.getSource() == botaoAlteracao){
                 setVisible(false);
-                alteracaoCargos();
+                telaAlteracaocargo.setVisible(true);
             }
             else if(e.getSource() == botaoListagem){
                 setVisible(false);
-                listarCargos();
+                telaListagemCargo.setVisible(true);
             }
             else if(e.getSource() == botaoVoltar){
                 setVisible(false);
