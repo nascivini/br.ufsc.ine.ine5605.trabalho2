@@ -19,37 +19,15 @@ public class DadosCargo {
     
     /**
      * Recebe os dados de um cargo, vindos da TelaCargo, e instancia um objeto transiente para posterior uso para o cadastro de um cargo pelo ControladorCargo.
-     * @param nome Nome do cargo.
-     * @param permiteAcesso Permite acesso ou não à porta do financeiro. 
-     * @param ehGerencial É gerencial ou não.
+     * @param nome Nome do cargo
      * @param horarios ArrayList com os horários do cargo.
      * @param tipo Tipo do cargo.
      */
-    public DadosCargo(String nome, boolean permiteAcesso, boolean ehGerencial, ArrayList<Calendar> horarios, String tipo) {
+    public DadosCargo(String nome, ArrayList<Calendar> horarios, TipoCargo tipo) {
         this.nome = nome;
-        this.permiteAcesso = permiteAcesso;
-        this.ehGerencial = ehGerencial;
+        this.ehGerencial = tipoCargo == TipoCargo.GERENCIAL;
         this.horarios = horarios;
-        switch(tipo) {
-            case "GERENCIAL":
-                this.tipoCargo = TipoCargo.GERENCIAL;
-                break;
-            case "COMUM":
-                this.tipoCargo = TipoCargo.COMUM;
-                break;
-            case "CONVIDADO":
-                this.tipoCargo = TipoCargo.CONVIDADO;
-                break;
-            default:
-                this.tipoCargo = TipoCargo.COMUM;
-        }       
-    }
-
-    public DadosCargo() {
-        this.ehGerencial = false;
-        this.horarios = null;
-        this.nome = null;
-        this.permiteAcesso = false;
-        this.tipoCargo = null;
+        this.tipoCargo = tipo;
+        this.permiteAcesso = tipoCargo != TipoCargo.CONVIDADO;
     }
 }

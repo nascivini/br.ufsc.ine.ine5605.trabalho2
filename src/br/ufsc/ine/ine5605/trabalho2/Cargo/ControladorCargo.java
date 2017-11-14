@@ -40,8 +40,8 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public Cargo incluirCargo(DadosCargo conteudo, int codigo) {
-        Cargo novo = new Cargo(conteudo, codigo);
+    public Cargo incluirCargo(DadosCargo conteudo) {
+        Cargo novo = new Cargo(conteudo, this.geraSequencialCargo());
         cargoDAO.put(novo);
         return novo;
     }
@@ -138,7 +138,7 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public boolean verificaHorarios(ArrayList<Calendar> horarios, Calendar horario1, Calendar horario2) {
+    public boolean verificaHorarios (ArrayList<Calendar> horarios, Calendar horario1, Calendar horario2) throws IllegalArgumentException{
 
         if (horarios.isEmpty()) {
             if (horario1.compareTo(horario2) != 0) {
@@ -154,14 +154,14 @@ public class ControladorCargo implements IControladorCargo {
                         horario1OK = true;
                     } else {
                         horario1OK = false;
-                        throw new IllegalArgumentException("HorÃ¡rio inicial estÃ¡ dentro de uma faixa de horÃ¡rios jÃ¡ cadastrada ou Ã© nulo. Verifique o mesmo e tente novamente. O cargo nÃ£o foi cadastrado.");
+                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
                     }
                 } else {
                     if ((!(horario1.after(horarios.get(i)) && horario1.before(horarios.get(i + 1))))) {
                         horario1OK = true;
                     } else {
                         horario1OK = false;
-                        throw new IllegalArgumentException("HorÃ¡rio inicial estÃ¡ dentro de uma faixa de horÃ¡rios jÃ¡ cadastrada ou Ã© nulo. Verifique o mesmo e tente novamente. O cargo nÃ£o foi cadastrado.");
+                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
                     }
                 }
             }
@@ -171,7 +171,7 @@ public class ControladorCargo implements IControladorCargo {
                         horario2OK = true;
                     } else {
                         horario2OK = false;
-                        throw new IllegalArgumentException("HorÃ¡rio inicial estÃ¡ dentro de uma faixa de horÃ¡rios jÃ¡ cadastrada ou Ã© nulo. Verifique o mesmo e tente novamente. O cargo nÃ£o foi cadastrado.");
+                        throw new IllegalArgumentException("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
                     }
                 } else {
                     if (horario1.after(horario2) && horario1.after(horarios.get(i + 1)) && horario2.before(horarios.get(i))) {
@@ -184,7 +184,7 @@ public class ControladorCargo implements IControladorCargo {
                         }
                     } else {
                         horario2OK = false;
-                        throw new IllegalArgumentException("HorÃ¡rio inicial estÃ¡ dentro de uma faixa de horÃ¡rios jÃ¡ cadastrada ou Ã© nulo. Verifique o mesmo e tente novamente. O cargo nÃ£o foi cadastrado.");
+                        throw new IllegalArgumentException("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
                     }
                 }
             }

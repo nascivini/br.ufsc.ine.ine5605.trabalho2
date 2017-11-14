@@ -18,13 +18,11 @@ public interface IControladorCargo {
      * @param codigo Código do cargo (gerado automaticamente).
      * @return Cargo Cargo incluído.
      */
-    public Cargo incluirCargo(DadosCargo conteudo, int codigo);
+    public Cargo incluirCargo(DadosCargo conteudo);
 
     /**
      * Exclui o cargo da lista de cargos com base no código informado via
      * parâmetro.
-     *
-     * @param codigo Codigo do cargo a ser excluído.
      * @return True or false indicando se o cargo foi exclu[ido ou não.
      */
     public boolean excluirCargo(int codigo);
