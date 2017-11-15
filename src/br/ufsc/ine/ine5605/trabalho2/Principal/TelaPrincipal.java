@@ -28,6 +28,7 @@ public class TelaPrincipal extends JFrame {
     private JButton botaoFuncionario;
     private JButton botaoAcesso;
     private JButton sair;
+    Dimension d = new Dimension(300, 70);
     
     /**
      * Recebe o controladorPrincipal como parametro para possibilitar a
@@ -59,12 +60,10 @@ public class TelaPrincipal extends JFrame {
         botaoAcesso.setText("Acessos");
         sair.setText("Sair do Sistema");
         
-        botaoCargo.addActionListener(gerenciador);
+        //botaoCargo.addActionListener(gerenciador);
         botaoFuncionario.addActionListener(gerenciador);
         botaoAcesso.addActionListener(gerenciador);
         sair.addActionListener(gerenciador);
-        
-        Dimension d = new Dimension(100, 100);
         
         botaoCargo.setPreferredSize(d);
         botaoFuncionario.setPreferredSize(d);
@@ -78,6 +77,7 @@ public class TelaPrincipal extends JFrame {
         
         c.gridx = 0;
         c.gridy = 1;
+        botaoCargo.setPreferredSize(d);
         container.add(botaoCargo, c);
         
         c.gridx = 0;
@@ -94,7 +94,7 @@ public class TelaPrincipal extends JFrame {
         
         
         this.setVisible(true);
-        this.setSize(300, 300);
+        this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

@@ -15,6 +15,7 @@ public class ControladorFuncionario implements IControladorFuncionario {
     private final ControladorPrincipal controladorPrincipal;
     private final TelaFuncionario telaFuncionario;
     private int matriculaSequencial;
+    private TelaCadastroFuncionario telaCadastroFuncionario;
  
     /**
      * Inicia a classe ControladorFuncionario
@@ -29,6 +30,12 @@ public class ControladorFuncionario implements IControladorFuncionario {
     public TelaFuncionario getTelaFuncionario() {
         return telaFuncionario; 
     }
+
+    public TelaCadastroFuncionario getTelaCadastroFuncionario() {
+        return telaCadastroFuncionario;
+    }
+    
+    
 
     public Collection<Funcionario> getFuncionarios() {
         return funcionarioDAO.getList();

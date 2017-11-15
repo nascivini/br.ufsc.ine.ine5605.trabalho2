@@ -7,10 +7,12 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
  * @author Marco Aurelio Geremias
  */
 import java.awt.Color;
-import static java.awt.Color.RED;
+import static java.awt.Color.BLUE;
+import static java.awt.Color.WHITE;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -19,12 +21,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.InputMismatchException;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 public class TelaFuncionario extends JFrame {
     //private final Scanner teclado;
@@ -40,14 +40,22 @@ public class TelaFuncionario extends JFrame {
     private boolean shouldFill;
     private boolean shouldWeightX;
     Dimension dimensao = new Dimension(300, 70);
+    Font fonte = new Font("Arial", Font.BOLD, 20);
+    //private final TelaCadastroFuncionario telaCadastroFuncionario;
+
 
     public TelaFuncionario(ControladorFuncionario controladorFuncionario){
         super("Configurações de Funcionário");
         this.controladorFuncionario = controladorFuncionario;
         inicializarComponentesFuncionario();
         getContentPane().setBackground(Color.PINK); 
+        //this.telaCadastroFuncionario = new TelaCadastroFuncionario(this);
         //this.teclado = new Scanner(System.in);
 
+    }
+
+    public ControladorFuncionario getControladorFuncionario() {
+        return controladorFuncionario;
     }
     
     
@@ -74,25 +82,16 @@ public class TelaFuncionario extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         GerenciadorBotoesFuncionario gerenciador = new GerenciadorBotoesFuncionario();
         
-        this.image = this.getImage("http://www.bellunotec.com.br/wp-content/uploads/2017/05/86390-saiba-como-aumentar-a-retencao-de-funcionarios-na-empresa.png");
+        this.image = this.getImage("http://www.bellunotec.com.br/wp-content/uploads/2017/05/86390-saiba-como-aumentar-a-retencao-de-funcionarios-na-empresa");
         descricao =  new JLabel("Clique em uma das opções: ");
-        botaoCadastrar = new JButton();
-        botaoExcluir = new JButton();
-        botaoAlterar = new JButton();
-        botaoListar = new JButton();
-        botaoVoltar = new JButton();
-        sair = new JButton();
-       
+        botaoCadastrar = new JButton("Cadastrar");
+        botaoExcluir = new JButton("Excluir");
+        botaoAlterar = new JButton("Alterar");
+        botaoListar = new JButton("Listar");
+        botaoVoltar = new JButton("Voltar ao Menu Principal");
+        sair = new JButton("Sair");
+             
         
-    
-        
-        descricao.setText("Clique em uma das opções: ");
-        botaoCadastrar.setText("Cadastrar");
-        botaoExcluir.setText("Excluir");
-        botaoAlterar.setText("Alterar");
-        botaoListar.setText("Listar");
-        botaoVoltar.setText("Voltar ao Menu Principal");
-        sair.setText("Sair");
         
         botaoCadastrar.addActionListener(gerenciador);
         botaoExcluir.addActionListener(gerenciador);
@@ -110,31 +109,38 @@ public class TelaFuncionario extends JFrame {
         c.gridx = 0;
         c.gridy = 1;
         botaoCadastrar.setPreferredSize(dimensao);
+        botaoCadastrar.setFont(fonte);
+
         container.add(botaoCadastrar,c);
         
         c.gridx = 0;
         c.gridy = 2;
         botaoAlterar.setPreferredSize(dimensao);
+        botaoAlterar.setFont(fonte);
         container.add(botaoAlterar,c);
         
         c.gridx = 0;
         c.gridy = 3;
         botaoExcluir.setPreferredSize(dimensao);
+        botaoExcluir.setFont(fonte);
         container.add(botaoExcluir,c);
         
         c.gridx = 0;
         c.gridy = 4;
         botaoListar.setPreferredSize(dimensao);
+        botaoListar.setFont(fonte);
         container.add(botaoListar,c);
         
         c.gridx = 0;
         c.gridy = 5;
         botaoVoltar.setPreferredSize(dimensao);
+        botaoVoltar.setFont(fonte);
         container.add(botaoVoltar,c);
         
         c.gridx = 0;
         c.gridy = 6;
         sair.setPreferredSize(dimensao);
+        sair.setFont(fonte);
         container.add(sair,c);
         
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -156,8 +162,8 @@ public class TelaFuncionario extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == botaoCadastrar){
-                setVisible(false);
-                cadastroFuncionario();
+            setVisible(false);
+            controladorFuncionario.getTelaCadastroFuncionario().setVisible(true);
             }
             else if(e.getSource() == botaoExcluir){
                 setVisible(false);
@@ -177,7 +183,7 @@ public class TelaFuncionario extends JFrame {
         }
         
     }
-    
+
     
     /*try {
         int opcao = teclado.nextInt();
