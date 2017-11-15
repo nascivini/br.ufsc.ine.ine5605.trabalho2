@@ -7,11 +7,14 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
  * @author Marco Aurelio Geremias
  */
 import java.awt.Color;
+import static java.awt.Color.RED;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -36,6 +39,7 @@ public class TelaFuncionario extends JFrame {
     private JButton sair;
     private boolean shouldFill;
     private boolean shouldWeightX;
+    Dimension dimensao = new Dimension(300, 70);
 
     public TelaFuncionario(ControladorFuncionario controladorFuncionario){
         super("Configurações de Funcionário");
@@ -71,7 +75,7 @@ public class TelaFuncionario extends JFrame {
         GerenciadorBotoesFuncionario gerenciador = new GerenciadorBotoesFuncionario();
         
         this.image = this.getImage("http://www.bellunotec.com.br/wp-content/uploads/2017/05/86390-saiba-como-aumentar-a-retencao-de-funcionarios-na-empresa.png");
-        descricao =  new JLabel();
+        descricao =  new JLabel("Clique em uma das opções: ");
         botaoCadastrar = new JButton();
         botaoExcluir = new JButton();
         botaoAlterar = new JButton();
@@ -97,15 +101,41 @@ public class TelaFuncionario extends JFrame {
         botaoVoltar.addActionListener(gerenciador);
         sair.addActionListener(gerenciador);
         
+        c.insets = new Insets(10,0,0,0);
+
+        c.gridx = 0;
+        c.gridy = 0;
+        container.add(descricao,c);
         
+        c.gridx = 0;
+        c.gridy = 1;
+        botaoCadastrar.setPreferredSize(dimensao);
+        container.add(botaoCadastrar,c);
         
-        container.add(descricao);
-        container.add(botaoCadastrar);
-        container.add(botaoExcluir);
-        container.add(botaoAlterar);
-        container.add(botaoListar);
-        container.add(botaoVoltar);
-        container.add(sair);
+        c.gridx = 0;
+        c.gridy = 2;
+        botaoAlterar.setPreferredSize(dimensao);
+        container.add(botaoAlterar,c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        botaoExcluir.setPreferredSize(dimensao);
+        container.add(botaoExcluir,c);
+        
+        c.gridx = 0;
+        c.gridy = 4;
+        botaoListar.setPreferredSize(dimensao);
+        container.add(botaoListar,c);
+        
+        c.gridx = 0;
+        c.gridy = 5;
+        botaoVoltar.setPreferredSize(dimensao);
+        container.add(botaoVoltar,c);
+        
+        c.gridx = 0;
+        c.gridy = 6;
+        sair.setPreferredSize(dimensao);
+        container.add(sair,c);
         
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
@@ -186,6 +216,7 @@ public class TelaFuncionario extends JFrame {
      * e incluiFuncionario.
      * Utiliza também o método findCargoByCodigo do controladorCargo em execução no programa, passando pelo controladorPrincipal.
      */
+        /*
         private void cadastroFuncionario() {
         System.out.println("Cadastro de Funcionário");
         System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, o funcionário será cadastrado no sistema.");
@@ -254,6 +285,7 @@ public class TelaFuncionario extends JFrame {
      * pelo usuário e, antes da exclusão, verifica a existência do funcionário (retorno true or false).
      * Utiliza o método excluirFuncionario, do controladorFuncionario(atributo).
      */
+        /*
     private void exclusaoFuncionario() {
         System.out.println("Para excluir um funcionário do sistema, digite a matrícula do mesmo.");
         int matricula = teclado.nextInt();
@@ -279,7 +311,7 @@ public class TelaFuncionario extends JFrame {
      * pelo usuário
      * Utiliza o método alterarFuncionario, do ControladorFuncionario
      */
-
+/*
     private void alteracaoFuncionario() {
         System.out.println("Bem-vindo à tela de alteração de dados dos funcionários.");
         System.out.println("Só é possível alterar um dado por vez. Digite a matrícula a ser alterada, e selecione qual dado deseja alterar.");
@@ -340,6 +372,7 @@ public class TelaFuncionario extends JFrame {
             
         }
     }
+    
     
     /**
      * Chama o método listarFuncionarios do controladorFuncionarios
