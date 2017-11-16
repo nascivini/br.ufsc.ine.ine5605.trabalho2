@@ -60,7 +60,7 @@ public class TelaPrincipal extends JFrame {
         botaoAcesso.setText("Acessos");
         sair.setText("Sair do Sistema");
         
-        //botaoCargo.addActionListener(gerenciador);
+        botaoCargo.addActionListener(gerenciador);
         botaoFuncionario.addActionListener(gerenciador);
         botaoAcesso.addActionListener(gerenciador);
         sair.addActionListener(gerenciador);
@@ -91,7 +91,6 @@ public class TelaPrincipal extends JFrame {
         c.gridx = 0;
         c.gridy = 4;
         container.add(sair, c);
-        
         
         this.setVisible(true);
         this.setSize(500, 500);
