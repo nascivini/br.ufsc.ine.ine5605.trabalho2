@@ -40,7 +40,10 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public Cargo incluirCargo(DadosCargo conteudo) {
+    public Cargo incluirCargo (DadosCargo conteudo) throws IllegalArgumentException{
+        if(this.findCargoByNome(conteudo.nome)){
+            throw new IllegalArgumentException("Já existe um cargo com este nome no sistema.");
+        }
         Cargo novo = new Cargo(conteudo, this.geraSequencialCargo());
         cargoDAO.put(novo);
         return novo;
