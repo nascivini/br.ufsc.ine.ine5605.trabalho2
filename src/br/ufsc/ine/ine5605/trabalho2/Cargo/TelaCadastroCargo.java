@@ -7,9 +7,9 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +25,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -35,11 +34,15 @@ import javax.swing.JTextField;
 public class TelaCadastroCargo extends JFrame {
     
     private final TelaCargo telaCargo;        
-    private JComboBox tipo;
-    private JTextField codigo;
-    private JTextField nome;
-    private JTextField horario1;
-    private JTextField horario2;
+    private JLabel tipo;
+    private JLabel codigo;
+    private JLabel nome;
+    private JTextField nomeEditavel;
+    private JLabel horario1;
+    private JTextField horario1Editavel;
+    private JLabel horario2;
+    private JTextField horario2Editavel;
+    private JComboBox tipoEditavel;
     private JButton validarHorarios;
     private JButton cadastrar;
     private JButton limparTela;
@@ -51,76 +54,129 @@ public class TelaCadastroCargo extends JFrame {
     }
 
     private void inicializarComponentes() {
+        Dimension dimensaoTextos = new Dimension(80, 20);
         Container container = this.getContentPane();
-        container.setLayout(new GridLayout(5, 1));
+        container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
         TipoCargo[] tiposCargo = {TipoCargo.COMUM, TipoCargo.CONVIDADO, TipoCargo.GERENCIAL};
         
-        this.tipo = new JComboBox(tiposCargo);
+        this.tipoEditavel = new JComboBox(tiposCargo);
+        this.tipo = new JLabel();
         
-        this.codigo = new JTextField(this.telaCargo.getControladorCargo().geraSequencialCargo());
-        this.nome = new JTextField();
-        this.horario1 = new JTextField();
-        this.horario2 = new JTextField();
+        this.codigo = new JLabel();
+        this.nome = new JLabel();
+        this.nomeEditavel = new JTextField();
+        this.horario1 = new JLabel();
+        this.horario1Editavel = new JTextField();
+        this.horario2 = new JLabel();
+        this.horario2Editavel = new JTextField();
         this.validarHorarios = new JButton("Validar Horarios");
         this.cadastrar = new JButton("Cadastrar");
         this.limparTela = new JButton("Limpar Tela");
         
-        GerenciadorCaixaDeTexto gerenciadorCaixaDeTexto = new GerenciadorCaixaDeTexto();
+        GerenciadorBotoesCargo gerenciadorBotoesCargo = new GerenciadorBotoesCargo();
+        this.validarHorarios.addActionListener(gerenciadorBotoesCargo);
+        this.cadastrar.addActionListener(gerenciadorBotoesCargo);
+        this.limparTela.addActionListener(gerenciadorBotoesCargo);
         
-        this.codigo.addActionListener(gerenciadorCaixaDeTexto);
-        this.horario1.addActionListener(gerenciadorCaixaDeTexto);
-        this.horario2.addActionListener(gerenciadorCaixaDeTexto);
-        
-        c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(10, WIDTH, WIDTH, WIDTH);
-        codigo.setText("Código do novo Cargo: " + telaCargo.getControladorCargo().geraSequencialCargo() + ".");
+        c.gridx = 1;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(20, 0, 0, 0);
+        codigo.setText("Código do novo Cargo (gerado automaticamente):  " + telaCargo.getControladorCargo().geraSequencialCargo() + " .");
         container.add(codigo, c);
         
-        container.add(tipo, c);
         c.gridx = 0;
-        c.gridy = 1;        
+        c.gridy = 1;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.WEST;
+        nome.setText("Nome:  ");
         container.add(nome, c);
+
+        c.gridx = 1;        
+        c.gridy = 1;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.CENTER;
+        nomeEditavel.setPreferredSize(dimensaoTextos);
+        container.add(nomeEditavel, c);
         
         c.gridx = 0;
         c.gridy = 2;
-        container.add(horario1, c);
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.WEST;
+        tipo.setText("Tipo :");
+        container.add(tipo, c);
         
+        c.gridx = 1;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.CENTER;
+        tipoEditavel.setPreferredSize(dimensaoTextos);
+        container.add(tipoEditavel, c);
+        
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.WEST;
+        c.insets = new Insets(10, 0, 0, 0);
+        horario1.setText("Primeiro Horário:  ");
         c.gridx = 0;
         c.gridy = 3;
+        container.add(horario1, c);
+       
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(10, 0, 0, 0);
+        horario1Editavel.setPreferredSize(dimensaoTextos);
+        c.gridx = 1;
+        c.gridy = 3;
+        container.add(horario1Editavel, c);
+        
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.WEST;
+        c.insets = new Insets(10, 0, 0, 0);
+        horario2.setText("Segundo Horário:  ");
+        c.gridx = 0;
+        c.gridy = 4;
         container.add(horario2, c);
         
-        container.add(validarHorarios);
-        container.add(cadastrar);
-        container.add(limparTela);
+        c.gridx = 1;
+        c.gridy = 4;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(10, 0, 0, 0);
+        horario2Editavel.setPreferredSize(dimensaoTextos);
+        container.add(horario2Editavel, c);
+        
+        c.gridy = 5;
+        c.gridx = 0;
+        container.add(validarHorarios, c);
+
+        c.gridy = 5;
+        c.gridx = 1;        
+        container.add(cadastrar, c);
+        
+        c.gridy = 5;
+        c.gridx = 2;
+        container.add(limparTela, c);
         
         this.setSize(600, 400);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
-    public class GerenciadorCaixaDeTexto implements ActionListener{
+    public class GerenciadorBotoesCargo implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            if(event.getSource() == nome){
-                try{
-                    telaCargo.getControladorCargo().findCargoByNome(nome.getText());
-                }
-                catch(IllegalArgumentException excep){
-                    JOptionPane.showMessageDialog(null, excep.getMessage());
-                }
-            }
-            else if(event.getSource() == validarHorarios){
+            if(event.getSource() == validarHorarios){
                 Calendar h1 = Calendar.getInstance();
                 Calendar h2 = Calendar.getInstance();
 		
                 try{                    
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                    h1.setTime(sdf.parse(horario1.getText()));
-                    h2.setTime(sdf.parse(horario2.getText()));
+                    h1.setTime(sdf.parse(horario1Editavel.getText()));
+                    h2.setTime(sdf.parse(horario2Editavel.getText()));
                 
                     if(telaCargo.getControladorCargo().verificaHorarios(new ArrayList<Calendar>(), h1, h2)){
                         JOptionPane.showConfirmDialog(null, "Horários estão OK!");
@@ -145,14 +201,17 @@ public class TelaCadastroCargo extends JFrame {
                 
                 try{
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                    h1.setTime(sdf.parse(horario1.getText()));
-                    h2.setTime(sdf.parse(horario2.getText()));
+                    h1.setTime(sdf.parse(horario1Editavel.getText()));
+                    h2.setTime(sdf.parse(horario2Editavel.getText()));
                
                     telaCargo.getControladorCargo().verificaHorarios(new ArrayList<Calendar>(), h1, h2);  
-                    telaCargo.getControladorCargo().findCargoByNome(nome.getText());
+                    telaCargo.getControladorCargo().findCargoByNome(nomeEditavel.getText());
                     
-                    DadosCargo cargoNovo = new DadosCargo(nome.getText(), horarios, (TipoCargo)tipo.getSelectedItem());
+                    DadosCargo cargoNovo = new DadosCargo(nome.getText(), horarios, (TipoCargo)tipoEditavel.getSelectedItem());
                     telaCargo.getControladorCargo().incluirCargo(cargoNovo);
+                    JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso!", "Sucesso!", JOptionPane.CLOSED_OPTION); 
+                    setVisible(false);
+                    telaCargo.setVisible(true);
                 } 
                 
                 catch (ParseException ex) {

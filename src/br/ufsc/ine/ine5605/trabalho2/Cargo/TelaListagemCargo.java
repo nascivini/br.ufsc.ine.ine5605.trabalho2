@@ -22,10 +22,10 @@ import javax.swing.JTextField;
 public class TelaListagemCargo extends JFrame {
     private final TelaCargo telaCargo;
     private JButton atualizarLista;
-    private JTextField nome;
-    private JTextField codigo;
-    private JTextField horarios;
-    private JTextField tipo;
+    private JLabel nome;
+    private JLabel codigo;
+    private JLabel horarios;
+    private JLabel tipo;
     
     public TelaListagemCargo(TelaCargo telaCargo){
         super("Tela de Listagem de Cargos");
@@ -37,9 +37,9 @@ public class TelaListagemCargo extends JFrame {
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
         this.atualizarLista = new JButton("Atualizar");
-        nome = new JTextField();
-        codigo = new JTextField();
-        tipo = new JTextField();
+        nome = new JLabel();
+        codigo = new JLabel();
+        tipo = new JLabel();
         this.updateData(container);
         
     }

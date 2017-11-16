@@ -80,6 +80,7 @@ public class CargoDAO{
         } 
         catch (FileNotFoundException ex) {
             Logger.getLogger(CargoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Ainda não há cargos cadastrados.");
         } 
         catch (IOException ex) {
             Logger.getLogger(CargoDAO.class.getName()).log(Level.SEVERE, null, ex);
