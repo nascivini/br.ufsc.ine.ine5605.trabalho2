@@ -41,7 +41,7 @@ public class TelaFuncionario extends JFrame {
     private boolean shouldWeightX;
     Dimension dimensao = new Dimension(300, 70);
     Font fonte = new Font("Arial", Font.BOLD, 20);
-    //private final TelaCadastroFuncionario telaCadastroFuncionario;
+    private TelaCadastroFuncionario telaCadastroFuncionario;
 
 
     public TelaFuncionario(ControladorFuncionario controladorFuncionario){
@@ -49,7 +49,7 @@ public class TelaFuncionario extends JFrame {
         this.controladorFuncionario = controladorFuncionario;
         inicializarComponentesFuncionario();
         getContentPane().setBackground(Color.PINK); 
-        //this.telaCadastroFuncionario = new TelaCadastroFuncionario(this);
+        this.telaCadastroFuncionario = new TelaCadastroFuncionario(this);
         //this.teclado = new Scanner(System.in);
 
     }
@@ -163,7 +163,7 @@ public class TelaFuncionario extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == botaoCadastrar){
             setVisible(false);
-            controladorFuncionario.getTelaCadastroFuncionario().setVisible(true);
+            telaCadastroFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoExcluir){
                 setVisible(false);

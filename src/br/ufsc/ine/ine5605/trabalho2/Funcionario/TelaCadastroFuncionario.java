@@ -8,6 +8,7 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
 
 import java.awt.ComponentOrientation;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -29,22 +30,17 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class TelaCadastroFuncionario extends JFrame {
     
     private final TelaFuncionario telaFuncionario;
-    private JTextField matricula;
-    private JTextField cpf;
-    private JTextField nome;
+    private JLabel matricula;
+    private JTextField cpf, nome, nascimento, telefone, salario;
     private JComboBox cargo;
-    private JTextField nascimento;
-    private JTextField telefone;
-    private JTextField salario;
-    private JButton cadastrar;
-    private JButton limparTela;
-    private JLabel descricao;
+    private JButton cadastrar, limparTela;
+    private JLabel lMatricula, lCpf, lNome, lNascimento, lTelefone, lSalario, lCargo;
     //GerenciadorBotoesCadastroFuncionario gerenciador = new GerenciadorBotoesCadastroFuncionario();
     
     public TelaCadastroFuncionario(TelaFuncionario telaFuncionario){
         super("Cadastrar Funcionário");
         this.telaFuncionario = telaFuncionario;
-        inicializarComponentes();
+        this.inicializarComponentes();
         //this.gerenciador = new GerenciadorBotoesCadastroFuncionario();
     }
 
@@ -54,14 +50,20 @@ public class TelaCadastroFuncionario extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         
       
-        this.matricula = new JTextField(this.telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial());
+        this.matricula = new JLabel();
         this.cpf = new JTextField();
         this.nome = new JTextField();
         this.cargo = new JComboBox();
         this.nascimento = new JTextField();
         this.telefone = new JTextField();
         this.salario = new JTextField();
-        descricao = new JLabel();
+        this.lMatricula = new JLabel();
+        this.lCpf = new JLabel();
+        this.lNome = new JLabel();
+        this.lCargo = new JLabel();
+        this.lNascimento = new JLabel();
+        this.lTelefone = new JLabel();
+        this.lSalario = new JLabel();
         cadastrar = new JButton("Cadastrar");
         limparTela = new JButton("Limpar Tela");
         
@@ -70,27 +72,35 @@ public class TelaCadastroFuncionario extends JFrame {
         cadastrar.addActionListener(gerenciador);
         limparTela.addActionListener(gerenciador);
 
-        
+        nome.setBounds(10, 40, 100, 50);
         c.insets = new Insets(10,0,0,0); 
         
         c.gridx = 0;
         c.gridy = 0;
-        matricula.setText("Matrícula seguencial: " + telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial());
+        lMatricula.setText("Matrícula: ");
+        container.add(lMatricula,c);
+        
+        c.gridx = 1;
+        c.gridy = 0;
+        matricula.setText(telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial() + " (gerado automaticamente)");
         container.add(matricula, c);
         
         //cpf
         c.gridx = 0;
         c.gridy = 1;
-        descricao.setText("CPF: ");
+        lCpf.setText("CPF: ");
+        container.add(lCpf,c);
         
         c.gridx = 1;
         c.gridy = 1;
+        cpf.setSize(200, 200);
         container.add(cpf, c);
         
         //nome
         c.gridx = 0;
         c.gridy = 2;
-        descricao.setText("Nome: ");
+        lNome.setText("Nome: ");
+        container.add(lNome,c);
         
         c.gridx = 1;
         c.gridy = 2;
@@ -99,7 +109,8 @@ public class TelaCadastroFuncionario extends JFrame {
         //cargo
         c.gridx = 0;
         c.gridy = 3;
-        descricao.setText("Cargo: ");
+        lCargo.setText("Cargo: ");
+        container.add(lCargo,c);
         
         c.gridx = 1;
         c.gridy = 3;
@@ -108,7 +119,8 @@ public class TelaCadastroFuncionario extends JFrame {
         //nascimento
         c.gridx = 0;
         c.gridy = 4;
-        descricao.setText("Nascimento: ");
+        lNascimento.setText("Nascimento: ");
+        container.add(lNascimento,c);
         
         c.gridx = 1;
         c.gridy = 4;
@@ -117,7 +129,8 @@ public class TelaCadastroFuncionario extends JFrame {
         //telefone
         c.gridx = 0;
         c.gridy = 5;
-        descricao.setText("Telefone: ");
+        lTelefone.setText("Telefone: ");
+        container.add(lTelefone,c);
         
         c.gridx = 1;
         c.gridy = 5;
@@ -126,11 +139,20 @@ public class TelaCadastroFuncionario extends JFrame {
         //salario
         c.gridx = 0;
         c.gridy = 6;
-        descricao.setText("Salário: ");
+        lSalario.setText("Salário: ");
+        container.add(lSalario,c);
         
         c.gridx = 1;
         c.gridy = 6;
         container.add(salario, c);
+        
+        c.gridx = 0;
+        c.gridy = 7;
+        container.add(cadastrar,c);
+        
+        c.gridx = 1;
+        c.gridy = 7;
+        container.add(limparTela,c);
         
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         

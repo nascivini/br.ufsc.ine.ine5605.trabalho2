@@ -60,7 +60,7 @@ public class TelaPrincipal extends JFrame {
         botaoAcesso.setText("Acessos");
         sair.setText("Sair do Sistema");
         
-        //botaoCargo.addActionListener(gerenciador);
+        botaoCargo.addActionListener(gerenciador);
         botaoFuncionario.addActionListener(gerenciador);
         botaoAcesso.addActionListener(gerenciador);
         sair.addActionListener(gerenciador);
