@@ -12,10 +12,14 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.awt.image.ImageObserver.WIDTH;
+import java.net.URL;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -35,6 +39,8 @@ public class TelaCadastroFuncionario extends JFrame {
     private JComboBox cargo;
     private JButton cadastrar, limparTela;
     private JLabel lMatricula, lCpf, lNome, lNascimento, lTelefone, lSalario, lCargo;
+    private Image imagem;
+    
     //GerenciadorBotoesCadastroFuncionario gerenciador = new GerenciadorBotoesCadastroFuncionario();
     
     public TelaCadastroFuncionario(TelaFuncionario telaFuncionario){
@@ -48,6 +54,7 @@ public class TelaCadastroFuncionario extends JFrame {
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+        Dimension dimensaoTextos = new Dimension(200, 30);
         
       
         this.matricula = new JLabel();
@@ -73,7 +80,8 @@ public class TelaCadastroFuncionario extends JFrame {
         limparTela.addActionListener(gerenciador);
 
         nome.setBounds(10, 40, 100, 50);
-        c.insets = new Insets(10,0,0,0); 
+        c.insets = new Insets(10,10,10,10); 
+        c.anchor = GridBagConstraints.WEST;
         
         c.gridx = 0;
         c.gridy = 0;
@@ -94,6 +102,7 @@ public class TelaCadastroFuncionario extends JFrame {
         c.gridx = 1;
         c.gridy = 1;
         cpf.setSize(200, 200);
+        cpf.setPreferredSize(dimensaoTextos);
         container.add(cpf, c);
         
         //nome
@@ -104,6 +113,7 @@ public class TelaCadastroFuncionario extends JFrame {
         
         c.gridx = 1;
         c.gridy = 2;
+        nome.setPreferredSize(dimensaoTextos);
         container.add(nome, c);
         
         //cargo
@@ -114,6 +124,7 @@ public class TelaCadastroFuncionario extends JFrame {
         
         c.gridx = 1;
         c.gridy = 3;
+        cargo.setPreferredSize(dimensaoTextos);
         container.add(cargo, c);
         
         //nascimento
@@ -124,6 +135,7 @@ public class TelaCadastroFuncionario extends JFrame {
         
         c.gridx = 1;
         c.gridy = 4;
+        nascimento.setPreferredSize(dimensaoTextos);
         container.add(nascimento, c);
         
         //telefone
@@ -134,6 +146,7 @@ public class TelaCadastroFuncionario extends JFrame {
         
         c.gridx = 1;
         c.gridy = 5;
+        telefone.setPreferredSize(dimensaoTextos);
         container.add(telefone, c);
         
         //salario
@@ -144,6 +157,7 @@ public class TelaCadastroFuncionario extends JFrame {
         
         c.gridx = 1;
         c.gridy = 6;
+        salario.setPreferredSize(dimensaoTextos);
         container.add(salario, c);
         
         c.gridx = 0;
@@ -154,6 +168,12 @@ public class TelaCadastroFuncionario extends JFrame {
         c.gridy = 7;
         container.add(limparTela,c);
         
+        c.gridx = 1;
+        c.gridy = 8;       
+        this.imagem = this.getImage("http://doutorgestaoadv.com.br/wp-content/uploads/2016/08/icon_rh.png");
+
+       
+            
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
         this.setSize(800, 800);
@@ -161,6 +181,12 @@ public class TelaCadastroFuncionario extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
    
+       public Image getImage(String path) {
+        URL imageURL = getClass().getResource(path);
+        if (imageURL == null)
+            return null;
+        return new ImageIcon(imageURL).getImage();    
+    }
     
         private class GerenciadorBotoesCadastroFuncionario implements ActionListener{
         @Override
