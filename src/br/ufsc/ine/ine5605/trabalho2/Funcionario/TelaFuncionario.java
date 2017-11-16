@@ -82,6 +82,7 @@ public class TelaFuncionario extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         GerenciadorBotoesFuncionario gerenciador = new GerenciadorBotoesFuncionario();
         
+        
         this.image = this.getImage("http://www.bellunotec.com.br/wp-content/uploads/2017/05/86390-saiba-como-aumentar-a-retencao-de-funcionarios-na-empresa");
         descricao =  new JLabel("Clique em uma das opções: ");
         botaoCadastrar = new JButton("Cadastrar");
@@ -99,6 +100,7 @@ public class TelaFuncionario extends JFrame {
         botaoListar.addActionListener(gerenciador);
         botaoVoltar.addActionListener(gerenciador);
         sair.addActionListener(gerenciador);
+        
         
         c.insets = new Insets(10,0,0,0);
 
