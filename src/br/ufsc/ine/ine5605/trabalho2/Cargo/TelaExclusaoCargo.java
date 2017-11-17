@@ -106,17 +106,13 @@ public class TelaExclusaoCargo extends JFrame {
             if(e.getSource() == excluir){
                 if(cargoEditavel.getSelectedItem() != null){
                     try{
-                        //telaCargo.getControladorCargo().getControladorPrincipal().getControladorFuncionario().findFuncionarioByCargo(cargoEditavel.getSelectedItem());
+                        telaCargo.getControladorCargo().getControladorPrincipal().getControladorFuncionario().findFuncionarioByCargo((Cargo)cargoEditavel.getSelectedItem());
                         telaCargo.getControladorCargo().excluirCargo((Cargo)cargoEditavel.getSelectedItem());
                         JOptionPane.showMessageDialog(null, "Cargo excluído!", "Sucess", JOptionPane.CLOSED_OPTION);
                     }
                     catch(IllegalArgumentException ex){
                         JOptionPane.showMessageDialog(null, "Erro desconhecido. Contate o administrador do sistema.");
                     }
-                    /*catch (ExcecaoFuncionario exc){
-                        JOptionPane.showMessageDialog(null, exc.getMessage());
-                        this.updateData();
-                    }*/
                 }
             }
             else if(e.getSource() == voltar){
