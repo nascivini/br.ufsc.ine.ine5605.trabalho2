@@ -1,4 +1,3 @@
-
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.io.FileInputStream;

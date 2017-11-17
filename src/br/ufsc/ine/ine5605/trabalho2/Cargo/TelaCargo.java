@@ -1,6 +1,7 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -41,6 +42,7 @@ public class TelaCargo extends JFrame{
      * Também "mostra" a tela pela primeira vez.
      */
     private void inicializarComponentes(){
+        Dimension dimensao = new Dimension(300, 70);
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
         GerenciadorBotoesCargo gerenciador = new GerenciadorBotoesCargo();
@@ -66,25 +68,30 @@ public class TelaCargo extends JFrame{
         
         c.gridx = 0;
         c.gridy = 2;
+        botaoCadastro.setPreferredSize(dimensao);
         container.add(botaoCadastro, c);
         
         c.gridx = 0;
-        c.gridy = 4;        
+        c.gridy = 4;
+        botaoExclusao.setPreferredSize(dimensao);
         container.add(botaoExclusao, c);
         
         c.gridx = 0;
-        c.gridy = 6;        
+        c.gridy = 6;
+        botaoAlteracao.setPreferredSize(dimensao);
         container.add(botaoAlteracao, c);
         
         c.gridx = 0;
-        c.gridy = 8;        
+        c.gridy = 8;
+        botaoListagem.setPreferredSize(dimensao);
         container.add(botaoListagem, c);
         
         c.gridx = 0;
-        c.gridy = 10;        
+        c.gridy = 10;
+        botaoVoltar.setPreferredSize(dimensao);
         container.add(botaoVoltar, c);
         
-        this.setSize(300, 300);
+        this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   
     }
@@ -98,10 +105,12 @@ public class TelaCargo extends JFrame{
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == botaoCadastro){
                 setVisible(false);
+                telaCadastroCargo.updateData();
                 telaCadastroCargo.setVisible(true);
             }
             else if(e.getSource() == botaoExclusao){
                 setVisible(false);
+                telaExclusaoCargo.updateData();
                 telaExclusaoCargo.setVisible(true);
             }
             else if(e.getSource() == botaoAlteracao){
@@ -110,6 +119,7 @@ public class TelaCargo extends JFrame{
             }
             else if(e.getSource() == botaoListagem){
                 setVisible(false);
+                telaListagemCargo.pesquisar(telaListagemCargo.modelo);
                 telaListagemCargo.setVisible(true);
             }
             else if(e.getSource() == botaoVoltar){

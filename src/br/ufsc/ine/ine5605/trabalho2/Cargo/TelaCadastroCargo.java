@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.Container;
@@ -28,7 +23,9 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author 47895159828
+ * @author Vinicius Cerqueira Nascimento
+ * @author Marina Ribeiro Kodama
+ * @author Marco Aurélio Geremias
  */
 public class TelaCadastroCargo extends JFrame {
 
@@ -45,6 +42,7 @@ public class TelaCadastroCargo extends JFrame {
     private JButton validarHorarios;
     private JButton cadastrar;
     private JButton limparTela;
+    private JButton voltar;
 
     public TelaCadastroCargo(TelaCargo telaCargo) {
         super("Tela de Cadastro de Cargos");
@@ -53,15 +51,17 @@ public class TelaCadastroCargo extends JFrame {
     }
 
     private void inicializarComponentes() {
-        Dimension dimensaoTextos = new Dimension(80, 20);
+        Dimension dimensaoTextos = new Dimension(140, 20);
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         TipoCargo[] tiposCargo = {TipoCargo.COMUM, TipoCargo.CONVIDADO, TipoCargo.GERENCIAL};
-
+        
+        GerenciadorJComboBox gerenciadorCaixa = new GerenciadorJComboBox();
         this.tipoEditavel = new JComboBox(tiposCargo);
         this.tipo = new JLabel();
+        this.tipoEditavel.addActionListener(gerenciadorCaixa);
 
         this.codigo = new JLabel();
         this.nome = new JLabel();
@@ -70,27 +70,28 @@ public class TelaCadastroCargo extends JFrame {
         this.horario1Editavel = new JTextField();
         this.horario2 = new JLabel();
         this.horario2Editavel = new JTextField();
-        this.validarHorarios = new JButton("Validar Horarios");
+        this.validarHorarios = new JButton("Validar Horários");
         this.cadastrar = new JButton("Cadastrar");
         this.limparTela = new JButton("Limpar Tela");
-
+        this.voltar = new JButton("Voltar à tela de Cargos");
+        
         GerenciadorBotoesCargo gerenciadorBotoesCargo = new GerenciadorBotoesCargo();
         this.validarHorarios.addActionListener(gerenciadorBotoesCargo);
         this.cadastrar.addActionListener(gerenciadorBotoesCargo);
         this.limparTela.addActionListener(gerenciadorBotoesCargo);
+        this.voltar.addActionListener(gerenciadorBotoesCargo);
 
         c.gridy = 0;
         c.gridx = 1;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(20, 0, 0, 0);
-        codigo.setText("Código do novo Cargo (gerado automaticamente):  " + telaCargo.getControladorCargo().geraSequencialCargo() + " .");
         container.add(codigo, c);
 
         c.gridx = 0;
         c.gridy = 1;
         c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.EAST;
         nome.setText("Nome:  ");
         container.add(nome, c);
 
@@ -104,7 +105,7 @@ public class TelaCadastroCargo extends JFrame {
         c.gridx = 0;
         c.gridy = 2;
         c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.EAST;
         tipo.setText("Tipo :");
         container.add(tipo, c);
 
@@ -116,8 +117,7 @@ public class TelaCadastroCargo extends JFrame {
         container.add(tipoEditavel, c);
 
         c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.WEST;
-        c.insets = new Insets(10, 0, 0, 0);
+        c.anchor = GridBagConstraints.EAST;
         horario1.setText("Primeiro Horário:  ");
         c.gridx = 0;
         c.gridy = 3;
@@ -125,15 +125,13 @@ public class TelaCadastroCargo extends JFrame {
 
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(10, 0, 0, 0);
         horario1Editavel.setPreferredSize(dimensaoTextos);
         c.gridx = 1;
         c.gridy = 3;
         container.add(horario1Editavel, c);
 
         c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.WEST;
-        c.insets = new Insets(10, 0, 0, 0);
+        c.anchor = GridBagConstraints.EAST;
         horario2.setText("Segundo Horário:  ");
         c.gridx = 0;
         c.gridy = 4;
@@ -143,7 +141,6 @@ public class TelaCadastroCargo extends JFrame {
         c.gridy = 4;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(10, 0, 0, 0);
         horario2Editavel.setPreferredSize(dimensaoTextos);
         container.add(horario2Editavel, c);
 
@@ -158,10 +155,21 @@ public class TelaCadastroCargo extends JFrame {
         c.gridy = 5;
         c.gridx = 2;
         container.add(limparTela, c);
+        
+        c.gridy = 6;
+        c.gridx = 1;
+        container.add(voltar, c);
 
         this.setSize(600, 400);
-        this.setLocationRelativeTo(null);
+        this.setLocation(375,150);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+    
+    public void updateData(){
+        this.codigo.setText("Código do novo Cargo (gerado automaticamente):  " + telaCargo.getControladorCargo().geraSequencialCargo() + " .");
+        this.nomeEditavel.setText("");
+        this.horario1Editavel.setText("");
+        this.horario2Editavel.setText("");
     }
 
     public class GerenciadorBotoesCargo implements ActionListener {
@@ -221,13 +229,12 @@ public class TelaCadastroCargo extends JFrame {
                     }
                 } else {
                     try {
-                        
                         telaCargo.getControladorCargo().findCargoByNome(nomeEditavel.getText());
                         
                         DadosCargo cargoNovo = new DadosCargo(nomeEditavel.getText(), null, (TipoCargo) tipoEditavel.getSelectedItem());
                         telaCargo.getControladorCargo().incluirCargo(cargoNovo);
-                        
-                        JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso!", "Sucesso!", JOptionPane.CLOSED_OPTION);
+
+                        JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso! Deseja cadastrar mais cargos?", "Sucesso!", JOptionPane.CLOSED_OPTION);
                         setVisible(false);
                         telaCargo.setVisible(true);
                     } 
@@ -237,10 +244,31 @@ public class TelaCadastroCargo extends JFrame {
                     }
                 }
             }
+            
+            else if(event.getSource() == voltar){
+                setVisible(false);
+                telaCargo.setVisible(true);
+            }
         }
 
     }
+    
+    public class GerenciadorJComboBox implements ActionListener{
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == tipoEditavel){
+                if(tipoEditavel.getSelectedItem() == TipoCargo.GERENCIAL){
+                    horario1Editavel.setVisible(false);
+                    horario2Editavel.setVisible(false);
+                }
+                else if(tipoEditavel.getSelectedItem() != TipoCargo.GERENCIAL){
+                    horario1Editavel.setVisible(true);
+                    horario2Editavel.setVisible(true);
+                }
+            }
+        }
+    }
 }
 
 

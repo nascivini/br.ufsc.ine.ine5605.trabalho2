@@ -76,5 +76,10 @@ public class Cargo implements Serializable{
         this.horarios = horarios;
     }
     
+    @Override
+    public String toString(){
+        return (this.nome + " - Código: " + this.codigo + " Tipo: " + this.tipoCargo.getDescricao());
+    }
+    
     
 }

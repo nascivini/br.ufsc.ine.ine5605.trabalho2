@@ -1,11 +1,8 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import br.ufsc.ine.ine5605.trabalho2.Principal.ControladorPrincipal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -22,9 +19,9 @@ public class ControladorCargo implements IControladorCargo {
 
     public ControladorCargo(ControladorPrincipal controladorPrincipal) {
         this.cargoDAO = new CargoDAO();
-        this.telaCargo = new TelaCargo(this);
         this.controladorPrincipal = controladorPrincipal;
         this.sequencialCargo = 0;
+        this.telaCargo = new TelaCargo(this);
     }
 
     public ArrayList<Cargo> getCargos() {
@@ -41,7 +38,7 @@ public class ControladorCargo implements IControladorCargo {
 
     @Override
     public Cargo incluirCargo (DadosCargo conteudo) throws IllegalArgumentException{
-        if(this.findCargoByNome(conteudo.nome)){
+        if(this.findCargoByNome(conteudo.nome) != null){
             throw new IllegalArgumentException("Já existe um cargo com este nome no sistema.");
         }
         Cargo novo = new Cargo(conteudo, this.geraSequencialCargo());
@@ -50,12 +47,12 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public boolean excluirCargo(int codigo) {
-        if(this.findCargoByCodigo(codigo) != null){
-            this.cargoDAO.remove(this.cargoDAO.get(codigo));
+    public boolean excluirCargo(Cargo cargo) throws IllegalArgumentException{
+        if(this.findCargoByCodigo(cargo.getCodigo()) != null){
+            this.cargoDAO.remove(this.cargoDAO.get(cargo.getCodigo()));
             return true;
         }
-        return false;
+        throw new IllegalArgumentException();
     }
 
     @Override
@@ -86,24 +83,22 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public Cargo findCargoByCodigo(int codigo) throws IllegalArgumentException {
-        Cargo cargo = cargoDAO.get(codigo);
-        if (cargo != null) {
-            return cargo;
-        }
-        else{
-            throw new IllegalArgumentException("Código Inválido!");
-        }
-    }
-
-    @Override
-    public boolean findCargoByNome(String nome) {
+    public Cargo findCargoByNome(String nome) {
         for (Cargo cargoAtual : this.cargoDAO.getList()) {
             if (cargoAtual.getNome().equals(nome)) {
-                return true;
+                return cargoAtual;
             }
         }
-        return false;
+        return null;
+    }
+    
+    public Cargo findCargoByCodigo(int codigo){
+        for(Cargo cargoLista : this.getCargos()){
+            if(cargoLista.getCodigo() == codigo){
+                return cargoLista;
+            }
+        }
+        return null;
     }
 
     /**
@@ -114,30 +109,8 @@ public class ControladorCargo implements IControladorCargo {
      * @return Sequencial gerado.
      */
     public int geraSequencialCargo() {
-        this.sequencialCargo++;
-        return this.sequencialCargo;
-    }
-
-    @Override
-    public void listarCargos() {
-        DateFormat formatador = new SimpleDateFormat("HH:mm");
-        for (Cargo cargoLista : this.cargoDAO.getList()) {
-            System.out.println("Nome: " + cargoLista.getNome() + " | Código: " + cargoLista.getCodigo() + "| " + cargoLista.getTipoCargo().getDescricao());
-            System.out.println("Horários deste cargo :");
-            if (!cargoLista.getHorarios().isEmpty()) {
-                for (int i = 0; i < cargoLista.getHorarios().size(); i = i + 2) {
-                    Date horario1 = cargoLista.getHorarios().get(i).getTime();
-                    Date horario2 = cargoLista.getHorarios().get(i + 1).getTime();
-                    System.out.println("De " + formatador.format(horario1) + " à " + formatador.format(horario2) + ";");
-                }
-                System.out.println();
-            }
-        }
-    }
-
-    @Override
-    public void reduzSequencialCargo() {
-        this.sequencialCargo = sequencialCargo - 1;
+        this.sequencialCargo = this.getCargos().size();
+        return this.sequencialCargo + 1;
     }
 
     @Override

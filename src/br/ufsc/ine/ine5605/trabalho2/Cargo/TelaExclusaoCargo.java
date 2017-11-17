@@ -1,49 +1,127 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  *
- * @author Viinicius
+ * @author Vinicius Cerqueira Nascimento
+ * @author Marina Ribeiro Kodama
+ * @author Marco Aurélio Geremias
  */
 public class TelaExclusaoCargo extends JFrame {
     private final TelaCargo telaCargo;
+    private JComboBox cargoEditavel;
+    private JLabel cargo;
+    private JButton voltar;
+    private JButton excluir;
+    private JButton encerrar;
     
     public TelaExclusaoCargo(TelaCargo telaCargo){
         super("Tela de Exclusão de Cargos");
         this.telaCargo = telaCargo;
+        this.inicializarComponentes();
     }
     
-     /**
-     * Inicia a tela de exclusão de cargos, faz o tratamento dos dados inseridos
-     * pelo usuário e, antes da exclusão, verifica a existência do cargo
-     * utilizando se do método findCargoByCodigo, do controladorCargo. Utiliza o
-     * método excluirCargo, também do controladorCargo.
-     */
     private void inicializarComponentes() {
-        /*
-         * System.out.println("Para excluir um cargo do sistema, digite o código do mesmo.");
-        int codigo = teclado.nextInt();
+        Dimension dimensaoTextos = new Dimension(200, 30);
+        Container container = this.getContentPane();
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        if (this.getControladorCargo().findCargoByCodigo(codigo) != null) {
-            this.getControladorCargo().excluirCargo(codigo);
-            System.out.println("Cargo excluído com sucesso!");
-            this.inicia();
-        } else {
-            System.out.println("O código informado não pertence a nenhum cargo cadastrado.");
-            System.out.println("Deseja tentar novamente? Digite Y ou N");
-            String opcaoExclusao = teclado.nextLine();
-            if (opcaoExclusao.equals("Y") || opcaoExclusao.equals("y")) {
-                this.exclusaoCargos();
-            } else {
-                this.inicia();
+        this.cargoEditavel = new JComboBox();
+        this.cargo = new JLabel();
+
+        this.voltar = new JButton("Voltar ao Menu de Cargos");
+        this.excluir = new JButton("Excluir o Cargo Selecionado");
+        this.encerrar = new JButton("Sair");
+
+        GerenciadorBotoesExclusao gerenciadorBotoesExclusao = new GerenciadorBotoesExclusao();
+        this.voltar.addActionListener(gerenciadorBotoesExclusao);
+        this.excluir.addActionListener(gerenciadorBotoesExclusao);
+        this.encerrar.addActionListener(gerenciadorBotoesExclusao);
+
+        c.gridy = 0;
+        c.gridx = 0;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(50, 0, 0, 0);
+        cargo.setText("Selecione o Cargo ao lado:  ");
+        container.add(cargo, c);
+
+        c.gridx = 1;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.EAST;
+        container.add(cargoEditavel, c);
+
+        c.gridx = 1;
+        c.gridy = (int)1.5;
+        c.fill = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.CENTER;
+        excluir.setPreferredSize(dimensaoTextos);
+        container.add(excluir, c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.SOUTH;
+        voltar.setPreferredSize(dimensaoTextos);
+        container.add(voltar, c);
+
+        c.gridx = 1;
+        c.gridy = 3;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.SOUTH;
+        encerrar.setPreferredSize(dimensaoTextos);
+        container.add(encerrar, c);
+
+        this.setSize(600, 400);
+        this.setLocation(375,150);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+    
+    public void updateData(){
+        for(int i = 0; i < this.telaCargo.getControladorCargo().getCargos().size(); i++){
+            cargoEditavel.addItem(this.telaCargo.getControladorCargo().getCargos().get(i));
+        }
+    }
+    
+    private class GerenciadorBotoesExclusao implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //Falta verificar também se existem funcionarios com o cargo a ser excluiído antes da exclusão
+            //Sugestão: implementar o método findFuncionarioByCargo no ControladorFuncionario para realizar a busca
+            if(e.getSource() == excluir){
+                if(cargoEditavel.getSelectedItem() != null){
+                    try{
+                        telaCargo.getControladorCargo().excluirCargo((Cargo)cargoEditavel.getSelectedItem());
+                        JOptionPane.showMessageDialog(null, "Cargo excluído!", "Sucess", JOptionPane.CLOSED_OPTION);
+                    }
+                    catch(IllegalArgumentException ex){
+                        JOptionPane.showMessageDialog(null, "Erro desconhecido. Contate o administrador do sistema.");
+                    }
+                }
+            }
+            else if(e.getSource() == voltar){
+                setVisible(false);
+                telaCargo.setVisible(true);
+            }
+            else if(e.getSource() == encerrar){
+                System.exit(0);
             }
         }
-        */
+        
     }
 }
