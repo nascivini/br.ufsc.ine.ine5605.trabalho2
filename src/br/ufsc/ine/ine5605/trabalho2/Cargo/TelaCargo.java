@@ -115,6 +115,7 @@ public class TelaCargo extends JFrame{
             }
             else if(e.getSource() == botaoAlteracao){
                 setVisible(false);
+                telaListagemCargo.updateData ();
                 telaAlteracaoCargo.setVisible(true);
             }
             else if(e.getSource() == botaoListagem){
