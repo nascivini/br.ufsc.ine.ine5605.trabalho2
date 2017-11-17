@@ -118,13 +118,12 @@ public class ControladorFuncionario implements IControladorFuncionario {
         return false;
     }
     
-    public boolean findFuncionarioByCargo(Cargo cargo){
+    public void findFuncionarioByCargo(Cargo cargo){
         for(Funcionario funcionarioAtual : this.getFuncionarios()){
             if(funcionarioAtual.getCargo().getCodigo() == cargo.getCodigo()){
-                return true;
             }
         }
-        return false;
+        throw new IllegalArgumentException();
     }
     
     @Override
