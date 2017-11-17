@@ -49,9 +49,9 @@ public final class TelaListagemCargo extends JFrame {
         modelo.addColumn("Tipo");
         modelo.addColumn("Horários");
         tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(80);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(20);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(150);
         this.pesquisar(modelo);
     }
 
@@ -61,13 +61,17 @@ public final class TelaListagemCargo extends JFrame {
         for (Cargo c : telaCargo.getControladorCargo().getCargos()) {
             String horarios = "";
             if(c.getHorarios() != null){
-            for(int i = 0; i < c.getHorarios().size(); i = i + 2){
-                horarios = horarios + "De: " + sdf.format(c.getHorarios().get(i).getTime()) + "h";
-                horarios = horarios + " á: " + sdf.format(c.getHorarios().get(i+1).getTime()) + "h;";
+                for(int i = 0; i < c.getHorarios().size(); i = i + 2){
+                    horarios = horarios + "De: " + sdf.format(c.getHorarios().get(i).getTime()) + "h";
+                    horarios = horarios + " á: " + sdf.format(c.getHorarios().get(i+1).getTime()) + "h;";
+                }
             }
+            else{
+                horarios = "Cargo Gerencial, não possui horários.";
             }
             modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), c.getTipoCargo().getDescricao(), horarios});
+            }
+            
 
         }
     }
-}

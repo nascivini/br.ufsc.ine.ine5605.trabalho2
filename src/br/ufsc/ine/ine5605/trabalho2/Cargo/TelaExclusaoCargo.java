@@ -56,7 +56,7 @@ public class TelaExclusaoCargo extends JFrame {
         c.gridx = 0;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(50, 0, 0, 0);
+        c.insets = new Insets(50, 0, 0, 20);
         cargo.setText("Selecione o Cargo ao lado:  ");
         container.add(cargo, c);
 
@@ -67,7 +67,7 @@ public class TelaExclusaoCargo extends JFrame {
         container.add(cargoEditavel, c);
 
         c.gridx = 1;
-        c.gridy = (int)1.5;
+        c.gridy = 1;
         c.fill = GridBagConstraints.CENTER;
         c.anchor = GridBagConstraints.CENTER;
         excluir.setPreferredSize(dimensaoTextos);
@@ -101,17 +101,22 @@ public class TelaExclusaoCargo extends JFrame {
     private class GerenciadorBotoesExclusao implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            //Falta verificar também se existem funcionarios com o cargo a ser excluiído antes da exclusão
+            //Falta verificar também se existem funcionarios com o cargo a ser excluído antes da exclusão
             //Sugestão: implementar o método findFuncionarioByCargo no ControladorFuncionario para realizar a busca
             if(e.getSource() == excluir){
                 if(cargoEditavel.getSelectedItem() != null){
                     try{
+                        //telaCargo.getControladorCargo().getControladorPrincipal().getControladorFuncionario().findFuncionarioByCargo(cargoEditavel.getSelectedItem());
                         telaCargo.getControladorCargo().excluirCargo((Cargo)cargoEditavel.getSelectedItem());
                         JOptionPane.showMessageDialog(null, "Cargo excluído!", "Sucess", JOptionPane.CLOSED_OPTION);
                     }
                     catch(IllegalArgumentException ex){
                         JOptionPane.showMessageDialog(null, "Erro desconhecido. Contate o administrador do sistema.");
                     }
+                    /*catch (ExcecaoFuncionario exc){
+                        JOptionPane.showMessageDialog(null, exc.getMessage());
+                        this.updateData();
+                    }*/
                 }
             }
             else if(e.getSource() == voltar){
