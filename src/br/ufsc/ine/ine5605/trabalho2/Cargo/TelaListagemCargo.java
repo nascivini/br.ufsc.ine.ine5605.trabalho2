@@ -66,7 +66,7 @@ public final class TelaListagemCargo extends JFrame {
                 horarios = horarios + " á: " + sdf.format(c.getHorarios().get(i+1).getTime()) + "h;";
             }
             }
-            modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), c.getTipoCargo(), horarios});
+            modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), c.getTipoCargo().getDescricao(), horarios});
 
         }
     }
