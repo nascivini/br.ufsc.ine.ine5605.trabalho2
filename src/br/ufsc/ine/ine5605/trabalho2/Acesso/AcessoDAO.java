@@ -81,8 +81,9 @@ public class AcessoDAO{
             oo.close();
             fis.close();
         } 
+        //Marco, removi o log apenas para não dar erro no início do programa :D
         catch (FileNotFoundException ex) {
-            Logger.getLogger(AcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Ainda não há acessos cadastrados.");
         } 
         catch (IOException ex) {
             Logger.getLogger(AcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
