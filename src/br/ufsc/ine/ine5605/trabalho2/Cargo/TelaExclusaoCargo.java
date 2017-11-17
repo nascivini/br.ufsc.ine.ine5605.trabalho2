@@ -80,7 +80,7 @@ public class TelaExclusaoCargo extends JFrame {
         voltar.setPreferredSize(dimensaoTextos);
         container.add(voltar, c);
 
-        c.gridx = 1;
+        c.gridx = 2;
         c.gridy = 3;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.SOUTH;

@@ -79,7 +79,7 @@ public class TelaCadastroCargo extends JFrame {
         this.limparTela = new JButton("Limpar Tela");
         this.voltar = new JButton("Voltar à tela de Cargos");
         
-        GerenciadorBotoesCargo gerenciadorBotoesCargo = new GerenciadorBotoesCargo();
+        GerenciadorTextosBotoesCargo gerenciadorBotoesCargo = new GerenciadorTextosBotoesCargo();
         this.validarHorarios.addActionListener(gerenciadorBotoesCargo);
         this.cadastrar.addActionListener(gerenciadorBotoesCargo);
         this.limparTela.addActionListener(gerenciadorBotoesCargo);
@@ -186,7 +186,7 @@ public class TelaCadastroCargo extends JFrame {
         this.horario2Editavel.setText("");
     }
 
-    public class GerenciadorBotoesCargo implements ActionListener {
+    public class GerenciadorTextosBotoesCargo implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -223,7 +223,7 @@ public class TelaCadastroCargo extends JFrame {
                     horarios.add(h2);
                     try {
                         ArrayList<Calendar> temp = new ArrayList<>();
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
                         h1.setTime(sdf.parse(horario1Editavel.getText()));
                         h2.setTime(sdf.parse(horario2Editavel.getText()));
                         
