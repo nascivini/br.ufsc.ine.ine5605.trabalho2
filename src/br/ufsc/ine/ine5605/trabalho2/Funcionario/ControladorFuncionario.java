@@ -5,6 +5,7 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
+import br.ufsc.ine.ine5605.trabalho2.Cargo.Cargo;
 import br.ufsc.ine.ine5605.trabalho2.Principal.ControladorPrincipal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +35,6 @@ public class ControladorFuncionario implements IControladorFuncionario {
     public TelaCadastroFuncionario getTelaCadastroFuncionario() {
         return telaCadastroFuncionario;
     }
-    
     
 
     public Collection<Funcionario> getFuncionarios() {
@@ -112,6 +112,15 @@ public class ControladorFuncionario implements IControladorFuncionario {
     public boolean findFuncionarioByCpf(long cpf) {
         for (Funcionario funcionario : getFuncionarios()) {
             if (funcionario.getCpf() == cpf) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean findFuncionarioByCargo(Cargo cargo){
+        for(Funcionario funcionarioAtual : this.getFuncionarios()){
+            if(funcionarioAtual.getCargo().getCodigo() == cargo.getCodigo()){
                 return true;
             }
         }
