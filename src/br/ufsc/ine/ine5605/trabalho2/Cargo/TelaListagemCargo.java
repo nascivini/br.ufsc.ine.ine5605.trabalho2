@@ -38,7 +38,7 @@ public final class TelaListagemCargo extends JFrame {
         painelFundo.add(BorderLayout.CENTER, barraRolagem);
 
         getContentPane().add(painelFundo);
-        setSize(600, 150);
+        setSize(650, 150);
         this.setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -60,13 +60,13 @@ public final class TelaListagemCargo extends JFrame {
 
     public void pesquisar(DefaultTableModel modelo) {
         modelo.setNumRows(0);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         for (Cargo c : telaCargo.getControladorCargo().getCargos()) {
             String horarios = "";
             if(c.getHorarios() != null){
                 for(int i = 0; i < c.getHorarios().size(); i = i + 2){
                     horarios = horarios + "De: " + sdf.format(c.getHorarios().get(i).getTime()) + "h";
-                    horarios = horarios + " á: " + sdf.format(c.getHorarios().get(i+1).getTime()) + "h;";
+                    horarios = horarios + " á: " + sdf.format(c.getHorarios().get(i+1).getTime()) + "h; ";
                 }
             }
             else{

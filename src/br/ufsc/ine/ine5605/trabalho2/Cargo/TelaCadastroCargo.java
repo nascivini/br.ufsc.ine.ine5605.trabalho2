@@ -16,10 +16,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -44,15 +44,21 @@ public class TelaCadastroCargo extends JFrame {
     private JButton cadastrar;
     private JButton limparTela;
     private JButton voltar;
-    private JPanel continuaCadastro;
-    private JFrame telaContinuaCadastro;
-
+    private JFrame telaContinuarCadastroHorarios;
+    private JOptionPane opcaoContinuar;
+    private TelaCadastroCargo telaCadastroCargo;
+    
     public TelaCadastroCargo(TelaCargo telaCargo) {
         super("Tela de Cadastro de Cargos");
         this.telaCargo = telaCargo;
         this.inicializarComponentes();
-        this.inicializarTelaContinuarCadastro();
     }
+
+    public TelaCargo getTelaCargo() {
+        return telaCargo;
+    }
+    
+    
 
     private void inicializarComponentes() {
         Dimension dimensaoTextos = new Dimension(140, 20);
@@ -122,7 +128,7 @@ public class TelaCadastroCargo extends JFrame {
 
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
-        horario1.setText("Primeiro Horário:  ");
+        horario1.setText("Primeiro Horário(HH:mm):  ");
         c.gridx = 0;
         c.gridy = 3;
         container.add(horario1, c);
@@ -136,7 +142,7 @@ public class TelaCadastroCargo extends JFrame {
 
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
-        horario2.setText("Segundo Horário:  ");
+        horario2.setText("Segundo Horário (HH:mm):  ");
         c.gridx = 0;
         c.gridy = 4;
         container.add(horario2, c);
@@ -167,17 +173,13 @@ public class TelaCadastroCargo extends JFrame {
         this.setSize(600, 400);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        this.opcaoContinuar = new JOptionPane();
+        this.telaCadastroCargo = this;
+        this.telaContinuarCadastroHorarios = new TelaContinuarCadastroHorarios(null, telaCadastroCargo);
+        
     }
     
-    public void inicializarTelaContinuarCadastro(){
-        this.continuaCadastro = new JPanel(new GridBagLayout());
-        this.telaContinuaCadastro = new JFrame();
-        
-        Container container = telaContinuaCadastro.getContentPane();
-        container.add(continuaCadastro);
-        
-        
-    }
     
     public void updateData(){
         this.codigo.setText("Código do novo Cargo (gerado automaticamente):  " + telaCargo.getControladorCargo().geraSequencialCargo() + " .");
@@ -195,7 +197,7 @@ public class TelaCadastroCargo extends JFrame {
                 Calendar h2 = Calendar.getInstance();
 
                 try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
                     h1.setTime(sdf.parse(horario1Editavel.getText()));
                     h2.setTime(sdf.parse(horario2Editavel.getText()));
 
@@ -223,28 +225,37 @@ public class TelaCadastroCargo extends JFrame {
                     horarios.add(h2);
                     try {
                         ArrayList<Calendar> temp = new ArrayList<>();
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                         h1.setTime(sdf.parse(horario1Editavel.getText()));
                         h2.setTime(sdf.parse(horario2Editavel.getText()));
                         
 
-                        telaCargo.getControladorCargo().verificaHorarios(new ArrayList<Calendar>(), h1, h2);
+                        telaCargo.getControladorCargo().verificaHorarios(temp, h1, h2);
                         telaCargo.getControladorCargo().findCargoByNome(nomeEditavel.getText());
 
                         DadosCargo cargoNovo = new DadosCargo(nomeEditavel.getText(), horarios, (TipoCargo) tipoEditavel.getSelectedItem());
-                        telaCargo.getControladorCargo().incluirCargo(cargoNovo);
+                        Cargo incluido = telaCargo.getControladorCargo().incluirCargo(cargoNovo);
                         
-                        JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso!", "Sucesso!", JOptionPane.CLOSED_OPTION);
-                        updateData();
-                        setVisible(true);
+                        int opcao = opcaoContinuar.showConfirmDialog(null, "Cargo cadastrado com sucesso! Deseja cadastrar mais horários?", "Sucesso!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if(opcao == 0){
+                            telaContinuarCadastroHorarios = new TelaContinuarCadastroHorarios(incluido, telaCadastroCargo);
+                            telaContinuarCadastroHorarios.setLocationRelativeTo(null);
+                            telaContinuarCadastroHorarios.setVisible(true);
+                            
+                        }
+                        else{
+                            updateData();
+                            setVisible(true);
+                        }
+                      
                     } 
                     catch (ParseException ex) {
                         Logger.getLogger(TelaCadastroCargo.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null, "", "Erro!", ERROR);
+                        JOptionPane.showMessageDialog(null, "Horário Inválido! Respeite o padrão HH:mm", "Erro!", JOptionPane.ERROR_MESSAGE);
                     } 
                     catch (IllegalArgumentException e) {
                         Logger.getLogger(TelaCadastroCargo.class.getName()).log(Level.SEVERE, null, e);
-                        JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", ERROR);
+                        JOptionPane.showMessageDialog(null, e.getMessage());
                         
                     }
                 } 
@@ -254,10 +265,10 @@ public class TelaCadastroCargo extends JFrame {
                         
                         DadosCargo cargoNovo = new DadosCargo(nomeEditavel.getText(), null, (TipoCargo) tipoEditavel.getSelectedItem());
                         telaCargo.getControladorCargo().incluirCargo(cargoNovo);
-
-                        JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso! Deseja cadastrar mais horários para este cargo??", "Sucesso!", JOptionPane.CLOSED_OPTION);
-                        setVisible(false);
-                        telaCargo.setVisible(true);
+                        JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso!", "Sucesso!", JOptionPane.DEFAULT_OPTION);
+                        
+                        updateData();
+                        
                     } 
                     catch (IllegalArgumentException e) {
                         Logger.getLogger(TelaCadastroCargo.class.getName()).log(Level.SEVERE, null, e);
@@ -267,9 +278,6 @@ public class TelaCadastroCargo extends JFrame {
                 updateData();
             }
             
-            else if(event.getSource() == continuaCadastro){
-                telaContinuaCadastro.setVisible(true);
-            }
             
             else if(event.getSource() == voltar){
                 setVisible(false);
@@ -278,6 +286,7 @@ public class TelaCadastroCargo extends JFrame {
         }
 
     }
+    
     
     public class GerenciadorJComboBox implements ActionListener{
 

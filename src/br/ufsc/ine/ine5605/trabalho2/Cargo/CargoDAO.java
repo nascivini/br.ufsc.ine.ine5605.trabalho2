@@ -43,7 +43,7 @@ public class CargoDAO{
         this.persist();
     }
     
-    private void persist(){
+    public void persist(){
         
         try {
             FileOutputStream fout = new FileOutputStream(this.fileName);

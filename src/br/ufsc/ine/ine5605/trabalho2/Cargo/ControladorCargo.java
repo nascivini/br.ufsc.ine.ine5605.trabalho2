@@ -24,6 +24,12 @@ public class ControladorCargo implements IControladorCargo {
         this.telaCargo = new TelaCargo(this);
     }
 
+    public CargoDAO getCargoDAO() {
+        return cargoDAO;
+    }
+    
+    
+
     public ArrayList<Cargo> getCargos() {
         return new ArrayList<Cargo>(cargoDAO.getList());
     }
