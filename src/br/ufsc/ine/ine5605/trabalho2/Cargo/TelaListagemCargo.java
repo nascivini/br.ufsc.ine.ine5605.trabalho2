@@ -1,6 +1,7 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public final class TelaListagemCargo extends JFrame {
 
     private final TelaCargo telaCargo;
-    private JPanel painelFundo;
+    private Container painelFundo;
     private JTable tabela;
     private JScrollPane barraRolagem;
     public final DefaultTableModel modelo;
@@ -37,7 +38,7 @@ public final class TelaListagemCargo extends JFrame {
         painelFundo.add(BorderLayout.CENTER, barraRolagem);
 
         getContentPane().add(painelFundo);
-        this.setLocation(375,150);
+        this.setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(600, 150);
     }

@@ -165,7 +165,7 @@ public class TelaCadastroCargo extends JFrame {
         container.add(voltar, c);
 
         this.setSize(600, 400);
-        this.setLocation(375,150);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
