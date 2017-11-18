@@ -109,13 +109,12 @@ public class ControladorFuncionario implements IControladorFuncionario {
     }
     
     @Override
-    public boolean findFuncionarioByCpf(long cpf) {
+    public void findFuncionarioByCpf(long cpf) {
         for (Funcionario funcionario : getFuncionarios()) {
             if (funcionario.getCpf() == cpf) {
-                return true;
+                throw new IllegalArgumentException("CPF já está cadastrado.");
             }
         }
-        return false;
     }
     
     public void findFuncionarioByCargo(Cargo cargo){

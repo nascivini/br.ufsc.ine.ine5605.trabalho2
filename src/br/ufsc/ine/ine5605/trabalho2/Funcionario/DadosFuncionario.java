@@ -14,7 +14,7 @@ public class DadosFuncionario {
     public final long cpf;
     public final String nome;
     public final Cargo cargo;
-    public final Calendar nascimento;
+    public final Date nascimento;
     public final long telefone;
     public final float salario;
 
@@ -28,7 +28,7 @@ public class DadosFuncionario {
      * @param salario Salário do funcionário
      */
     
-    public DadosFuncionario(long cpf, String nome, Cargo cargo, Calendar nascimento, long telefone, float salario) {
+    public DadosFuncionario(long cpf, String nome, Cargo cargo, Date nascimento, long telefone, float salario) {
         this.cpf = cpf;
         this.nome = nome;
         this.cargo = cargo;

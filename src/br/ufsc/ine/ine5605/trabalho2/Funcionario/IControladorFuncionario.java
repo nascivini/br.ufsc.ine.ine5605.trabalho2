@@ -56,7 +56,7 @@ public interface IControladorFuncionario {
      * @return Verdadeiro se o CPF já estiver em uso por algum funcionário já cadastrado
      * Falso caso contrário
      */    
-    public boolean findFuncionarioByCpf(long cpf);    
+    public void findFuncionarioByCpf(long cpf);    
     
      /** 
      * @param matricula Matrícula a ser validada

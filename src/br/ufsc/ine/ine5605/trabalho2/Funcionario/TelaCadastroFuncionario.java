@@ -5,25 +5,23 @@
  */
 package br.ufsc.ine.ine5605.trabalho2.Funcionario;
 
-
+import br.ufsc.ine.ine5605.trabalho2.Cargo.Cargo;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.awt.image.ImageObserver.WIDTH;
-import java.net.URL;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -32,7 +30,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  * @author Marina
  */
 public class TelaCadastroFuncionario extends JFrame {
-    
+
     private final TelaFuncionario telaFuncionario;
     private JLabel matricula;
     private JTextField cpf, nome, nascimento, telefone, salario;
@@ -40,10 +38,9 @@ public class TelaCadastroFuncionario extends JFrame {
     private JButton cadastrar, limparTela;
     private JLabel lMatricula, lCpf, lNome, lNascimento, lTelefone, lSalario, lCargo;
     private Image imagem;
-    
+
     //GerenciadorBotoesCadastroFuncionario gerenciador = new GerenciadorBotoesCadastroFuncionario();
-    
-    public TelaCadastroFuncionario(TelaFuncionario telaFuncionario){
+    public TelaCadastroFuncionario(TelaFuncionario telaFuncionario) {
         super("Cadastrar Funcionário");
         this.telaFuncionario = telaFuncionario;
         this.inicializarComponentes();
@@ -55,8 +52,7 @@ public class TelaCadastroFuncionario extends JFrame {
         container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         Dimension dimensaoTextos = new Dimension(200, 30);
-        
-      
+
         this.matricula = new JLabel();
         this.cpf = new JTextField();
         this.nome = new JTextField();
@@ -73,133 +69,143 @@ public class TelaCadastroFuncionario extends JFrame {
         this.lSalario = new JLabel();
         cadastrar = new JButton("Cadastrar");
         limparTela = new JButton("Limpar Tela");
-        
-        
+
         GerenciadorBotoesCadastroFuncionario gerenciador = new GerenciadorBotoesCadastroFuncionario();
         cadastrar.addActionListener(gerenciador);
         limparTela.addActionListener(gerenciador);
 
         nome.setBounds(10, 40, 100, 50);
-        c.insets = new Insets(10,10,10,10); 
+        c.insets = new Insets(10, 10, 10, 10);
         c.anchor = GridBagConstraints.WEST;
-        
+
         c.gridx = 0;
         c.gridy = 0;
         lMatricula.setText("Matrícula: ");
-        container.add(lMatricula,c);
-        
+        container.add(lMatricula, c);
+
         c.gridx = 1;
         c.gridy = 0;
-        matricula.setText(telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial() + " (gerado automaticamente)");
         container.add(matricula, c);
-        
+
         //cpf
         c.gridx = 0;
         c.gridy = 1;
         lCpf.setText("CPF: ");
-        container.add(lCpf,c);
-        
+        container.add(lCpf, c);
+
         c.gridx = 1;
         c.gridy = 1;
         cpf.setSize(200, 200);
         cpf.setPreferredSize(dimensaoTextos);
         container.add(cpf, c);
-        
+
         //nome
         c.gridx = 0;
         c.gridy = 2;
         lNome.setText("Nome: ");
-        container.add(lNome,c);
-        
+        container.add(lNome, c);
+
         c.gridx = 1;
         c.gridy = 2;
         nome.setPreferredSize(dimensaoTextos);
         container.add(nome, c);
-        
+
         //cargo
         c.gridx = 0;
         c.gridy = 3;
         lCargo.setText("Cargo: ");
-        container.add(lCargo,c);
-        
+        container.add(lCargo, c);
+
         c.gridx = 1;
         c.gridy = 3;
         cargo.setPreferredSize(dimensaoTextos);
         container.add(cargo, c);
-        
+
         //nascimento
         c.gridx = 0;
         c.gridy = 4;
         lNascimento.setText("Nascimento: ");
-        container.add(lNascimento,c);
-        
+        container.add(lNascimento, c);
+
         c.gridx = 1;
         c.gridy = 4;
         nascimento.setPreferredSize(dimensaoTextos);
         container.add(nascimento, c);
-        
+
         //telefone
         c.gridx = 0;
         c.gridy = 5;
         lTelefone.setText("Telefone: ");
-        container.add(lTelefone,c);
-        
+        container.add(lTelefone, c);
+
         c.gridx = 1;
         c.gridy = 5;
         telefone.setPreferredSize(dimensaoTextos);
         container.add(telefone, c);
-        
+
         //salario
         c.gridx = 0;
         c.gridy = 6;
         lSalario.setText("Salário: ");
-        container.add(lSalario,c);
-        
+        container.add(lSalario, c);
+
         c.gridx = 1;
         c.gridy = 6;
         salario.setPreferredSize(dimensaoTextos);
         container.add(salario, c);
-        
+
         c.gridx = 0;
         c.gridy = 7;
-        container.add(cadastrar,c);
-        
+        container.add(cadastrar, c);
+
         c.gridx = 1;
         c.gridy = 7;
-        container.add(limparTela,c);
-        
-        c.gridx = 1;
-        c.gridy = 8;       
-        this.imagem = this.getImage("http://doutorgestaoadv.com.br/wp-content/uploads/2016/08/icon_rh.png");
+        container.add(limparTela, c);
 
-       
-            
+        c.gridx = 1;
+        c.gridy = 8;
+
         container.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        
+
         this.setSize(800, 800);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-   
-       public Image getImage(String path) {
-        URL imageURL = getClass().getResource(path);
-        if (imageURL == null)
-            return null;
-        return new ImageIcon(imageURL).getImage();    
+
+    public void updateData() {
+        this.matricula.setText(telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial() + " (gerado automaticamente)");
+        this.nome.setText("");
+        this.nascimento.setText("");
+        this.telefone.setText("");
+        this.salario.setText("");
+
+        for (Cargo cargoAtual : telaFuncionario.getControladorFuncionario().getControladorPrincipal().getControladorCargo().getCargos()) {
+            cargo.addItem(cargoAtual);
+        }
     }
-    
-        private class GerenciadorBotoesCadastroFuncionario implements ActionListener{
+
+    private class GerenciadorBotoesCadastroFuncionario implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == cadastrar){
+            if (e.getSource() == cadastrar) {
                 setVisible(false);
-                
-            }
-            else {
+
+                try {
+                    telaFuncionario.getControladorFuncionario().findFuncionarioByCpf(Long.parseLong(cpf.getText()));
+                    DadosFuncionario dadosFuncionario = new DadosFuncionario(Long.parseLong(cpf.getText()), 
+                            nome.getText(), (Cargo)cargo.getSelectedItem(), Calendar(nascimento.getText()), Long.parseLong(telefone.getText()), salario.getText());
+                    
+                    
+                    telaFuncionario
+                }
+
+                JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Cadastrado!", JOptionPane.CLOSED_OPTION);
+            } else {
                 setVisible(false);
-                
+
             }
         }
-    
-}
+
+    }
 }

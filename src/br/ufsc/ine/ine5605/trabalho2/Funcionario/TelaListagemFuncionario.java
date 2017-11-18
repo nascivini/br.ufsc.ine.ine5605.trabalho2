@@ -12,13 +12,13 @@ import javax.swing.JFrame;
  *
  * @author 09108881910
  */
-public class TelaAlteracaoFuncionario extends JFrame {
+public class TelaListagemFuncionario extends JFrame {
     
     private final TelaFuncionario telaFuncionario;
     
     
-    public TelaAlteracaoFuncionario(TelaFuncionario telaFuncionario) {
-        super("Alterar Funcionário");
+    public TelaListagemFuncionario(TelaFuncionario telaFuncionario) {
+        super("Listar Funcionários");
         this.telaFuncionario = telaFuncionario;
         this.inicializarComponentes();
     }
