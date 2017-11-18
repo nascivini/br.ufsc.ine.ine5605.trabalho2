@@ -5,7 +5,12 @@
  */
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
+import java.awt.Container;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -13,14 +18,37 @@ import javax.swing.JFrame;
  */
 public class TelaAlteracaoCargo extends JFrame{
     private TelaCargo telaCargo;
+    private JTable tabelaCargos;
+    private JScrollPane barraDeRolagem;
+    private JButton listarTodos;
+    private JTextField campoDeBusca;
+    private JButton buscar;
     
     public TelaAlteracaoCargo(TelaCargo telaCargo){
         super("Tela de Alteração de Cargos");
         this.telaCargo = telaCargo;
+        this.inicializarComponentes();
     }
     
     private void inicializarComponentes(){
-            /**
+        Container container = this.getContentPane();
+        
+        this.tabelaCargos = new JTable();
+        this.barraDeRolagem = new JScrollPane();
+        this.buscar = new JButton("Buscar");
+        this.campoDeBusca = new JTextField();
+        this.listarTodos = new JButton("Listar Todos os Cargos");
+        
+        //container.add
+    }
+    
+    private void updateData(){
+        
+    }
+    
+    /**
+    private void inicializarComponentes(){
+            
      * Inicia a tela de alteração de cargos. Permite apenas a alteração de um
      * dado do cargo por vez. Utiliza se dos métodos findCargoByCodigo,
      * findcargoByNome e alterarCargo do controladorCargo.

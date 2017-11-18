@@ -57,16 +57,16 @@ public class TelaExclusaoCargo extends JFrame {
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(50, 0, 0, 20);
-        cargo.setText("Selecione o Cargo ao lado:  ");
+        cargo.setText("Selecione o Cargo:  ");
         container.add(cargo, c);
 
-        c.gridx = 1;
+        c.gridx = 2;
         c.gridy = 0;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
         container.add(cargoEditavel, c);
 
-        c.gridx = 1;
+        c.gridx = 2;
         c.gridy = 1;
         c.fill = GridBagConstraints.CENTER;
         c.anchor = GridBagConstraints.CENTER;
@@ -88,7 +88,7 @@ public class TelaExclusaoCargo extends JFrame {
         container.add(encerrar, c);
 
         this.setSize(600, 400);
-        this.setLocation(375,150);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
@@ -106,9 +106,9 @@ public class TelaExclusaoCargo extends JFrame {
             if(e.getSource() == excluir){
                 if(cargoEditavel.getSelectedItem() != null){
                     try{
-                        telaCargo.getControladorCargo().getControladorPrincipal().getControladorFuncionario().findFuncionarioByCargo((Cargo)cargoEditavel.getSelectedItem());
+                        //telaCargo.getControladorCargo().getControladorPrincipal().getControladorFuncionario().findFuncionarioByCargo((Cargo)cargoEditavel.getSelectedItem());
                         telaCargo.getControladorCargo().excluirCargo((Cargo)cargoEditavel.getSelectedItem());
-                        JOptionPane.showMessageDialog(null, "Cargo excluído!", "Sucess", JOptionPane.CLOSED_OPTION);
+                        JOptionPane.showMessageDialog(null, "Cargo excluído!");
                     }
                     catch(IllegalArgumentException ex){
                         JOptionPane.showMessageDialog(null, "Erro desconhecido. Contate o administrador do sistema.");
