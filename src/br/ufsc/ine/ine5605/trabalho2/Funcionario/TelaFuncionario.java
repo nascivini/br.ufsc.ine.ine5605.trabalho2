@@ -31,17 +31,15 @@ public class TelaFuncionario extends JFrame {
     private Image image;
     private final ControladorFuncionario controladorFuncionario;
     private JLabel descricao;
-    private JButton botaoCadastrar;
-    private JButton botaoExcluir;
-    private JButton botaoAlterar;
-    private JButton botaoListar;
-    private JButton botaoVoltar;
-    private JButton sair;
+    private JButton botaoCadastrar, botaoExcluir, botaoAlterar, botaoListar, botaoVoltar, sair;
     private boolean shouldFill;
     private boolean shouldWeightX;
     Dimension dimensao = new Dimension(300, 70);
     Font fonte = new Font("Arial", Font.BOLD, 20);
     private TelaCadastroFuncionario telaCadastroFuncionario;
+    private TelaExclusaoFuncionario telaExclusaoFuncionario;
+    private TelaAlteracaoFuncionario telaAlteracaoFuncionario;
+    private TelaListagemFuncionario telaListagemFuncionario;
 
 
     public TelaFuncionario(ControladorFuncionario controladorFuncionario){
@@ -149,7 +147,7 @@ public class TelaFuncionario extends JFrame {
         
         this.setSize(800, 800);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
        public Image getImage(String path) {
@@ -164,20 +162,21 @@ public class TelaFuncionario extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == botaoCadastrar){
-            setVisible(false);
-            telaCadastroFuncionario.setVisible(true);
+                setVisible(false);
+                telaCadastroFuncionario.updateData();
+                telaCadastroFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoExcluir){
                 setVisible(false);
-                exclusaoFuncionario();
+                telaExclusaoFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoAlterar){
                 setVisible(false);
-                alteracaoFuncionario();
+                telaAlteracaoFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoListar){
                 setVisible(false);
-                listarFuncionarios();
+                telaListagemFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoVoltar){
                 setVisible(false);

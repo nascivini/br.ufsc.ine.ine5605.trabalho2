@@ -12,6 +12,7 @@ import java.util.Calendar;
  */
 public class Cargo implements Serializable{
     
+    private static final int serialVersionUID = 1;
     private int codigo;
     private String nome;
     private boolean permiteAcesso;

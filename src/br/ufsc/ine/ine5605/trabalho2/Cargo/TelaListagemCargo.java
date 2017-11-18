@@ -1,6 +1,7 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public final class TelaListagemCargo extends JFrame {
 
     private final TelaCargo telaCargo;
-    private JPanel painelFundo;
+    private Container painelFundo;
     private JTable tabela;
     private JScrollPane barraRolagem;
     public final DefaultTableModel modelo;
@@ -37,7 +38,7 @@ public final class TelaListagemCargo extends JFrame {
         painelFundo.add(BorderLayout.CENTER, barraRolagem);
 
         getContentPane().add(painelFundo);
-        this.setLocation(375,150);
+        this.setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(600, 150);
     }
@@ -49,9 +50,9 @@ public final class TelaListagemCargo extends JFrame {
         modelo.addColumn("Tipo");
         modelo.addColumn("Horários");
         tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(80);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(20);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(150);
         this.pesquisar(modelo);
     }
 
@@ -61,13 +62,17 @@ public final class TelaListagemCargo extends JFrame {
         for (Cargo c : telaCargo.getControladorCargo().getCargos()) {
             String horarios = "";
             if(c.getHorarios() != null){
-            for(int i = 0; i < c.getHorarios().size(); i = i + 2){
-                horarios = horarios + "De: " + sdf.format(c.getHorarios().get(i).getTime()) + "h";
-                horarios = horarios + " á: " + sdf.format(c.getHorarios().get(i+1).getTime()) + "h;";
+                for(int i = 0; i < c.getHorarios().size(); i = i + 2){
+                    horarios = horarios + "De: " + sdf.format(c.getHorarios().get(i).getTime()) + "h";
+                    horarios = horarios + " á: " + sdf.format(c.getHorarios().get(i+1).getTime()) + "h;";
+                }
             }
+            else{
+                horarios = "Cargo Gerencial, não possui horários.";
             }
             modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), c.getTipoCargo().getDescricao(), horarios});
+            }
+            
 
         }
     }
-}

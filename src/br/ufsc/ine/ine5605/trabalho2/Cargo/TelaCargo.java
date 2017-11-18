@@ -1,6 +1,7 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -29,6 +30,7 @@ public class TelaCargo extends JFrame{
     
     public TelaCargo(ControladorCargo controladorCargo) {
         super("Tela de Manutenção de Cargos");
+        this.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         this.controladorCargo = controladorCargo;
         this.telaCadastroCargo = new TelaCadastroCargo(this);
         this.telaExclusaoCargo = new TelaExclusaoCargo(this);
