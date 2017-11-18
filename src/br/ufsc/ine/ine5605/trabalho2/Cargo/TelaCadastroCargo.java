@@ -255,7 +255,7 @@ public class TelaCadastroCargo extends JFrame {
                         DadosCargo cargoNovo = new DadosCargo(nomeEditavel.getText(), null, (TipoCargo) tipoEditavel.getSelectedItem());
                         telaCargo.getControladorCargo().incluirCargo(cargoNovo);
 
-                        JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso! Deseja cadastrar mais cargos?", "Sucesso!", JOptionPane.CLOSED_OPTION);
+                        JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso! Deseja cadastrar mais horários para este cargo??", "Sucesso!", JOptionPane.CLOSED_OPTION);
                         setVisible(false);
                         telaCargo.setVisible(true);
                     } 
@@ -264,6 +264,7 @@ public class TelaCadastroCargo extends JFrame {
                         JOptionPane.showConfirmDialog(null, e.getMessage(), "", JOptionPane.OK_CANCEL_OPTION);
                     }
                 }
+                updateData();
             }
             
             else if(event.getSource() == continuaCadastro){

@@ -93,6 +93,7 @@ public class TelaExclusaoCargo extends JFrame {
     }
     
     public void updateData(){
+        cargoEditavel.removeAllItems();
         for(int i = 0; i < this.telaCargo.getControladorCargo().getCargos().size(); i++){
             cargoEditavel.addItem(this.telaCargo.getControladorCargo().getCargos().get(i));
         }
@@ -114,6 +115,7 @@ public class TelaExclusaoCargo extends JFrame {
                         JOptionPane.showMessageDialog(null, "Erro desconhecido. Contate o administrador do sistema.");
                     }
                 }
+                updateData();
             }
             else if(e.getSource() == voltar){
                 setVisible(false);

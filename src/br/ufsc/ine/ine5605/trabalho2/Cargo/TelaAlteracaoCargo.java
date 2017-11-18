@@ -1,178 +1,164 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
-import java.awt.Container;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.text.SimpleDateFormat;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
- * @author Viinicius
+ * @author Vinicius Cerqueira Nascimento
+ * @author Marina Ribeiro Kodama
+ * @author Marco Aurelio Geremias
  */
 public class TelaAlteracaoCargo extends JFrame{
     private TelaCargo telaCargo;
-    private JTable tabelaCargos;
+    private JButton alterar;
+    private JButton voltar;
+    private JButton sair;
     private JScrollPane barraDeRolagem;
-    private JButton listarTodos;
-    private JTextField campoDeBusca;
-    private JButton buscar;
+    public final DefaultTableModel modelo;
+    private JTable tabelaCargos;
+    private JPanel painelTabela;
+    private JPanel painelBotoes;
     
     public TelaAlteracaoCargo(TelaCargo telaCargo){
         super("Tela de Alteração de Cargos");
         this.telaCargo = telaCargo;
+        this.modelo = new DefaultTableModel();
+        this.criaTabela();
         this.inicializarComponentes();
     }
     
     private void inicializarComponentes(){
-        Container container = this.getContentPane();
+        this.setLayout(new BorderLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        Dimension d = new Dimension(200, 40);
         
-        this.tabelaCargos = new JTable();
-        this.barraDeRolagem = new JScrollPane();
-        this.buscar = new JButton("Buscar");
-        this.campoDeBusca = new JTextField();
-        this.listarTodos = new JButton("Listar Todos os Cargos");
+        this.barraDeRolagem = new JScrollPane(tabelaCargos);
+        this.alterar = new JButton("Alterar Cargo Selecionado");
+        this.painelTabela = new JPanel();
+        this.painelBotoes = new JPanel(new GridBagLayout());
+        this.voltar = new JButton("Voltar ao Menu de Cargos");
+        this.sair = new JButton("Sair");
         
-        //container.add
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 0;
+        this.updateData(modelo);
+        painelTabela.add(barraDeRolagem, c);     
+        
+        c.insets = new Insets(10, 10, 10, 10);
+        c.gridx = 1;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.CENTER;
+        alterar.setPreferredSize(d);
+        painelBotoes.add(alterar, c);
+        
+        c.gridx = 2;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.CENTER;
+        voltar.setPreferredSize(d);
+        painelBotoes.add(voltar, c);
+        
+        c.gridx = 2;
+        c.gridy = 1;
+        sair.setPreferredSize(d);
+        painelBotoes.add(sair, c);   
+        
+        this.add(BorderLayout.PAGE_START, painelTabela);
+        this.add(BorderLayout.PAGE_END, painelBotoes);
+        this.setSize(700, 400);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
     }
     
-    private void updateData(){
+    private void criaTabela(){
+        tabelaCargos = new JTableEditavel(modelo);
+        modelo.addColumn("Código");
+        modelo.addColumn("Nome");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Horários");
+        tabelaCargos.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tabelaCargos.getColumnModel().getColumn(1).setPreferredWidth(20);
+        tabelaCargos.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tabelaCargos.getColumnModel().getColumn(3).setPreferredWidth(150);
+        tabelaCargos.setPreferredScrollableViewportSize(new Dimension(550, 200));
+        tabelaCargos.setRowHeight(20);
         
+        this.updateData(modelo);
     }
     
-    /**
-    private void inicializarComponentes(){
+    public void updateData(DefaultTableModel modelo){
+        modelo.setNumRows(0);
+        
+        TipoCargo [] tiposCargo = {TipoCargo.COMUM, TipoCargo.CONVIDADO, TipoCargo.GERENCIAL};
+        CargoComboBoxEditor tiposCargoEditavel = new CargoComboBoxEditor(tiposCargo);
+        
+        TableColumn tabelaTipos = tabelaCargos.getColumnModel().getColumn(2);
+        tabelaTipos.setCellEditor(tiposCargoEditavel);
+        tabelaTipos.setCellRenderer(new CargoComboBoxRenderer(tiposCargo));
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
+        for (Cargo c : telaCargo.getControladorCargo().getCargos()) {
+            String horarios = "";
+            if(c.getHorarios() != null){
+                for(int i = 0; i < c.getHorarios().size(); i = i + 2){
+                    horarios = horarios + "De: " + sdf.format(c.getHorarios().get(i).getTime()) + "h";
+                    horarios = horarios + " á: " + sdf.format(c.getHorarios().get(i+1).getTime()) + "h;";
+                }
+            }
+            else{
+                horarios = "Cargo Gerencial, não possui horários.";
+            }
             
-     * Inicia a tela de alteração de cargos. Permite apenas a alteração de um
-     * dado do cargo por vez. Utiliza se dos métodos findCargoByCodigo,
-     * findcargoByNome e alterarCargo do controladorCargo.
-     */
-       /*     
-       System.out.println("Bem vindo à tela de alteração dos Cargos.");
-       System.out.println("Só é possível alterar um dado por vez. Digite o código do cargo a ser alterado, e selecione qual dado deseja alterar. Horários não podem ser alterados, caso deseje realizar alterações, exclua o cargo e realize o cadastro novamente.");
-
-        int codigo = teclado.nextInt();
-        if (this.getControladorCargo().findCargoByCodigo(codigo) == null) {
-            System.out.println("Cargo não encontrado. Digite um código válido.");
-            this.alteracaoCargos();
-        } else {
-            System.out.println("---------------------------------------------------------");
-            System.out.println("1 - Alterar nome do cargo.");
-            System.out.println("2 - Alterar tipo do cargo.");
-            System.out.println("3 - Alterar permissão de acesso do cargo");
-
-            int opcao = teclado.nextInt();
-            teclado.nextLine();
-            
-            try{
-            switch (opcao) {
-               
-                case (1):
-                    System.out.println("Digite o novo nome para o cargo. Não é possível cadastrar dois cargos com o mesmo nome no sistema.");
-                    String novoNome = teclado.nextLine();
-                    if (!this.getControladorCargo().findCargoByNome(novoNome)) {
-                        DadosCargo novosDados = new DadosCargo();
-                        novosDados.nome = novoNome;
-                        this.getControladorCargo().alterarCargo(novosDados, codigo);
-                        System.out.println("Nome alterado com sucesso!");
-                        this.inicia();
-                        break;
-                    } else {
-                        throw new IllegalArgumentException("Nome inválido! Já existe um cargo cadastrado com este nome no sistema. Verifique o nome e tente novamente.");
-                    }
-                case (2):
-                    switch (this.getControladorCargo().findCargoByCodigo(codigo).getTipoCargo().getDescricao()) {
-                        case "Cargo Gerencial":
-                            System.out.println("Este cargo é gerencial. Cargos gerenciais não podem ser alterados. Se deseja alterar os dados de um cargo gerencial, faça a exclusão do mesmo e o cadastre novamente.");
-                            this.inicia();
-                            break;
-                        case "Cargo Comum":
-                            System.out.println("Este cargo é comum.");
-                            break;
-                        case "Cargo Convidado":
-                            System.out.println("Este cargo é convidado.");
-                            break;
-                        default:
-                            break;
-                    }
-                    System.out.println("Selecione um dos tipos de cargo abaixo para alterá-lo.");
-                    System.out.println("1 - Gerencial");
-                    System.out.println("2 - Comum");
-                    System.out.println("3 - Convidado");
-                    
-                    int opcaoTipo = teclado.nextInt();
-                    
-                    DadosCargo dados = new DadosCargo();
-                    switch (opcaoTipo){
-                        case 1:
-                            dados.tipoCargo = TipoCargo.GERENCIAL;
-                            dados.horarios = null;
-                            this.getControladorCargo().alterarCargo(dados, codigo);
-                            System.out.println("Tipo Alterado com Sucesso!");
-                            this.inicia();
-                            break;
-                        case 2:
-                            dados.tipoCargo = TipoCargo.COMUM;
-                            this.getControladorCargo().alterarCargo(dados, codigo);
-                            System.out.println("Tipo Alterado com Sucesso!");
-                            this.inicia();
-                            break;
-                        case 3:   
-                            dados.tipoCargo = TipoCargo.CONVIDADO;
-                            this.getControladorCargo().alterarCargo(dados, codigo);
-                            System.out.println("Tipo Alterado com Sucesso!");
-                            this.inicia();
-                            break;
-                            
-                        default:
-                            throw new IllegalArgumentException("Opção inválida! Cargo não alterado.");
-                    }
-
-                case (3):
-                    if (this.getControladorCargo().findCargoByCodigo(codigo).isEhGerencial()) {
-                        System.out.println("Este cargo é gerencial. Cargos gerenciais possuem acesso sem restrição à porta do financeiro. Só é possível revogar permissões de acesso para os demais tipos de cargo.");
-                        this.inicia();
-                    }
-                    else{
-                        if(this.getControladorCargo().findCargoByCodigo(codigo).isPermiteAcesso()){
-                            System.out.println("Este cargo possui acesso. Deseja revogar suas permissões? Digite Y caso sim e qualquer caractere caso não.");
-                            String continuar = teclado.nextLine();
-                            
-                            if(continuar.equals("Y") || continuar.equals("Y")){
-                                dados = new DadosCargo();
-                                dados.permiteAcesso = false;
-                                this.getControladorCargo().alterarCargo(dados, codigo);
-                                System.out.println("Permissão revogada!");
-                                this.inicia();
-                            }
-                        }
-                        
-                        else{
-                            System.out.println("Este cargo não possui acesso. Deseja permitir? Digite Y caso sim e qualquer caractere caso não.");
-                            String continuar = teclado.nextLine();
-                            
-                            if(continuar.equals("Y") || continuar.equals("Y")){
-                                dados = new DadosCargo();
-                                dados.permiteAcesso = true;
-                                this.getControladorCargo().alterarCargo(dados, codigo);
-                                System.out.println("Permissão concedida!");
-                                this.inicia();
-                            }                            
-                        }
-                    }
+            modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), tabelaTipos.getCellRenderer().getTableCellRendererComponent(tabelaCargos, c.getTipoCargo(), false, rootPaneCheckingEnabled, 0, 0), horarios});
             }
-            }
-            catch(IllegalArgumentException e){
-                System.out.println(e.getMessage());
-                this.inicia();
-            }
+    }
+    
+    public class CargoComboBoxRenderer extends JComboBox implements TableCellRenderer{
+        
+        public CargoComboBoxRenderer(TipoCargo[] values){
+            super(values);
         }
-    */
+        
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                if (isSelected) {
+                    setForeground(table.getSelectionForeground());
+                    super.setBackground(table.getSelectionBackground());
+                } 
+                else {
+                    setForeground(table.getForeground());
+                    setBackground(table.getBackground());
+                }
+                setSelectedItem(value);
+                return this;
+            }        
+        }
+    
+    public class CargoComboBoxEditor extends DefaultCellEditor {
+        public CargoComboBoxEditor(TipoCargo[] items) {
+            super(new JComboBox(items));
+        }
     }
-}
+    
+ }
+    
+
+    
+

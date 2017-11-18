@@ -38,9 +38,10 @@ public final class TelaListagemCargo extends JFrame {
         painelFundo.add(BorderLayout.CENTER, barraRolagem);
 
         getContentPane().add(painelFundo);
+        setSize(600, 150);
         this.setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(600, 150);
+
     }
 
     private void criaTabela() {
@@ -54,6 +55,7 @@ public final class TelaListagemCargo extends JFrame {
         tabela.getColumnModel().getColumn(2).setPreferredWidth(50);
         tabela.getColumnModel().getColumn(3).setPreferredWidth(150);
         this.pesquisar(modelo);
+        
     }
 
     public void pesquisar(DefaultTableModel modelo) {
