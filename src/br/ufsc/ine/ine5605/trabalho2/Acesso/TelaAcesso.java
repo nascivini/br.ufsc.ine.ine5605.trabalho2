@@ -1,18 +1,16 @@
 package br.ufsc.ine.ine5605.trabalho2.Acesso;
 
-import br.ufsc.ine.ine5605.trabalho2.Principal.ClassePrincipal;
-import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.InputMismatchException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import sun.awt.im.CompositionArea;
 
 /**
  *
@@ -23,9 +21,8 @@ import sun.awt.im.CompositionArea;
 public class TelaAcesso extends JFrame {
 
     private final ControladorAcesso controladorAcesso;
-    private JButton realizarA, listarA, voltar;
+    private JButton realizarA, listarA, voltar, sair;
     private JLabel descricao;
-    private JPanel painelAcesso, painelListagem;
 
     /**
      * Recebe o controlador Acesso como parametro para possibilitar a
@@ -33,8 +30,9 @@ public class TelaAcesso extends JFrame {
      * @param controladorAcesso ControladorAcesso em execução no programa.
      */
     public TelaAcesso(ControladorAcesso controladorAcesso) {
+        super("Tela de Manutenção de Acessos");
         this.controladorAcesso = controladorAcesso;
-        this.inicia();
+        this.inicializarComponentes();
     }
 
     public ControladorAcesso getControladorAcesso() {
@@ -45,34 +43,82 @@ public class TelaAcesso extends JFrame {
      * @throws IllegalArgumentException Caso seja digitada uma opção inválida.
      * @throws InputMismatchException Caso seja digitado um caractere inválido.
      */
-    public void inicia() {
-        
+    public void inicializarComponentes() {
+        Dimension dimensaoBotoes = new Dimension(300, 70);
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
-        this.painelAcesso = new JPanel(new GridBagLayout());
-        this.painelListagem = new JPanel(new GridBagLayout());
+        
         GerenciadorBotoesAcesso gerenciador = new GerenciadorBotoesAcesso();
-       
-        this.descricao = new JLabel("--- Clique para escolher a opcao ---");
-        this.realizarA = new JButton("Realizar um acesso");
+        GridBagConstraints c = new GridBagConstraints();
+        
+        this.descricao = new JLabel("Clique nos botões para acessar os módulos.");
+        this.realizarA = new JButton("Realizar um Acesso");
         this.listarA = new JButton("Listar Acessos Negados");
         this.voltar = new JButton("Voltar ao Menu Principal");
+        this.sair = new JButton("Sair do Sistema");
         
         this.realizarA.addActionListener(gerenciador);
         this.listarA.addActionListener(gerenciador);
         this.voltar.addActionListener(gerenciador);
+        this.sair.addActionListener(gerenciador);
         
-        this.painelAcesso.add(this.descricao, GridBagConstraints.FIRST_LINE_START);
-        this.painelAcesso.add(this.realizarA, GridBagConstraints.PAGE_START);
-        this.painelAcesso.add(this.listarA, GridBagConstraints.FIRST_LINE_END);
-        this.painelAcesso.add(this.voltar, GridBagConstraints.LINE_START);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(10,0,0,0);
+        container.add(this.descricao, c);
         
-        this.setSize(700, 100);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.anchor = GridBagConstraints.CENTER;
+        realizarA.setPreferredSize(dimensaoBotoes);        
+        container.add(this.realizarA, c);
+        
+        c.gridx = 0;
+        c.gridy = 2;
+        c.anchor = GridBagConstraints.CENTER;
+        listarA.setPreferredSize(dimensaoBotoes);        
+        container.add(this.listarA, c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        c.anchor = GridBagConstraints.CENTER;
+        voltar.setPreferredSize(dimensaoBotoes);        
+        container.add(this.voltar, c);
+
+        c.gridx = 0;
+        c.gridy = 4;
+        c.anchor = GridBagConstraints.CENTER;
+        sair.setPreferredSize(dimensaoBotoes);        
+        container.add(this.sair, c);
+        
+        this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-        container.setVisible(true);
-        this.painelAcesso.setVisible(true);
+    }
+    
+    private class GerenciadorBotoesAcesso implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == realizarA){
+                setVisible(false);
+                //telaRealizarAcesso.updateData();
+                //telaRealizarAcesso.setVisible(true);
+            }
+            else if(e.getSource() == listarA){
+                setVisible(false);
+                //telaListagemAcesso.updateData();
+                //telaListagemAcesso.setVisible(true);
+                
+            }
+            else if(e.getSource() == voltar){
+                setVisible(false);
+                controladorAcesso.getControladorPrincipal().getTelaPrincipal().setVisible(true);
+            }
+            else if(e.getSource() == sair){
+                System.exit(0);
+            }
+        }
     }
     
   /*  
@@ -106,12 +152,8 @@ public class TelaAcesso extends JFrame {
             ClassePrincipal.main(args);
         }
     }
-    */
+    /*
     
-    /**
-     * Inicia a tela de listagem de acessos negados. Faz o tratamento dos dados inseridos pelo usuário e, 
-     * antes da exclusão, verifica a existência do cargo utilizando se dos métodos de controladorAcesso.
-     */
     private void menuAcessosNegados(){
         System.out.println("--- Menu de Listagem de Acessos Negados: ---");
         System.out.println("Escolha a opcao desejada, insira o numero e tecle enter: ---");
@@ -187,10 +229,6 @@ public class TelaAcesso extends JFrame {
         }
     }
 
-     /**
-     * Inicia a tela de acesso ao sistema. Faz o tratamento dos dados inseridos pelo usuário e, 
-     * realiza o acesso utilizando-se dos métodos de controladorAcesso.
-     */
     private void realizarAcesso() {
 		System.out.println("Digite a hora atual. Ex.: 22");
                 int hora = 0;
@@ -234,25 +272,7 @@ public class TelaAcesso extends JFrame {
             this.realizarAcesso();
         }
     }
+    */
 
-    private class GerenciadorBotoesAcesso implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == realizarA){
-                setVisible(false);
-                realizarAcesso();
-            }
-            else if(e.getSource() == listarA){
-                setVisible(false);
-                menuAcessosNegados();
-                
-            }
-            else if(e.getSource() == voltar){
-                setVisible(false);
-                inicia();
-            }
-        }
-    }
-
+    
 }
