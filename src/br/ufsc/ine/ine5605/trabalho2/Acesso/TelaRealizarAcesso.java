@@ -53,16 +53,13 @@ public class TelaRealizarAcesso extends JFrame {
         for(int i = 0; i < this.telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().getFuncionarios().size(); i++) {
             funcionarios[i] = this.telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().getFuncionarios().get(i);
         }
-        GerenciadorJComboBox gerenciadorCaixa = new GerenciadorJComboBox();
+
         this.matricula = new JLabel();
         this.matriculaEditavel = new JComboBox(funcionarios);
-        this.matriculaEditavel.addActionListener(gerenciadorCaixa);
         
         this.horario = new JLabel();
         this.horaEditavel = new JComboBox();        
-        this.horaEditavel.addActionListener(gerenciadorCaixa);
         this.minutoEditavel = new JComboBox();
-        this.minutoEditavel.addActionListener(gerenciadorCaixa);
         this.realizarAcesso = new JButton("Acessar");
         this.voltar = new JButton("Voltar à tela de Acessos");
         
@@ -186,9 +183,4 @@ public class TelaRealizarAcesso extends JFrame {
         }
     }
     
-    public class GerenciadorJComboBox implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e){}
-    }
 }

@@ -1,5 +1,6 @@
 package br.ufsc.ine.ine5605.trabalho2.Acesso;
 
+import br.ufsc.ine.ine5605.trabalho2.Funcionario.Funcionario;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,14 +39,14 @@ public class TelaListagemAcessosNegados extends JFrame {
     private JCheckBox listarTodos;
     private JCheckBox listarMatricula;
     private JCheckBox listarMotivo;
-    private JTextField dadosAcesso;
+    private JComboBox dadosAcessoMatricula;
+    private JComboBox dadosAcessoMotivo;
     private JButton buscar;
     private JTable tabelaListagem;
     private JScrollPane barraDeRolagem;
     private DefaultTableModel modelo;
     private JButton voltar;
     private JButton sair;
-    private JComboBox motivosAcesso;
 
     public TelaListagemAcessosNegados(TelaAcesso telaAcesso) {
         this.telaAcesso = telaAcesso;
@@ -75,8 +74,8 @@ public class TelaListagemAcessosNegados extends JFrame {
         this.buscar = new JButton("Buscar");
         
         MotivoAcesso [] motivos = {MotivoAcesso.ATRASADO, MotivoAcesso.BLOQUEADO, MotivoAcesso.OK, MotivoAcesso.OUTRO, MotivoAcesso.PERMISSAO};
-        this.motivosAcesso = new JComboBox(motivos);
-        this.dadosAcesso = new JTextField();
+        this.dadosAcessoMotivo = new JComboBox(motivos);
+        this.dadosAcessoMatricula = new JComboBox();
         
         c.gridx = 0;
         c.gridy = 1;
@@ -104,9 +103,18 @@ public class TelaListagemAcessosNegados extends JFrame {
         
         c.gridy = 2;
         c.gridx = 1;
-        dadosAcesso.setPreferredSize(new Dimension(150,30));
+        dadosAcessoMotivo.setPreferredSize(new Dimension(150,30));
         c.anchor = GridBagConstraints.CENTER;
-        painelBotoesOpcoes.add(dadosAcesso, c);
+        dadosAcessoMotivo.setVisible(false);
+        painelBotoesOpcoes.add(dadosAcessoMotivo, c);
+
+        c.gridy = 2;
+        c.gridx = 1;
+        dadosAcessoMotivo.setPreferredSize(new Dimension(180,30));
+        c.anchor = GridBagConstraints.CENTER;
+        dadosAcessoMatricula.setVisible(false);
+        painelBotoesOpcoes.add(dadosAcessoMatricula, c);
+        
         
         sair = new JButton("Sair");
         c.gridy = 2;
@@ -140,11 +148,19 @@ public class TelaListagemAcessosNegados extends JFrame {
         modelo.addColumn("Funcionário");
         modelo.addColumn("Descrição Acesso");
         modelo.addColumn("Horário");
-        tabelaListagem.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tabelaListagem.getColumnModel().getColumn(0).setPreferredWidth(50);
         tabelaListagem.getColumnModel().getColumn(1).setPreferredWidth(20);
-        tabelaListagem.getColumnModel().getColumn(2).setPreferredWidth(150);
-        tabelaListagem.setPreferredScrollableViewportSize(new Dimension(650, 180));
+        tabelaListagem.getColumnModel().getColumn(2).setPreferredWidth(20);
+        tabelaListagem.setPreferredScrollableViewportSize(new Dimension(660, 180));
         tabelaListagem.setRowHeight(20);
+    }
+    
+    private void atualizaComboBoxFuncionarios(){
+        this.dadosAcessoMatricula.removeAll();
+        ArrayList<Funcionario> funcionarios = telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().getFuncionarios();
+        for(Funcionario funcionarioAtual : funcionarios){
+            this.dadosAcessoMatricula.addItem(funcionarioAtual);
+        }
     }
 
     private void updateData(ArrayList<Acesso> acessos) {
@@ -155,7 +171,7 @@ public class TelaListagemAcessosNegados extends JFrame {
             if (a.getHorario() != null) {
                 horario = ("Acesso negado às: " + (sdf.format(a.getHorario().getTime())));
             }
-            modelo.addRow(new Object[]{a.getMatricula(), a.getMotivo().getDescricao(), horario});
+            modelo.addRow(new Object[]{telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().findFuncionarioByMatricula(a.getMatricula()), a.getMotivo().getDescricao(), horario});
         }
     }
 
@@ -167,36 +183,42 @@ public class TelaListagemAcessosNegados extends JFrame {
                 if (listarTodos.isSelected()) {
                     listarMatricula.setVisible(false);
                     listarMotivo.setVisible(false);
-                    dadosAcesso.setVisible(false);
-                    motivosAcesso.setVisible(false);
+                    dadosAcessoMotivo.setVisible(false);
+                    dadosAcessoMatricula.setVisible(false);
                 }
                 else{
                     listarMatricula.setVisible(true);
                     listarMotivo.setVisible(true);
-                    dadosAcesso.setVisible(true);
-                    motivosAcesso.setVisible(false);
+                    dadosAcessoMotivo.setVisible(false);
+                    dadosAcessoMatricula.setVisible(false);
                 }
             } else if (e.getSource() == listarMatricula) {
                 if (listarMatricula.isSelected()) {
+                    atualizaComboBoxFuncionarios();
                     listarMotivo.setVisible(false);
                     listarTodos.setVisible(false);
-                    motivosAcesso.setVisible(false);
+                    dadosAcessoMotivo.setVisible(false);
+                    dadosAcessoMatricula.setVisible(true);                    
                 }
                 else{
                     listarMotivo.setVisible(true);
                     listarTodos.setVisible(true);
-                    motivosAcesso.setVisible(true);                
+                    listarMatricula.setVisible(true);
+                    dadosAcessoMotivo.setVisible(false);
+                    dadosAcessoMatricula.setVisible(false);
                 }
             } else if (e.getSource() == listarMotivo) {
                 if (listarMotivo.isSelected()) {
                     listarTodos.setVisible(false);
                     listarMatricula.setVisible(false);
-                    motivosAcesso.setVisible(true);
+                    dadosAcessoMotivo.setVisible(true);
+                    dadosAcessoMatricula.setVisible(false);
                 }
                 else{
                     listarTodos.setVisible(true);
                     listarMatricula.setVisible(true);
-                    motivosAcesso.setVisible(false);
+                    dadosAcessoMotivo.setVisible(false);
+                    dadosAcessoMatricula.setVisible(false);
                 }
                 }
             }
@@ -208,31 +230,44 @@ public class TelaListagemAcessosNegados extends JFrame {
                     updateData(telaAcesso.getControladorAcesso().findAcessosNegados());
                     listarMatricula.setVisible(true);
                     listarMotivo.setVisible(true);
-                    dadosAcesso.setVisible(true);
-                    motivosAcesso.setVisible(false);
+                    dadosAcessoMotivo.setVisible(false);
+                    dadosAcessoMatricula.setVisible(false);
+                    listarTodos.setSelected(false);
                 }
 
                 if (listarMatricula.isSelected()) {
                     try {
-                        int matricula = Integer.parseInt(dadosAcesso.getText());
-                        telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().findFuncionarioByMatricula(matricula);
-                        updateData(telaAcesso.getControladorAcesso().findAcessosNegadosByMatricula(matricula));
+                        Funcionario funcionario = (Funcionario)dadosAcessoMatricula.getSelectedItem();
+                        telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().findFuncionarioByMatricula(funcionario.getMatricula());
+                        updateData(telaAcesso.getControladorAcesso().findAcessosNegadosByMatricula(funcionario.getMatricula()));
                         listarMotivo.setVisible(true);
                         listarTodos.setVisible(true);
-                        motivosAcesso.setVisible(false);
+                        dadosAcessoMotivo.setVisible(false);
+                        dadosAcessoMatricula.setVisible(false);
+                        listarMatricula.setSelected(false);
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(null, "A matrícula deve ser um número inteiro, e deve ser de um funcionário cadastrado. Tente novamente", "Alerta", JOptionPane.WARNING_MESSAGE);
                     }
                 }
 
                 if (listarMotivo.isSelected()) {
-                    MotivoAcesso motivo = (MotivoAcesso)motivosAcesso.getSelectedItem();
+                    MotivoAcesso motivo = (MotivoAcesso)dadosAcessoMotivo.getSelectedItem();
                     updateData(telaAcesso.getControladorAcesso().findAcessosNegadosByMotivo(motivo));
                     listarMotivo.setVisible(true);
                     listarTodos.setVisible(true);
-                    motivosAcesso.setVisible(false); 
+                    dadosAcessoMotivo.setVisible(false);
+                    dadosAcessoMatricula.setVisible(false);
+                    listarMotivo.setSelected(false);
                 }
-
+            }
+            
+            else if(e.getSource() == voltar){
+                setVisible(false);
+                telaAcesso.setVisible(true);
+            }
+            
+            else if(e.getSource() == sair){
+                System.exit(0);
             }
         }
 
