@@ -99,8 +99,8 @@ public class ControladorFuncionario implements IControladorFuncionario {
     
     @Override
     public int gerarMatriculaSequencial() {
-        this.matriculaSequencial++;
-        return this.matriculaSequencial;
+        this.matriculaSequencial = this.getFuncionarios().size();
+        return this.matriculaSequencial + 1;
     }
     
     @Override

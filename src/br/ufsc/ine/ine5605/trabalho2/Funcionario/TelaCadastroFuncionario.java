@@ -195,6 +195,7 @@ public class TelaCadastroFuncionario extends JFrame {
         this.matricula.setText(telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial() + " (gerado automaticamente)");
         this.cpf.setText("");
         this.nome.setText("");
+        this.cargo.removeAllItems();
         this.nascimento.setText("");
         this.telefone.setText("");
         this.salario.setText("");

@@ -48,6 +48,7 @@ public class TelaFuncionario extends JFrame {
         inicializarComponentesFuncionario();
         getContentPane().setBackground(Color.PINK); 
         this.telaCadastroFuncionario = new TelaCadastroFuncionario(this);
+        this.telaListagemFuncionario = new TelaListagemFuncionario(this);
         //this.teclado = new Scanner(System.in);
 
     }
@@ -81,7 +82,7 @@ public class TelaFuncionario extends JFrame {
         GerenciadorBotoesFuncionario gerenciador = new GerenciadorBotoesFuncionario();
         
         
-        this.image = this.getImage("http://www.bellunotec.com.br/wp-content/uploads/2017/05/86390-saiba-como-aumentar-a-retencao-de-funcionarios-na-empresa");
+        //this.image = this.getImage("http://www.bellunotec.com.br/wp-content/uploads/2017/05/86390-saiba-como-aumentar-a-retencao-de-funcionarios-na-empresa");
         descricao =  new JLabel("Clique em uma das opções: ");
         botaoCadastrar = new JButton("Cadastrar");
         botaoExcluir = new JButton("Excluir");

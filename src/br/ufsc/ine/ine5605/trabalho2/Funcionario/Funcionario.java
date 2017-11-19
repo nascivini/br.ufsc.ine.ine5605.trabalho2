@@ -2,7 +2,6 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
 
 import br.ufsc.ine.ine5605.trabalho2.Cargo.Cargo;
 import java.io.Serializable;
-import java.util.Calendar;
 
 /**
  *
