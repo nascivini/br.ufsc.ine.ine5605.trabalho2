@@ -39,16 +39,16 @@ public class TelaCadastroFuncionario extends JFrame {
     private JTextField nome, salario;
     private JFormattedTextField cpf, nascimento, telefone;
     private JComboBox cargo;
-    private JButton cadastrar, limparTela;
+    private JButton cadastrar, limparTela, voltar;
     private JLabel lMatricula, lCpf, lNome, lNascimento, lTelefone, lSalario, lCargo;
     private Image imagem;
+    private Dimension dBotao = new Dimension(130, 30);
 
     //GerenciadorBotoesCadastroFuncionario gerenciador = new GerenciadorBotoesCadastroFuncionario();
     public TelaCadastroFuncionario(TelaFuncionario telaFuncionario) {
         super("Cadastrar Funcionário");
         this.telaFuncionario = telaFuncionario;
         this.inicializarComponentes();
-        //this.gerenciador = new GerenciadorBotoesCadastroFuncionario();
     }
 
     private void inicializarComponentes() {
@@ -73,6 +73,7 @@ public class TelaCadastroFuncionario extends JFrame {
         this.lSalario = new JLabel();
         cadastrar = new JButton("Cadastrar");
         limparTela = new JButton("Limpar Tela");
+        voltar = new JButton("Voltar");
         
         
         
@@ -92,6 +93,7 @@ public class TelaCadastroFuncionario extends JFrame {
         GerenciadorBotoesCadastroFuncionario gerenciador = new GerenciadorBotoesCadastroFuncionario();
         cadastrar.addActionListener(gerenciador);
         limparTela.addActionListener(gerenciador);
+        voltar.addActionListener(gerenciador);
 
         nome.setBounds(10, 40, 100, 50);
         c.insets = new Insets(10, 10, 10, 10);
@@ -175,10 +177,17 @@ public class TelaCadastroFuncionario extends JFrame {
 
         c.gridx = 0;
         c.gridy = 7;
+        cadastrar.setPreferredSize(dBotao);
         container.add(cadastrar, c);
+        
+        c.gridx = 0;
+        c.gridy = 8;
+        voltar.setPreferredSize(dBotao);
+        container.add(voltar, c);
 
         c.gridx = 1;
         c.gridy = 7;
+        limparTela.setPreferredSize(dBotao);
         container.add(limparTela, c);
 
         c.gridx = 1;
@@ -231,9 +240,12 @@ public class TelaCadastroFuncionario extends JFrame {
                         
                     }
 
-            } else {
+            } 
+            else if(e.getSource() == limparTela) {
                 updateData();
-
+            } 
+            else if(e.getSource() == voltar) {
+                setVisible(false);
             }
         }
 

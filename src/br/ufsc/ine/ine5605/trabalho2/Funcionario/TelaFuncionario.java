@@ -162,20 +162,21 @@ public class TelaFuncionario extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == botaoCadastrar){
-                setVisible(false);
+                setVisible(true);
                 telaCadastroFuncionario.updateData();
                 telaCadastroFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoExcluir){
-                setVisible(false);
+                setVisible(true);
+                telaExclusaoFuncionario.updateData(telaExclusaoFuncionario.modelo);
                 telaExclusaoFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoAlterar){
-                setVisible(false);
+                setVisible(true);
                 telaAlteracaoFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoListar){
-                setVisible(false);
+                setVisible(true);
                 telaListagemFuncionario.pesquisar(telaListagemFuncionario.modelo);
                 telaListagemFuncionario.setVisible(true);
             }
