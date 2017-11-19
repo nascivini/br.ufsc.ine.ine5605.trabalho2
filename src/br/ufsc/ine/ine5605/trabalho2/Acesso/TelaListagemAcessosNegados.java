@@ -73,11 +73,11 @@ public class TelaListagemAcessosNegados extends JFrame {
         this.listarMatricula = new JCheckBox("Listar por Matrícula");
         this.listarMotivo = new JCheckBox("Listar por Motivo");
         this.buscar = new JButton("Buscar");
-        
-        MotivoAcesso [] motivos = {MotivoAcesso.ATRASADO, MotivoAcesso.BLOQUEADO, MotivoAcesso.OK, MotivoAcesso.OUTRO, MotivoAcesso.PERMISSAO};
+
+        MotivoAcesso[] motivos = {MotivoAcesso.ATRASADO, MotivoAcesso.BLOQUEADO, MotivoAcesso.OUTRO, MotivoAcesso.PERMISSAO};
         this.dadosAcessoMotivo = new JComboBox(motivos);
         this.dadosAcessoMatricula = new JComboBox();
-        
+
         c.gridx = 0;
         c.gridy = 1;
         listarTodos.addItemListener(gerenciador);
@@ -101,22 +101,21 @@ public class TelaListagemAcessosNegados extends JFrame {
         voltar.addActionListener(gerenciador);
         voltar.setPreferredSize(dimensaoBotoes);
         painelBotoesOpcoes.add(voltar, c);
-        
+
         c.gridy = 2;
         c.gridx = 1;
-        dadosAcessoMotivo.setPreferredSize(new Dimension(150,30));
+        dadosAcessoMotivo.setPreferredSize(new Dimension(150, 30));
         c.anchor = GridBagConstraints.CENTER;
         dadosAcessoMotivo.setVisible(false);
         painelBotoesOpcoes.add(dadosAcessoMotivo, c);
 
         c.gridy = 2;
         c.gridx = 1;
-        dadosAcessoMotivo.setPreferredSize(new Dimension(180,30));
+        dadosAcessoMotivo.setPreferredSize(new Dimension(180, 30));
         c.anchor = GridBagConstraints.CENTER;
         dadosAcessoMatricula.setVisible(false);
         painelBotoesOpcoes.add(dadosAcessoMatricula, c);
-        
-        
+
         sair = new JButton("Sair");
         c.gridy = 2;
         c.gridx = 2;
@@ -124,14 +123,14 @@ public class TelaListagemAcessosNegados extends JFrame {
         sair.setPreferredSize(dimensaoBotoes);
         sair.addActionListener(gerenciador);
         painelBotoesOpcoes.add(sair, c);
-        
+
         c.gridx = 0;
         c.gridy = 0;
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(10, 0, 0, 0);
         c.gridwidth = 2;
         painelBotoesOpcoes.add(opcaoAcessar, c);
-        
+
         c.gridx = 2;
         c.gridy = 0;
         buscar.addActionListener(gerenciador);
@@ -155,11 +154,11 @@ public class TelaListagemAcessosNegados extends JFrame {
         tabelaListagem.setPreferredScrollableViewportSize(new Dimension(660, 180));
         tabelaListagem.setRowHeight(20);
     }
-    
-    private void atualizaComboBoxFuncionarios(){
+
+    private void atualizaComboBoxFuncionarios() {
         this.dadosAcessoMatricula.removeAll();
         ArrayList<Funcionario> funcionarios = telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().getFuncionarios();
-        for(Funcionario funcionarioAtual : funcionarios){
+        for (Funcionario funcionarioAtual : funcionarios) {
             this.dadosAcessoMatricula.addItem(funcionarioAtual);
         }
     }
@@ -172,7 +171,13 @@ public class TelaListagemAcessosNegados extends JFrame {
             if (a.getHorario() != null) {
                 horario = ("Acesso negado às: " + (sdf.format(a.getHorario().getTime())));
             }
-            modelo.addRow(new Object[]{telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().retornaFuncionarioByMatricula(a.getMatricula()), a.getMotivo().getDescricao(), horario});
+            Funcionario funcionario = telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().retornaFuncionarioByMatricula(a.getMatricula());
+            if (funcionario != null) {
+                modelo.addRow(new Object[]{funcionario, a.getMotivo().getDescricao(), horario});
+            }
+            else{
+                modelo.addRow(new Object[]{MotivoAcesso.EXCLUIDO.getDescricao(), a.getMotivo().getDescricao(), horario});
+            }
         }
     }
 
@@ -186,8 +191,7 @@ public class TelaListagemAcessosNegados extends JFrame {
                     listarMotivo.setVisible(false);
                     dadosAcessoMotivo.setVisible(false);
                     dadosAcessoMatricula.setVisible(false);
-                }
-                else{
+                } else {
                     listarMatricula.setVisible(true);
                     listarMotivo.setVisible(true);
                     dadosAcessoMotivo.setVisible(false);
@@ -199,9 +203,8 @@ public class TelaListagemAcessosNegados extends JFrame {
                     listarMotivo.setVisible(false);
                     listarTodos.setVisible(false);
                     dadosAcessoMotivo.setVisible(false);
-                    dadosAcessoMatricula.setVisible(true);                    
-                }
-                else{
+                    dadosAcessoMatricula.setVisible(true);
+                } else {
                     listarMotivo.setVisible(true);
                     listarTodos.setVisible(true);
                     listarMatricula.setVisible(true);
@@ -214,15 +217,14 @@ public class TelaListagemAcessosNegados extends JFrame {
                     listarMatricula.setVisible(false);
                     dadosAcessoMotivo.setVisible(true);
                     dadosAcessoMatricula.setVisible(false);
-                }
-                else{
+                } else {
                     listarTodos.setVisible(true);
                     listarMatricula.setVisible(true);
                     dadosAcessoMotivo.setVisible(false);
                     dadosAcessoMatricula.setVisible(false);
                 }
-                }
             }
+        }
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -238,7 +240,7 @@ public class TelaListagemAcessosNegados extends JFrame {
 
                 if (listarMatricula.isSelected()) {
                     try {
-                        Funcionario funcionario = (Funcionario)dadosAcessoMatricula.getSelectedItem();
+                        Funcionario funcionario = (Funcionario) dadosAcessoMatricula.getSelectedItem();
                         telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().findFuncionarioByMatricula(funcionario.getMatricula());
                         updateData(telaAcesso.getControladorAcesso().findAcessosNegadosByMatricula(funcionario.getMatricula()));
                         listarMotivo.setVisible(true);
@@ -252,7 +254,7 @@ public class TelaListagemAcessosNegados extends JFrame {
                 }
 
                 if (listarMotivo.isSelected()) {
-                    MotivoAcesso motivo = (MotivoAcesso)dadosAcessoMotivo.getSelectedItem();
+                    MotivoAcesso motivo = (MotivoAcesso) dadosAcessoMotivo.getSelectedItem();
                     updateData(telaAcesso.getControladorAcesso().findAcessosNegadosByMotivo(motivo));
                     listarMotivo.setVisible(true);
                     listarTodos.setVisible(true);
@@ -260,14 +262,10 @@ public class TelaListagemAcessosNegados extends JFrame {
                     dadosAcessoMatricula.setVisible(false);
                     listarMotivo.setSelected(false);
                 }
-            }
-            
-            else if(e.getSource() == voltar){
+            } else if (e.getSource() == voltar) {
                 setVisible(false);
                 telaAcesso.setVisible(true);
-            }
-            
-            else if(e.getSource() == sair){
+            } else if (e.getSource() == sair) {
                 System.exit(0);
             }
         }

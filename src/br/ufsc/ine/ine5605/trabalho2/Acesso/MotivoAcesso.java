@@ -12,7 +12,8 @@ public enum MotivoAcesso {
     ATRASADO("Atrasado! Fora do horário do seu cargo."),
     PERMISSAO("Nao possui permissão de acesso."),
     BLOQUEADO("Bloqueado! Mais de três acessos negados."),
-    OUTRO("Não Especificado.");
+    OUTRO("Não Especificado."),
+    EXCLUIDO("Registro Excluído");
 
     private String descricao;
 
