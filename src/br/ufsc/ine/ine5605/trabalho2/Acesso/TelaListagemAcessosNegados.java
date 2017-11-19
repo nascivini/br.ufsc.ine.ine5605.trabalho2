@@ -172,7 +172,7 @@ public class TelaListagemAcessosNegados extends JFrame {
             if (a.getHorario() != null) {
                 horario = ("Acesso negado às: " + (sdf.format(a.getHorario().getTime())));
             }
-            modelo.addRow(new Object[]{telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().findFuncionarioByMatricula(a.getMatricula()), a.getMotivo().getDescricao(), horario});
+            modelo.addRow(new Object[]{telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().retornaFuncionarioByMatricula(a.getMatricula()), a.getMotivo().getDescricao(), horario});
         }
     }
 
