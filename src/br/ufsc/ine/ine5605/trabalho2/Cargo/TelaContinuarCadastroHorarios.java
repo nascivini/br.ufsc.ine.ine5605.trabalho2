@@ -69,7 +69,7 @@ public class TelaContinuarCadastroHorarios extends JFrame {
         this.horario2Editavel = new JTextField();
         this.adicionarHorarios = new JButton("Adicionar Horários");
         this.horariosJaCadastrados = new JLabel();
-        this.adicionarHorarios1 = new JButton();
+        this.adicionarHorarios1 = new JButton("Adicionar Horários");
 
         c.gridx = 1;
         c.gridy = 0;
@@ -203,6 +203,7 @@ public class TelaContinuarCadastroHorarios extends JFrame {
                         setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Horários Adicionados!", "Sucesso!", JOptionPane.YES_OPTION);
+                        JOptionPane.showMessageDialog(null, "Cargo Alterado com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         setVisible(false);
                         updateData();
                         telaAlteracaoCargo.setVisible(true);
