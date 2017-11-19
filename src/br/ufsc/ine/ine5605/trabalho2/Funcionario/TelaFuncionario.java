@@ -48,6 +48,7 @@ public class TelaFuncionario extends JFrame {
         this.telaCadastroFuncionario = new TelaCadastroFuncionario(this);
         this.telaListagemFuncionario = new TelaListagemFuncionario(this);
         this.telaExclusaoFuncionario = new TelaExclusaoFuncionario(this);
+        this.telaAlteracaoFuncionario = new TelaAlteracaoFuncionario(this);
         //this.teclado = new Scanner(System.in);
 
     }
@@ -80,8 +81,7 @@ public class TelaFuncionario extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         GerenciadorBotoesFuncionario gerenciador = new GerenciadorBotoesFuncionario();
         
-        
-        //this.image = this.getImage("http://www.bellunotec.com.br/wp-content/uploads/2017/05/86390-saiba-como-aumentar-a-retencao-de-funcionarios-na-empresa");
+       
         descricao =  new JLabel("Clique em uma das opções: ");
         botaoCadastrar = new JButton("Cadastrar");
         botaoExcluir = new JButton("Excluir");
@@ -173,6 +173,7 @@ public class TelaFuncionario extends JFrame {
             }
             else if(e.getSource() == botaoAlterar){
                 setVisible(true);
+                telaAlteracaoFuncionario.updateData(telaAlteracaoFuncionario.modelo);
                 telaAlteracaoFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoListar){
