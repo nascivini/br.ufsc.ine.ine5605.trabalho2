@@ -35,12 +35,11 @@ import javax.swing.text.MaskFormatter;
 public class TelaCadastroFuncionario extends JFrame {
 
     private final TelaFuncionario telaFuncionario;
-    private JLabel matricula;
     private JTextField nome, salario;
     private JFormattedTextField cpf, nascimento, telefone;
     private JComboBox cargo;
     private JButton cadastrar, limparTela, voltar;
-    private JLabel lMatricula, lCpf, lNome, lNascimento, lTelefone, lSalario, lCargo;
+    private JLabel matricula, lMatricula, lCpf, lNome, lNascimento, lTelefone, lSalario, lCargo;
     private Image imagem;
     private Dimension dBotao = new Dimension(130, 30);
 
