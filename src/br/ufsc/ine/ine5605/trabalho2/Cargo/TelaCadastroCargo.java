@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.awt.image.ImageObserver.ERROR;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +29,8 @@ import javax.swing.JTextField;
 public class TelaCadastroCargo extends JFrame {
 
     private final TelaCargo telaCargo;
+    private TelaCadastroCargo telaCadastroCargo;
+    private JFrame telaContinuarCadastroHorarios;
     private JLabel tipo;
     private JLabel codigo;
     private JLabel nome;
@@ -44,9 +44,7 @@ public class TelaCadastroCargo extends JFrame {
     private JButton cadastrar;
     private JButton limparTela;
     private JButton voltar;
-    private JFrame telaContinuarCadastroHorarios;
     private JOptionPane opcaoContinuar;
-    private TelaCadastroCargo telaCadastroCargo;
     
     public TelaCadastroCargo(TelaCargo telaCargo) {
         super("Tela de Cadastro de Cargos");
@@ -58,8 +56,6 @@ public class TelaCadastroCargo extends JFrame {
         return telaCargo;
     }
     
-    
-
     private void inicializarComponentes() {
         Dimension dimensaoTextos = new Dimension(140, 20);
         Container container = this.getContentPane();
@@ -102,7 +98,7 @@ public class TelaCadastroCargo extends JFrame {
         c.gridy = 1;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
-        nome.setText("Nome:  ");
+        nome.setText("Nome:");
         container.add(nome, c);
 
         c.gridx = 1;
@@ -116,7 +112,7 @@ public class TelaCadastroCargo extends JFrame {
         c.gridy = 2;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
-        tipo.setText("Tipo :");
+        tipo.setText("Tipo:");
         container.add(tipo, c);
 
         c.gridx = 1;
@@ -128,7 +124,7 @@ public class TelaCadastroCargo extends JFrame {
 
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
-        horario1.setText("Primeiro Horário(HH:mm):  ");
+        horario1.setText("Primeiro Horário (HH:mm):");
         c.gridx = 0;
         c.gridy = 3;
         container.add(horario1, c);
@@ -142,7 +138,7 @@ public class TelaCadastroCargo extends JFrame {
 
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
-        horario2.setText("Segundo Horário (HH:mm):  ");
+        horario2.setText("Segundo Horário (HH:mm):");
         c.gridx = 0;
         c.gridy = 4;
         container.add(horario2, c);
@@ -263,7 +259,7 @@ public class TelaCadastroCargo extends JFrame {
                     try {
                         telaCargo.getControladorCargo().findCargoByNome(nomeEditavel.getText());
                         
-                        DadosCargo cargoNovo = new DadosCargo(nomeEditavel.getText(), null, (TipoCargo) tipoEditavel.getSelectedItem());
+                        DadosCargo cargoNovo = new DadosCargo(nomeEditavel.getText(), new ArrayList<Calendar>(), (TipoCargo) tipoEditavel.getSelectedItem());
                         telaCargo.getControladorCargo().incluirCargo(cargoNovo);
                         JOptionPane.showMessageDialog(null, "Cargo cadastrado com sucesso!", "Sucesso!", JOptionPane.DEFAULT_OPTION);
                         

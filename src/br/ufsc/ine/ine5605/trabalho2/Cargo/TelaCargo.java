@@ -127,6 +127,7 @@ public class TelaCargo extends JFrame{
             }
             else if(e.getSource() == botaoVoltar){
                 setVisible(false);
+                getControladorCargo().getControladorPrincipal().getTelaPrincipal().setVisible(true);
             }
         }
         

@@ -56,18 +56,18 @@ public class TelaExclusaoCargo extends JFrame {
         c.gridx = 0;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(50, 0, 0, 20);
-        cargo.setText("Selecione o Cargo:  ");
+        c.insets = new Insets(10, 0, 0, 10);
+        cargo.setText("Selecione o Cargo abaixo:  ");
         container.add(cargo, c);
 
-        c.gridx = 2;
-        c.gridy = 0;
+        c.gridx = 0;
+        c.gridy = 1;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
         container.add(cargoEditavel, c);
 
-        c.gridx = 2;
-        c.gridy = 1;
+        c.gridx = 0;
+        c.gridy = 2;
         c.fill = GridBagConstraints.CENTER;
         c.anchor = GridBagConstraints.CENTER;
         excluir.setPreferredSize(dimensaoTextos);
@@ -80,14 +80,14 @@ public class TelaExclusaoCargo extends JFrame {
         voltar.setPreferredSize(dimensaoTextos);
         container.add(voltar, c);
 
-        c.gridx = 2;
-        c.gridy = 3;
+        c.gridx = 0;
+        c.gridy = 4;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.SOUTH;
         encerrar.setPreferredSize(dimensaoTextos);
         container.add(encerrar, c);
 
-        this.setSize(600, 400);
+        this.setSize(350, 400);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
