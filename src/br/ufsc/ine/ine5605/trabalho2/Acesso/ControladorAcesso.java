@@ -86,24 +86,24 @@ public class ControladorAcesso implements IControladorAcesso {
         Calendar dataAgora = Calendar.getInstance();
 		dataAgora.set(0,0,0,hora,minuto);
         if (this.controladorPrincipal.getControladorFuncionario().validaMatricula(matricula)) { //validou a matricula, logo possui um funcionario com essa matricula
-            if (this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().isEhGerencial()) {
+            if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isEhGerencial()) {
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.OK);
                 this.acessoDAO.put(acesso);
                 return acesso; //cargo gerencial possui acesso em qualquer hora
-            } else if(this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getnAcessosNegados() >= 3) {
-            	int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getnAcessosNegados();
-            	this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
+            } else if(this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados() >= 3) {
+            	int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados();
+            	this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
             	Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.BLOQUEADO);
                 this.acessoDAO.put(acesso);
                 return acesso; //acesso bloqueado, mais de 3 tentativas de acesso invalidas
-            } else if (!this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
-            	int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getnAcessosNegados();
-            	this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
+            } else if (!this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
+            	int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados();
+            	this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.PERMISSAO);
                 this.acessoDAO.put(acesso);
                 return acesso; //nao possui permissao em qualquer horario
-            } else if (this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
-                ArrayList<Calendar> listaHorariosCargo = this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().getHorarios();
+            } else if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
+                ArrayList<Calendar> listaHorariosCargo = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().getHorarios();
                 for (int i = 0; i < listaHorariosCargo.size(); i = i + 2) {
                     Calendar horaEntrada = listaHorariosCargo.get(i);
                     Calendar horaSaida = listaHorariosCargo.get(i + 1);
@@ -128,8 +128,8 @@ public class ControladorAcesso implements IControladorAcesso {
                         }
                     }
                 } //até aqui :3
-                int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getnAcessosNegados();
-            	this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
+                int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados();
+            	this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.ATRASADO);
                 this.acessoDAO.put(acesso);
                 return acesso;
