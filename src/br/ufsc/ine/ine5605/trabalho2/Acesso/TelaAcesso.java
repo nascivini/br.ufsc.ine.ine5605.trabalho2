@@ -24,6 +24,7 @@ public class TelaAcesso extends JFrame {
     private JButton realizarA, listarA, voltar, sair;
     private JLabel descricao;
     private TelaRealizarAcesso telaRealizarAcesso;
+    private TelaListagemAcessosNegados telaListagemAcessosNegados;
 
     /**
      * Recebe o controlador Acesso como parametro para possibilitar a
@@ -34,6 +35,7 @@ public class TelaAcesso extends JFrame {
         super("Tela de Manutenção de Acessos");
         this.controladorAcesso = controladorAcesso;
         this.telaRealizarAcesso = new TelaRealizarAcesso(this);
+        this.telaListagemAcessosNegados = new TelaListagemAcessosNegados(this);
         this.inicializarComponentes();
     }
 
@@ -109,8 +111,8 @@ public class TelaAcesso extends JFrame {
             }
             else if(e.getSource() == listarA){
                 setVisible(false);
-                //telaListagemAcesso.updateData();
-                //telaListagemAcesso.setVisible(true);
+                //telaListagemAcessosNegados.updateData();
+                telaListagemAcessosNegados.setVisible(true);
                 
             }
             else if(e.getSource() == voltar){

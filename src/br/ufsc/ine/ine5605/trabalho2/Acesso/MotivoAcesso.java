@@ -8,11 +8,11 @@ package br.ufsc.ine.ine5605.trabalho2.Acesso;
  */
 public enum MotivoAcesso {
 
-    OK("Acesso permitido"),
-    ATRASADO("Fora do horario do seu cargo"),
-    PERMISSAO("Nao possui permissao"),
-    BLOQUEADO("Mais de tres acessos negados"),
-    OUTRO("NAO ESPECIFICADO");
+    OK("Permitido. Acesso realizado."),
+    ATRASADO("Atrasado! Fora do horário do seu cargo."),
+    PERMISSAO("Nao possui permissão de acesso."),
+    BLOQUEADO("Bloqueado! Mais de três acessos negados."),
+    OUTRO("Não Especificado.");
 
     private String descricao;
 

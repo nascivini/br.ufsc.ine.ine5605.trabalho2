@@ -40,11 +40,11 @@ public class TelaRealizarAcesso extends JFrame {
         super("Tela para Realizar os Acessos");
         this.telaAcesso = telaAcesso;
         this.inicializarComponentes();
-        this.inicializarTelaCRealizarAcesso();
+        this.inicializarTelaRealizarAcesso();
     }
 
     private void inicializarComponentes() {
-        Dimension dimensaoTextos = new Dimension(140, 20);
+        Dimension dimensaoTextos = new Dimension(200, 30);
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -53,19 +53,13 @@ public class TelaRealizarAcesso extends JFrame {
         for(int i = 0; i < this.telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().getFuncionarios().size(); i++) {
             funcionarios[i] = this.telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().getFuncionarios().get(i);
         }
-        GerenciadorJComboBox gerenciadorCaixa = new GerenciadorJComboBox();
+
         this.matricula = new JLabel();
         this.matriculaEditavel = new JComboBox(funcionarios);
-        this.matriculaEditavel.addActionListener(gerenciadorCaixa);
-        
-        Integer[] horas = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
-        Integer[] minutos = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59};
         
         this.horario = new JLabel();
-        this.horaEditavel = new JComboBox(horas);        
-        this.horaEditavel.addActionListener(gerenciadorCaixa);
-        this.minutoEditavel = new JComboBox(minutos);
-        this.minutoEditavel.addActionListener(gerenciadorCaixa);
+        this.horaEditavel = new JComboBox();        
+        this.minutoEditavel = new JComboBox();
         this.realizarAcesso = new JButton("Acessar");
         this.voltar = new JButton("Voltar à tela de Acessos");
         
@@ -74,55 +68,62 @@ public class TelaRealizarAcesso extends JFrame {
         this.voltar.addActionListener(gerenciadorBotoesAcesso);
         
         c.insets = new Insets(20, 0, 0, 0);
-        c.gridx = 0;
-        c.gridy = 1;
+        c.gridx = 1;
+        c.gridy = 0;
         c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.EAST;
-        this.matricula.setText("Matricula:  ");
+        c.anchor = GridBagConstraints.WEST;
+        this.matricula.setText("Selecione o Funcionário Abaixo para Acessar: ");
         container.add(this.matricula, c);
 
         c.gridx = 1;
         c.gridy = 1;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
-        this.matriculaEditavel.setPreferredSize(dimensaoTextos);
+        this.matriculaEditavel.setPreferredSize(new Dimension(300, 20));
         container.add(this.matriculaEditavel, c);
 
         c.gridx = 0;
         c.gridy = 2;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
-        this.horario.setText("Horario Atual :");
+        this.horario.setText("Horario Atual: ");
         container.add(this.horario, c);
 
         c.gridx = 1;
         c.gridy = 2;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
-        this.horaEditavel.setPreferredSize(dimensaoTextos);
+        c.gridwidth = GridBagConstraints.RELATIVE;
+        this.horaEditavel.setPreferredSize(new Dimension(40,20));
         container.add(this.horaEditavel, c);
         
         c.gridx = 2;
         c.gridy = 2;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
-        this.minutoEditavel.setPreferredSize(dimensaoTextos);
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        this.minutoEditavel.setPreferredSize(new Dimension(40,20));
         container.add(this.minutoEditavel, c);
         
-        c.gridy = 3;
-        c.gridx = 0;
-        container.add(this.realizarAcesso, c);
+        GridBagConstraints c1 = new GridBagConstraints();
+        
+        c1.gridx = 1;
+        c1.gridy = 3;
+        c1.insets = new Insets(30,20,0,20);
+        realizarAcesso.setPreferredSize(dimensaoTextos);
+        container.add(this.realizarAcesso, c1);
 
-        c.gridy = 3;
-        c.gridx = 2;
-        container.add(this.voltar, c);
+        c1.gridx = 1;
+        c1.gridy = 4;
+        voltar.setPreferredSize(dimensaoTextos);
+        container.add(this.voltar, c1);
         
         this.setSize(600, 400);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
-    public void inicializarTelaCRealizarAcesso(){
+    public void inicializarTelaRealizarAcesso(){
         this.CRealizarAcesso = new JPanel(new GridBagLayout());
         this.telaCRealizarAcesso = new JFrame();
         
@@ -151,16 +152,20 @@ public class TelaRealizarAcesso extends JFrame {
         public void actionPerformed(ActionEvent event) {
             if (event.getSource() == realizarAcesso) {                
                 try {
-                    int matricula = matriculaEditavel.getSelectedIndex() + 1;
+                    Funcionario funcionarioSelecionado = (Funcionario)matriculaEditavel.getSelectedItem();
+                    
+                    int matricula = funcionarioSelecionado.getMatricula();
                     int hora = (int) horaEditavel.getSelectedItem();
                     int minuto = (int) minutoEditavel.getSelectedItem();
                     
-                    if(telaAcesso.getControladorAcesso().verificaAcesso(matricula, hora, minuto) != null) {
-                        JOptionPane.showConfirmDialog(null, "Acess OK!");
+                    Acesso acessoRealizado = telaAcesso.getControladorAcesso().verificaAcesso(matricula, hora, minuto);
+                    if(acessoRealizado != null) {
+                        JOptionPane.showMessageDialog(null, acessoRealizado.getMotivo().getDescricao(), "Atenção!", JOptionPane.INFORMATION_MESSAGE);
                         updateData();
                         setVisible(true);
-                    } else {
-                        JOptionPane.showConfirmDialog(null, "Problema ao realizar o Acesso!");
+                    } 
+                    else {
+                        JOptionPane.showMessageDialog(null, acessoRealizado.getMotivo().getDescricao(), "Atenção", JOptionPane.ERROR_MESSAGE);
                         updateData();
                         setVisible(true);
                     }        
@@ -178,9 +183,4 @@ public class TelaRealizarAcesso extends JFrame {
         }
     }
     
-    public class GerenciadorJComboBox implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e){}
-    }
 }
