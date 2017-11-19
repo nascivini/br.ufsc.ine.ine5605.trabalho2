@@ -37,8 +37,8 @@ public class ControladorFuncionario implements IControladorFuncionario {
     }
     
 
-    public Collection<Funcionario> getFuncionarios() {
-        return funcionarioDAO.getList();
+    public ArrayList<Funcionario> getFuncionarios() {
+        return new ArrayList<Funcionario>(funcionarioDAO.getList());
     }
     
         public ControladorPrincipal getControladorPrincipal() {
