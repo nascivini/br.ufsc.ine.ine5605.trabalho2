@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -72,6 +73,7 @@ public class TelaRealizarAcesso extends JFrame {
         this.realizarAcesso.addActionListener(gerenciadorBotoesAcesso);
         this.voltar.addActionListener(gerenciadorBotoesAcesso);
         
+        c.insets = new Insets(20, 0, 0, 0);
         c.gridx = 0;
         c.gridy = 1;
         c.fill = GridBagConstraints.NONE;

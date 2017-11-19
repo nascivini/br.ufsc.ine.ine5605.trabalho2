@@ -1,7 +1,6 @@
 package br.ufsc.ine.ine5605.trabalho2.Acesso;
 
 import br.ufsc.ine.ine5605.trabalho2.Principal.ControladorPrincipal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -43,41 +42,42 @@ public class ControladorAcesso implements IControladorAcesso {
     }
 
     @Override
-    public void findAcessosNegadosByMatricula(int matricula) {
-        //ArrayList<Acesso> acessosNegadosMat = new ArrayList<Acesso>();
-        SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
+    public ArrayList<Acesso> findAcessosNegadosByMatricula(int matricula) {
+        ArrayList<Acesso> acessosNegadosMat = new ArrayList<Acesso>();
+        //SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
         for (Acesso acesso : acessoDAO.getList()) {
             if (acesso.getMotivo() != MotivoAcesso.OK && acesso.getMatricula() == matricula) {
-                //acessosNegadosMat.add(acesso);
-                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
+                acessosNegadosMat.add(acesso);
+                //System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
             }
         }
-        //return acessosNegadosMat;
+        return acessosNegadosMat;
     }
 
     @Override
-    public void findAcessosNegadosByMotivo(MotivoAcesso motivo) {
-        //ArrayList<Acesso> acessosNegadosMot = new ArrayList<Acesso>();
-        SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
+    public ArrayList<Acesso> findAcessosNegadosByMotivo(MotivoAcesso motivo) {
+        ArrayList<Acesso> acessosNegadosMot = new ArrayList<Acesso>();
+        //SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
         for (Acesso acesso : acessoDAO.getList()) {
             if (acesso.getMotivo() != MotivoAcesso.OK && acesso.getMotivo() == motivo) {
-                //acessosNegadosMot.add(acesso);
-                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
+                acessosNegadosMot.add(acesso);
+                //System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
             }
         }
-        //return acessosNegadosMot;
+        return acessosNegadosMot;
     }
 
     @Override
-    public void findAcessosNegados() {
-        //ArrayList<Acesso> acessosNegados = new ArrayList<Acesso>();
-        SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
+    public ArrayList<Acesso> findAcessosNegados() {
+        ArrayList<Acesso> acessosNegados = new ArrayList<Acesso>();
+        //SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
         for (Acesso acesso : acessoDAO.getList()) {
             if (acesso.getMotivo() != MotivoAcesso.OK) {
-                //acessosNegados.add(acesso);
-                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
+                acessosNegados.add(acesso);
+                //System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
             }
         }
+        return acessosNegados;
     }
 
     @SuppressWarnings("static-access")
@@ -108,7 +108,7 @@ public class ControladorAcesso implements IControladorAcesso {
                     Calendar horaEntrada = listaHorariosCargo.get(i);
                     Calendar horaSaida = listaHorariosCargo.get(i + 1);
                     //rever a partir daqui ....
-                    if (horaEntrada.getTime().before(horaSaida.getTime()) && horaEntrada.getTime().before(dataAgora.getTime()) && horaSaida.getTime().after(dataAgora.getTime())) {
+                    if (horaEntrada.getTime().compareTo(horaSaida.getTime()) <= 0 && horaEntrada.getTime().compareTo(dataAgora.getTime()) <= 0 && horaSaida.getTime().compareTo(dataAgora.getTime()) >= 0) {
                         Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.OK);
                         this.acessoDAO.put(acesso);
                         return acesso;
