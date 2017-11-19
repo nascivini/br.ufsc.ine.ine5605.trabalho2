@@ -92,15 +92,15 @@ public class ControladorFuncionario implements IControladorFuncionario {
     public void listarFuncionarios() {
         for(Funcionario funcionario: getFuncionarios()){
             System.out.println("Matrícula: " + funcionario.getMatricula() + " | Nome: " + funcionario.getNome());
-            System.out.println("Telefone :" + funcionario.getTelefone() + "|Salário :" + funcionario.getSalario() + " |Cargo :" + funcionario.getCargo().getNome());
+            System.out.println("Telefone :" + funcionario.getTelefone() + "| Salário :" + funcionario.getSalario() + " | Cargo :" + funcionario.getCargo().getNome());
             System.out.println("");
         }
     }
     
     @Override
     public int gerarMatriculaSequencial() {
-        this.matriculaSequencial++;
-        return this.matriculaSequencial;
+        this.matriculaSequencial = this.getFuncionarios().size();
+        return this.matriculaSequencial + 1;
     }
     
     @Override

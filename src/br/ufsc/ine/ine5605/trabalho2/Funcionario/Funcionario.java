@@ -2,7 +2,6 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
 
 import br.ufsc.ine.ine5605.trabalho2.Cargo.Cargo;
 import java.io.Serializable;
-import java.util.Calendar;
 
 /**
  *
@@ -31,6 +30,9 @@ public class Funcionario implements Serializable {
         this.setnAcessosNegados(0);
     }
     
+    public String toString() {
+        return "Matrícula: " +getMatricula()+ " | Nome:" +getNome();
+    }
     /**
      * 
      * @return A matr�cula do funcion�rio.
@@ -71,11 +73,11 @@ public class Funcionario implements Serializable {
      * 
      * @return A data de nascimento do funcion�rio.
      */
-    public Calendar getNascimento() {
+    public String getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(Calendar nascimento) {
+    public void setNascimento(String nascimento) {
         this.nascimento = nascimento;
     }
 

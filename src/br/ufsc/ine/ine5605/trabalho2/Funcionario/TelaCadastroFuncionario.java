@@ -193,7 +193,9 @@ public class TelaCadastroFuncionario extends JFrame {
 
     public void updateData() {
         this.matricula.setText(telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial() + " (gerado automaticamente)");
+        this.cpf.setText("");
         this.nome.setText("");
+        this.cargo.removeAllItems();
         this.nascimento.setText("");
         this.telefone.setText("");
         this.salario.setText("");
@@ -208,7 +210,6 @@ public class TelaCadastroFuncionario extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == cadastrar) {
-                setVisible(false);
 
                 try {
 
@@ -220,6 +221,7 @@ public class TelaCadastroFuncionario extends JFrame {
                     telaFuncionario.getControladorFuncionario().incluirFuncionario(novoFuncionario);
                     JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Cadastrado!", JOptionPane.DEFAULT_OPTION);
                     updateData();
+                    setVisible(true);
                   
                 }
                 
