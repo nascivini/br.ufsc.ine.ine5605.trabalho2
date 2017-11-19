@@ -16,8 +16,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -79,7 +79,7 @@ public class TelaCadastroFuncionario extends JFrame {
         try {
             mascaraCpf = new MaskFormatter("###.###.###-##");
             mascaraNascimento = new MaskFormatter("##/##/####");
-            mascaraTelefone = new MaskFormatter("(##) #####-####");
+            mascaraTelefone = new MaskFormatter("(##)#####-####");
         }
         catch (ParseException erro) {
             
@@ -211,17 +211,26 @@ public class TelaCadastroFuncionario extends JFrame {
                 setVisible(false);
 
                 try {
-                    telaFuncionario.getControladorFuncionario().findFuncionarioByCpf(Long.parseLong(cpf.getText()));
-                    DadosFuncionario dadosFuncionario = new DadosFuncionario(Long.parseLong(cpf.getText()), 
-                            nome.getText(), (Cargo)cargo.getSelectedItem(), Calendar(nascimento.getText()), Long.parseLong(telefone.getText()), salario.getText());
-                    
-                    
-                    telaFuncionario
-                }
 
-                JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Cadastrado!", JOptionPane.CLOSED_OPTION);
+                    telaFuncionario.getControladorFuncionario().findFuncionarioByCpf(Long.parseLong(cpf.getText().replaceAll("[.-]", "")));
+                    DadosFuncionario novoFuncionario = new DadosFuncionario(Long.parseLong(cpf.getText().replaceAll("[.-]", "")), 
+                            nome.getText(), (Cargo)cargo.getSelectedItem(), nascimento.getText(), Long.parseLong(telefone.getText().replaceAll("[()-]","")), 
+                            Float.parseFloat(salario.getText()));
+                    
+                    telaFuncionario.getControladorFuncionario().incluirFuncionario(novoFuncionario);
+                    JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Cadastrado!", JOptionPane.DEFAULT_OPTION);
+                    updateData();
+                  
+                }
+                
+                catch (IllegalArgumentException erro) {
+                        Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, erro);
+                        JOptionPane.showConfirmDialog(null, erro.getMessage(), "Funcionário não cadastrado", JOptionPane.OK_CANCEL_OPTION);
+                        
+                    }
+
             } else {
-                setVisible(false);
+                updateData();
 
             }
         }

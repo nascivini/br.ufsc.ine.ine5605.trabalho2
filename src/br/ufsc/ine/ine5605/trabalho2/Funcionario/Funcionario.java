@@ -15,7 +15,7 @@ public class Funcionario implements Serializable {
     private long cpf;
     private String nome;
     private Cargo cargo;
-    private Calendar nascimento;
+    private String nascimento;
     private long telefone;
     private float salario;
     private int nAcessosNegados;
