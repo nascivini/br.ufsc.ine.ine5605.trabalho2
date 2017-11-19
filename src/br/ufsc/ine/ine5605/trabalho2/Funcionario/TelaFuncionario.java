@@ -176,6 +176,7 @@ public class TelaFuncionario extends JFrame {
             }
             else if(e.getSource() == botaoListar){
                 setVisible(false);
+                telaListagemFuncionario.pesquisar(telaListagemFuncionario.modelo);
                 telaListagemFuncionario.setVisible(true);
             }
             else if(e.getSource() == botaoVoltar){
