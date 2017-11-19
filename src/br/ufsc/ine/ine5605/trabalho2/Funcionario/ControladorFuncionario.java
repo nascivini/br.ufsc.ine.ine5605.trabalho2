@@ -104,9 +104,18 @@ public class ControladorFuncionario implements IControladorFuncionario {
     }
     
     @Override
-    public Funcionario findFuncionarioByMatricula(int matricula) {
+    public void findFuncionarioByMatricula(int matricula) {
+        for(Funcionario funcionario : getFuncionarios()){
+            if (funcionario.getMatricula() == matricula) {
+            }
+        }
+        throw new IllegalArgumentException("Matrícula não encontrada.");
+    }
+    
+    public Funcionario retornaFuncionarioByMatricula(int matricula) {
             return funcionarioDAO.get(matricula);
     }
+           
     
     @Override
     public void findFuncionarioByCpf(long cpf) {
@@ -135,9 +144,8 @@ public class ControladorFuncionario implements IControladorFuncionario {
         return false;
     }
 
-    @Override
-    public boolean excluirFuncionario(int matricula) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
+
+
 
 }

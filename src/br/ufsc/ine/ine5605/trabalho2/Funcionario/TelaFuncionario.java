@@ -7,8 +7,6 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
  * @author Marco Aurelio Geremias
  */
 import java.awt.Color;
-import static java.awt.Color.BLUE;
-import static java.awt.Color.WHITE;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -49,6 +47,7 @@ public class TelaFuncionario extends JFrame {
         getContentPane().setBackground(Color.PINK); 
         this.telaCadastroFuncionario = new TelaCadastroFuncionario(this);
         this.telaListagemFuncionario = new TelaListagemFuncionario(this);
+        this.telaExclusaoFuncionario = new TelaExclusaoFuncionario(this);
         //this.teclado = new Scanner(System.in);
 
     }

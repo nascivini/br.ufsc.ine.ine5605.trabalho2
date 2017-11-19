@@ -36,7 +36,7 @@ public class FuncionarioDAO {
         persist();
     }
     
-    public Funcionario get(Integer matricula) {
+    public Funcionario get(int matricula) {
         return cacheFuncionarios.get(matricula);
     }
     

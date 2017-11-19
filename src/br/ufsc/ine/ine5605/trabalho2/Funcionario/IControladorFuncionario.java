@@ -20,9 +20,9 @@ public interface IControladorFuncionario {
      * É utilizado pela classe TelaFuncionario, no método exclusaoFuncionario().
      * Se a matricula informada no parâmetro for existente, exclui o funcionário correspondente a mesma.
      * @param matricula Matrícula do cargo a ser excluído
-     * @return Verdadeiro se encontrar a matrícula e remover o funcionário. Falso se a matrícula não estiver cadastrada.
+     * 
      */    
-    public boolean excluirFuncionario(int matricula);
+    public void excluirFuncionario(Funcionario funcionario);
     
     /**
      * Altera dados cadastrais dos funcionários de acordo com o solicitado. Se a entrada do campo for 0 (ou 00/00/00 para nascimento)
@@ -46,9 +46,8 @@ public interface IControladorFuncionario {
     
     /**
      * @param matricula Matrícula a ser buscada
-     * @return O funcionário correspondente ao número de matrícula informado, caso exista.
      */    
-    public Funcionario findFuncionarioByMatricula(int matricula);
+    public void findFuncionarioByMatricula(int matricula);
     
     /**
      * É utilizado na TelaFuncionario e garante que nenhum funcionário tenha CPF igual a outro
