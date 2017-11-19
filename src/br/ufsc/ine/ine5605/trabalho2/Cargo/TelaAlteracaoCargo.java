@@ -2,6 +2,7 @@ package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,10 +14,12 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -29,7 +32,8 @@ import javax.swing.table.TableColumn;
  */
 public class TelaAlteracaoCargo extends JFrame {
 
-    private TelaCargo telaCargo;
+    private final TelaCargo telaCargo;
+    private final TelaAlteracaoCargo telaAlteracaoCargo;
     private JButton alterar;
     private JButton voltar;
     private JButton sair;
@@ -38,7 +42,6 @@ public class TelaAlteracaoCargo extends JFrame {
     private JTable tabelaCargos;
     private JPanel painelTabela;
     private JPanel painelBotoes;
-    private TelaAlteracaoCargo telaAlteracaoCargo;
 
     public TelaAlteracaoCargo(TelaCargo telaCargo) {
         super("Tela de Alteração de Cargos");
@@ -102,7 +105,7 @@ public class TelaAlteracaoCargo extends JFrame {
     }
 
     private void criaTabela() {
-        tabelaCargos = new JTableEditavel(modelo);
+        tabelaCargos = new JTable(modelo);
         modelo.addColumn("Código");
         modelo.addColumn("Nome");
         modelo.addColumn("Tipo");
@@ -113,19 +116,13 @@ public class TelaAlteracaoCargo extends JFrame {
         tabelaCargos.getColumnModel().getColumn(3).setPreferredWidth(150);
         tabelaCargos.setPreferredScrollableViewportSize(new Dimension(650, 200));
         tabelaCargos.setRowHeight(20);
-
-        this.updateData(modelo);
     }
 
     public void updateData(DefaultTableModel modelo) {
         modelo.setNumRows(0);
 
         TipoCargo[] tiposCargo = {TipoCargo.COMUM, TipoCargo.CONVIDADO, TipoCargo.GERENCIAL};
-        CargoComboBoxEditor tiposCargoEditavel = new CargoComboBoxEditor(tiposCargo);
-
         TableColumn tabelaTipos = tabelaCargos.getColumnModel().getColumn(2);
-        tabelaTipos.setCellEditor(tiposCargoEditavel);
-        tabelaTipos.setCellRenderer(new CargoComboBoxRenderer(tiposCargo));
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
         for (Cargo c : telaCargo.getControladorCargo().getCargos()) {
@@ -138,35 +135,7 @@ public class TelaAlteracaoCargo extends JFrame {
             } else {
                 horarios = "Cargo Gerencial, não possui horários.";
             }
-
-            modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), tabelaTipos.getCellRenderer().getTableCellRendererComponent(tabelaCargos, c.getTipoCargo(), true, rootPaneCheckingEnabled, 0, 0), horarios});
-        }
-    }
-
-    public class CargoComboBoxRenderer extends JComboBox implements TableCellRenderer {
-
-        public CargoComboBoxRenderer(TipoCargo[] values) {
-            super(values);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            if (isSelected) {
-                setForeground(table.getSelectionForeground());
-                super.setBackground(table.getSelectionBackground());
-            } else {
-                setForeground(table.getForeground());
-                setBackground(table.getBackground());
-            }
-            setSelectedItem(value);
-            return this;
-        }
-    }
-
-    public class CargoComboBoxEditor extends DefaultCellEditor {
-
-        public CargoComboBoxEditor(TipoCargo[] items) {
-            super(new JComboBox(items));
+            modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), c.getTipoCargo().getDescricao(), horarios});
         }
     }
 
@@ -175,45 +144,12 @@ public class TelaAlteracaoCargo extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == alterar) {
+                int objAtual = tabelaCargos.getSelectedRow();
+                int codigo = (int) tabelaCargos.getModel().getValueAt(objAtual, 0);
+                Cargo alterado = telaCargo.getControladorCargo().findCargoByCodigo(codigo);
+                TelaAlteracaoDados telaAlteracaoDados = new TelaAlteracaoDados(alterado, telaAlteracaoCargo);
+                telaAlteracaoDados.setVisible(true);
 
-                try {
-                    int objAtual = tabelaCargos.getSelectedRow();
-                    int codigo = (int) tabelaCargos.getModel().getValueAt(objAtual, 0);
-                    String nome = (String) tabelaCargos.getModel().getValueAt(objAtual, 1);
-                    CargoComboBoxRenderer tipoRenderer = (CargoComboBoxRenderer) tabelaCargos.getCellRenderer(objAtual, 2)
-                    ;
-                    TipoCargo tipo = (TipoCargo)tipoRenderer.getSelectedItem();
-                    Cargo alterado = telaCargo.getControladorCargo().findCargoByCodigo(codigo);
-                    
-                    if (!(tipo.equals(alterado.getTipoCargo()))) {
-                        if ((tipo.equals(TipoCargo.GERENCIAL)) && (!(alterado.getTipoCargo().equals(TipoCargo.GERENCIAL)))) {
-                            alterado.setTipoCargo(tipo);
-                            alterado.getHorarios().clear();
-                            JOptionPane.showMessageDialog(null, "Cargo Alterado com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-                        } else if (tipo.equals(TipoCargo.COMUM) && (!alterado.equals(TipoCargo.COMUM))) {
-                            alterado.setTipoCargo(tipo);
-                            JOptionPane.showMessageDialog(null, "Você alterou o tipo de Cargo do cargo selecionado para Comum. Será necessário cadastrar horários para este Cargo.", "Aviso!", JOptionPane.WARNING_MESSAGE);
-                            TelaContinuarCadastroHorarios tela = new TelaContinuarCadastroHorarios(alterado, telaAlteracaoCargo);
-                            tela.adicionarHorarios.setVisible(false);
-                            tela.adicionarHorarios1.setVisible(true);
-                            tela.setLocationRelativeTo(null);
-                            tela.updateData();
-                            tela.setVisible(true);
-                        } else if (tipo.equals(TipoCargo.CONVIDADO) && (!alterado.equals(TipoCargo.CONVIDADO))) {
-                            alterado.setTipoCargo(tipo);
-                            alterado.getHorarios().clear();
-                            JOptionPane.showMessageDialog(null, "Cargo Alterado com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        }
-
-                    }
-                    telaCargo.getControladorCargo().findCargoByNome(nome);
-                    alterado.setNome(nome);
-                    updateData(modelo);
-                } catch (IllegalArgumentException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-                    updateData(modelo);
-                }
             } else if (e.getSource() == voltar) {
                 setVisible(false);
                 telaCargo.setVisible(true);
@@ -222,6 +158,92 @@ public class TelaAlteracaoCargo extends JFrame {
             }
         }
 
+    }
+
+    public class TelaAlteracaoDados extends JFrame {
+
+        private TelaAlteracaoCargo telaAlteracaoCargo;
+        private Cargo cargoAlterado;
+        private JLabel descricao;
+        private JLabel codigo;
+        private JLabel nome;
+        private JTextField nomeEditavel;
+        private JLabel tipo;
+        private JComboBox tipoEditavel;
+        private JButton salvarAlteracoes;
+
+        public TelaAlteracaoDados(Cargo cargoAlterado, TelaAlteracaoCargo telaAlteracaoCargo) {
+            super("Tela de Alteração de Dados");
+            this.telaAlteracaoCargo = telaAlteracaoCargo;
+            this.cargoAlterado = cargoAlterado;
+            this.inicializarComponentes();
+        }
+
+        private void inicializarComponentes() {
+            Container container = this.getContentPane();
+            container.setLayout(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
+
+            GerenciadorDadosAlteracao gerenciador = new GerenciadorDadosAlteracao();
+            Dimension dimensaoBotoes = new Dimension(100, 20);
+            Dimension dimensaoTextos = new Dimension(140, 20);
+
+            this.descricao = new JLabel("Edite apenas os dados que deseja alterar.");
+            c.gridx = 0;
+            c.gridy = 0;
+            c.anchor = GridBagConstraints.CENTER;
+            container.add(descricao, c);
+
+            this.codigo = new JLabel("Código: " + Integer.toString(cargoAlterado.getCodigo()));
+            c.gridx = 0;
+            c.gridy = 1;
+            container.add(codigo, c);
+
+            this.nome = new JLabel("Nome: ");
+            c.gridx = 0;
+            c.gridy = 2;
+            container.add(nome, c);
+
+            this.nomeEditavel = new JTextField(cargoAlterado.getNome());
+            c.gridx = 1;
+            c.gridy = 2;
+            nomeEditavel.setPreferredSize(dimensaoTextos);
+            container.add(nomeEditavel, c);
+
+            this.tipo = new JLabel("Tipo: ");
+            c.gridx = 0;
+            c.gridy = 3;
+            container.add(tipo, c);
+
+            this.tipoEditavel = new JComboBox(new TipoCargo[]{TipoCargo.COMUM, TipoCargo.CONVIDADO, TipoCargo.GERENCIAL});
+            c.gridx = 1;
+            c.gridy = 3;
+            tipoEditavel.setPreferredSize(dimensaoTextos);
+            tipoEditavel.setSelectedItem(cargoAlterado.getTipoCargo());
+            container.add(tipoEditavel, c);
+
+            this.salvarAlteracoes = new JButton("Salvar Alterações");
+            c.gridx = 1;
+            c.gridy = 4;
+            salvarAlteracoes.setPreferredSize(dimensaoTextos);
+            salvarAlteracoes.addActionListener(gerenciador);
+            container.add(salvarAlteracoes, c);
+            
+            this.setSize(700, 400);
+            this.setLocationRelativeTo(null);
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        }
+
+        public class GerenciadorDadosAlteracao implements ActionListener {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == salvarAlteracoes) {
+
+                }
+            }
+
+        }
     }
 
 }
