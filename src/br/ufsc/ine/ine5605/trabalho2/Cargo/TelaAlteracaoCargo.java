@@ -252,14 +252,23 @@ public class TelaAlteracaoCargo extends JFrame {
                             cargoAlterado.setPermiteAcesso(true);
                             cargoAlterado.setTipoCargo(tipoSelecionado);
                         } 
-                        else if (tipoRegistrado.equals(TipoCargo.COMUM) && (tipoSelecionado.equals(TipoCargo.CONVIDADO) || tipoSelecionado.equals(TipoCargo.CONVIDADO))) {
+                        else if (tipoRegistrado.equals(TipoCargo.GERENCIAL) && (tipoSelecionado.equals(TipoCargo.COMUM) || tipoSelecionado.equals(TipoCargo.CONVIDADO))) {
+                            cargoAlterado.getHorarios().clear();
+                            cargoAlterado.setEhGerencial(false);
+                            cargoAlterado.setPermiteAcesso(true);
+                            cargoAlterado.setTipoCargo(tipoSelecionado);
+                            TelaContinuarCadastroHorarios telaContinuar = new TelaContinuarCadastroHorarios(cargoAlterado, telaAlteracaoCargo);
+                            telaContinuar.updateData();
+                            telaContinuar.setVisible(true);
+                        }
+                        else if(tipoRegistrado.equals(TipoCargo.CONVIDADO) && tipoSelecionado.equals(TipoCargo.COMUM)){
                             cargoAlterado.getHorarios().clear();
                             cargoAlterado.setEhGerencial(false);
                             cargoAlterado.setPermiteAcesso(false);
                             cargoAlterado.setTipoCargo(tipoSelecionado);
-                        }
-                        else if(tipoRegistrado.equals(TipoCargo.COMUM) && (tipoSelecionado.equals(TipoCargo.CONVIDADO) || tipoSelecionado.equals(TipoCargo.CONVIDADO))){
-                            
+                            TelaContinuarCadastroHorarios telaContinuar = new TelaContinuarCadastroHorarios(cargoAlterado, telaAlteracaoCargo);
+                            telaContinuar.updateData();
+                            telaContinuar.setVisible(true);                            
                         }
                     } 
                     else {
