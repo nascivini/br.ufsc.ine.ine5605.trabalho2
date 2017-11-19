@@ -15,15 +15,18 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -33,7 +36,8 @@ public class TelaCadastroFuncionario extends JFrame {
 
     private final TelaFuncionario telaFuncionario;
     private JLabel matricula;
-    private JTextField cpf, nome, nascimento, telefone, salario;
+    private JTextField nome, salario;
+    private JFormattedTextField cpf, nascimento, telefone;
     private JComboBox cargo;
     private JButton cadastrar, limparTela;
     private JLabel lMatricula, lCpf, lNome, lNascimento, lTelefone, lSalario, lCargo;
@@ -54,11 +58,11 @@ public class TelaCadastroFuncionario extends JFrame {
         Dimension dimensaoTextos = new Dimension(200, 30);
 
         this.matricula = new JLabel();
-        this.cpf = new JTextField();
+        MaskFormatter mascaraCpf = null;
         this.nome = new JTextField();
         this.cargo = new JComboBox();
-        this.nascimento = new JTextField();
-        this.telefone = new JTextField();
+        MaskFormatter mascaraNascimento = null;
+        MaskFormatter mascaraTelefone = null;
         this.salario = new JTextField();
         this.lMatricula = new JLabel();
         this.lCpf = new JLabel();
@@ -69,6 +73,21 @@ public class TelaCadastroFuncionario extends JFrame {
         this.lSalario = new JLabel();
         cadastrar = new JButton("Cadastrar");
         limparTela = new JButton("Limpar Tela");
+        
+        
+        
+        try {
+            mascaraCpf = new MaskFormatter("###.###.###-##");
+            mascaraNascimento = new MaskFormatter("##/##/####");
+            mascaraTelefone = new MaskFormatter("(##) #####-####");
+        }
+        catch (ParseException erro) {
+            
+        }
+        
+        this.cpf = new JFormattedTextField(mascaraCpf);
+        this.nascimento = new JFormattedTextField(mascaraNascimento);
+        this.telefone = new JFormattedTextField(mascaraTelefone);
 
         GerenciadorBotoesCadastroFuncionario gerenciador = new GerenciadorBotoesCadastroFuncionario();
         cadastrar.addActionListener(gerenciador);
