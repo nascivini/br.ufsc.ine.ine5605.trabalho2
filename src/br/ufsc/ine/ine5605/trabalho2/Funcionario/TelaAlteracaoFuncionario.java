@@ -349,7 +349,7 @@ public class TelaAlteracaoFuncionario extends JFrame {
             if (e.getSource() == salvar) {
 
                 try {
-                    telaFuncionario.getControladorFuncionario().excluirFuncionario(funcAlterado);
+                    //telaFuncionario.getControladorFuncionario().excluirFuncionario(funcAlterado);
                
                     funcAlterado.setCpf(Long.parseLong(cpf.getText()));
                     funcAlterado.setNome(nome.getText());
@@ -358,15 +358,18 @@ public class TelaAlteracaoFuncionario extends JFrame {
                     funcAlterado.setTelefone(Long.parseLong(telefone.getText()));
                     funcAlterado.setSalario(Float.parseFloat(salario.getText()));
                    
+                    telaFuncionario.getControladorFuncionario().getFuncionarioDAO().persist();
+                    /*
                     DadosFuncionario funcionarioAlt = new DadosFuncionario(Long.parseLong(cpf.getText().replaceAll("[.-]", "")), 
                             nome.getText(), (Cargo)cargo.getSelectedItem(), nascimento.getText(), Long.parseLong(telefone.getText().replaceAll("[()-]","")), 
                             Float.parseFloat(salario.getText()));
                     
                     telaFuncionario.getControladorFuncionario().incluirFuncionario(funcionarioAlt);
+                    */
                     JOptionPane.showMessageDialog(null, "Funcionário alterado com sucesso!", "Alterado!", JOptionPane.DEFAULT_OPTION);
                     telaAlteracaoFuncionario.updateData(modelo);
                     setVisible(false);
-                  
+                   
                 }
                 
                 catch (IllegalArgumentException erro) {
