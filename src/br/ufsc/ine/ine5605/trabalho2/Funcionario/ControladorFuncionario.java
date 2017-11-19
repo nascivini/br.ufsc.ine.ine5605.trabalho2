@@ -145,6 +145,10 @@ public class ControladorFuncionario implements IControladorFuncionario {
         return false;
     }
 
+    public FuncionarioDAO getFuncionarioDAO() {
+        return funcionarioDAO;
+    }
+
 
 
 

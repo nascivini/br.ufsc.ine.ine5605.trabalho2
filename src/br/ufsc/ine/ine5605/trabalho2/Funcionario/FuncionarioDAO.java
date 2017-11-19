@@ -49,7 +49,7 @@ public class FuncionarioDAO {
         persist();
     }
     
-    private void persist() {
+    public void persist() {
         try {
             FileOutputStream fOS = new FileOutputStream(fileName);
             ObjectOutputStream oOS = new ObjectOutputStream(fOS);
