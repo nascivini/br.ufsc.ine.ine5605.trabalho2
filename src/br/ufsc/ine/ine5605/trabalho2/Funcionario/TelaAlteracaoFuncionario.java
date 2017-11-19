@@ -148,6 +148,7 @@ public class TelaAlteracaoFuncionario extends JFrame {
                         if (funcAtual >= 0) {
                             Funcionario selecionado = telaFuncionario.getControladorFuncionario().retornaFuncionarioByMatricula(matricula);
                             TelaAlteracaoDadosFunc telaAlteracaoDadosFunc = new TelaAlteracaoDadosFunc(selecionado, telaAlteracaoFuncionario);
+                            telaAlteracaoDadosFunc.updateData();
                             telaAlteracaoDadosFunc.setVisible(true);
                         }
                         else {
@@ -332,16 +333,15 @@ public class TelaAlteracaoFuncionario extends JFrame {
 
     public void updateData() {
         this.matricula.setText(telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial() + " (gerado automaticamente)");
-        this.cpf.setText("");
-        this.nome.setText("");
-        this.cargo.removeAllItems();
-        this.nascimento.setText("");
-        this.telefone.setText("");
-        this.salario.setText("");
-
+        this.cpf.setText(Long.toString(funcAlterado.getCpf()));
+        this.nome.setText(funcAlterado.getNome());
         for (Cargo cargoAtual : telaFuncionario.getControladorFuncionario().getControladorPrincipal().getControladorCargo().getCargos()) {
             cargo.addItem(cargoAtual);
         }
+        this.cargo.setSelectedItem(funcAlterado.getCargo());
+        this.nascimento.setText(funcAlterado.getNascimento());
+        this.telefone.setText(Long.toString(funcAlterado.getTelefone()));
+        this.salario.setText(Float.toString(funcAlterado.getSalario()));
     }
     
     private class GerenciadorBotoesAlteracaoDadosFunc implements ActionListener {
@@ -349,6 +349,8 @@ public class TelaAlteracaoFuncionario extends JFrame {
             if (e.getSource() == salvar) {
 
                 try {
+                    telaFuncionario.getControladorFuncionario().excluirFuncionario(funcAlterado);
+               
                     funcAlterado.setCpf(Long.parseLong(cpf.getText()));
                     funcAlterado.setNome(nome.getText());
                     funcAlterado.setCargo((Cargo)cargo.getSelectedItem());
@@ -356,7 +358,13 @@ public class TelaAlteracaoFuncionario extends JFrame {
                     funcAlterado.setTelefone(Long.parseLong(telefone.getText()));
                     funcAlterado.setSalario(Float.parseFloat(salario.getText()));
                    
+                    DadosFuncionario funcionarioAlt = new DadosFuncionario(Long.parseLong(cpf.getText().replaceAll("[.-]", "")), 
+                            nome.getText(), (Cargo)cargo.getSelectedItem(), nascimento.getText(), Long.parseLong(telefone.getText().replaceAll("[()-]","")), 
+                            Float.parseFloat(salario.getText()));
+                    
+                    telaFuncionario.getControladorFuncionario().incluirFuncionario(funcionarioAlt);
                     JOptionPane.showMessageDialog(null, "Funcionário alterado com sucesso!", "Alterado!", JOptionPane.DEFAULT_OPTION);
+                    telaAlteracaoFuncionario.updateData(modelo);
                     setVisible(false);
                   
                 }
