@@ -141,12 +141,15 @@ public class TelaAlteracaoCargo extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == alterar) {
-                if (tabelaCargos.getRowCount() > 0) {
+                if (tabelaCargos.getRowCount() > 0 && tabelaCargos.getSelectedRow() >=0) {
                     int objAtual = tabelaCargos.getSelectedRow();
                     int codigo = (int) tabelaCargos.getModel().getValueAt(objAtual, 0);
                     Cargo alterado = telaCargo.getControladorCargo().findCargoByCodigo(codigo);
                     TelaAlteracaoDados telaAlteracaoDados = new TelaAlteracaoDados(alterado, telaAlteracaoCargo);
                     telaAlteracaoDados.setVisible(true);
+                } else if (!(tabelaCargos.getSelectedRow() >=0)) {
+                    JOptionPane.showMessageDialog(null, "Selecione um cargo para poder alterá-lo.", "Alerta", JOptionPane.WARNING_MESSAGE);
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Ainda não há cargos cadastrados!", "Alerta", JOptionPane.WARNING_MESSAGE);
                 }
