@@ -89,10 +89,10 @@ public final class TelaListagemCargo extends JFrame {
         tabela.getColumnModel().getColumn(3).setPreferredWidth(150);
         tabela.setPreferredScrollableViewportSize(new Dimension(650, 200));
         tabela.setRowHeight(20);
-        this.pesquisar(modelo);
+        this.updateData();
     }
 
-    public void pesquisar(DefaultTableModel modelo) {
+    public void updateData() {
         modelo.setNumRows(0);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         for (Cargo c : telaCargo.getControladorCargo().getCargos()) {

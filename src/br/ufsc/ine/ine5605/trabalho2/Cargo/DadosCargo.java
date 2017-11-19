@@ -25,7 +25,12 @@ public class DadosCargo {
      */
     public DadosCargo(String nome, ArrayList<Calendar> horarios, TipoCargo tipo) {
         this.nome = nome;
-        this.ehGerencial = tipoCargo == TipoCargo.GERENCIAL;
+        if(tipo.equals(TipoCargo.GERENCIAL)){
+            ehGerencial = true;
+        }
+        else{
+            ehGerencial = false;
+        }
         this.horarios = horarios;
         this.tipoCargo = tipo;
         this.permiteAcesso = tipoCargo != TipoCargo.CONVIDADO;

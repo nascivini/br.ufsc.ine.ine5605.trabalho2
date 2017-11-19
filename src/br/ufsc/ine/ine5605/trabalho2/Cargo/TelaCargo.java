@@ -122,7 +122,7 @@ public class TelaCargo extends JFrame{
             }
             else if(e.getSource() == botaoListagem){
                 setVisible(false);
-                telaListagemCargo.pesquisar(telaListagemCargo.modelo);
+                telaListagemCargo.updateData();
                 telaListagemCargo.setVisible(true);
             }
             else if(e.getSource() == botaoVoltar){
