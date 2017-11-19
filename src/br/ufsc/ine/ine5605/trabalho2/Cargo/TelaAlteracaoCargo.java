@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -181,19 +182,20 @@ public class TelaAlteracaoCargo extends JFrame {
             GridBagConstraints c = new GridBagConstraints();
 
             GerenciadorDadosAlteracao gerenciador = new GerenciadorDadosAlteracao();
-            Dimension dimensaoBotoes = new Dimension(100, 20);
+            Dimension dimensaoBotoes = new Dimension(200, 40);
             Dimension dimensaoTextos = new Dimension(140, 20);
 
             this.descricao = new JLabel("Edite apenas os dados que deseja alterar.");
-            c.gridx = 0;
+            c.gridx = 1;
             c.gridy = 0;
+            c.insets = new Insets(20, 0, 20, 0);
             c.anchor = GridBagConstraints.CENTER;
             container.add(descricao, c);
 
-            this.codigo = new JLabel("Código: " + Integer.toString(cargoAlterado.getCodigo()));
-            c.gridx = 0;
+            this.codigo = new JLabel("Código (inálterável): " + Integer.toString(cargoAlterado.getCodigo()));
+            c.gridx = 1;
             c.gridy = 1;
-            c.gridwidth = 2;
+
             container.add(codigo, c);
 
             this.nome = new JLabel("Nome: ");
@@ -222,11 +224,11 @@ public class TelaAlteracaoCargo extends JFrame {
             this.salvarAlteracoes = new JButton("Salvar Alterações");
             c.gridx = 1;
             c.gridy = 4;
-            salvarAlteracoes.setPreferredSize(dimensaoTextos);
+            salvarAlteracoes.setPreferredSize(dimensaoBotoes);
             salvarAlteracoes.addActionListener(gerenciador);
             container.add(salvarAlteracoes, c);
-            
-            this.setSize(700, 400);
+
+            this.setSize(500, 400);
             this.setLocationRelativeTo(null);
             this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
@@ -236,7 +238,34 @@ public class TelaAlteracaoCargo extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == salvarAlteracoes) {
-
+                    TipoCargo tipoRegistrado = cargoAlterado.getTipoCargo();
+                    TipoCargo tipoSelecionado = (TipoCargo) tipoEditavel.getSelectedItem();
+                    if (tipoRegistrado != tipoSelecionado) {
+                        if (tipoRegistrado.equals(TipoCargo.COMUM) && tipoSelecionado.equals(TipoCargo.GERENCIAL)) {
+                            cargoAlterado.getHorarios().clear();
+                            cargoAlterado.setEhGerencial(true);
+                            cargoAlterado.setTipoCargo(tipoSelecionado);
+                        } 
+                        else if (tipoRegistrado.equals(TipoCargo.CONVIDADO) && tipoSelecionado.equals(TipoCargo.GERENCIAL)) {
+                            cargoAlterado.getHorarios().clear();
+                            cargoAlterado.setEhGerencial(true);
+                            cargoAlterado.setPermiteAcesso(true);
+                            cargoAlterado.setTipoCargo(tipoSelecionado);
+                        } 
+                        else if (tipoRegistrado.equals(TipoCargo.COMUM) && (tipoSelecionado.equals(TipoCargo.CONVIDADO) || tipoSelecionado.equals(TipoCargo.CONVIDADO))) {
+                            cargoAlterado.getHorarios().clear();
+                            cargoAlterado.setEhGerencial(false);
+                            cargoAlterado.setPermiteAcesso(false);
+                            cargoAlterado.setTipoCargo(tipoSelecionado);
+                        }
+                        else if(tipoRegistrado.equals(TipoCargo.COMUM) && (tipoSelecionado.equals(TipoCargo.CONVIDADO) || tipoSelecionado.equals(TipoCargo.CONVIDADO))){
+                            
+                        }
+                    } 
+                    else {
+                        cargoAlterado.setNome(nomeEditavel.getText());
+                    }
+                    JOptionPane.showMessageDialog(null, "Alterações Salvas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
 
