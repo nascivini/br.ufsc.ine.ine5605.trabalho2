@@ -56,7 +56,7 @@ public class TelaExclusaoCargo extends JFrame {
         c.gridx = 0;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(10, 0, 0, 10);
+        c.insets = new Insets(30, 30, 0, 30);
         cargo.setText("Selecione o Cargo abaixo:  ");
         container.add(cargo, c);
 
@@ -64,6 +64,8 @@ public class TelaExclusaoCargo extends JFrame {
         c.gridy = 1;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.EAST;
+        cargoEditavel.setMaximumSize(dimensaoTextos);
+        cargoEditavel.setMinimumSize(dimensaoTextos);
         container.add(cargoEditavel, c);
 
         c.gridx = 0;

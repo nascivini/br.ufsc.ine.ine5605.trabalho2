@@ -191,6 +191,8 @@ public class TelaCadastroCargo extends JFrame {
             if (event.getSource() == validarHorarios) {
                 Calendar h1 = Calendar.getInstance();
                 Calendar h2 = Calendar.getInstance();
+                h1.set(0,0,0,0,0);
+                h2.set(0,0,0,0,0);
 
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");

@@ -46,6 +46,7 @@ public class TelaContinuarCadastroHorarios extends JFrame {
         this.telaCadastroCargo = telaCadastroCargo;
         this.telaAlteracaoCargo = null;
         this.inicializarComponentes();
+        this.adicionarHorarios1.setVisible(false);
     }
 
     public TelaContinuarCadastroHorarios(Cargo cargo, TelaAlteracaoCargo telaAlteracaoCargo) {
@@ -54,6 +55,8 @@ public class TelaContinuarCadastroHorarios extends JFrame {
         this.telaCadastroCargo = null;
         this.telaAlteracaoCargo = telaAlteracaoCargo;
         this.inicializarComponentes();
+        this.adicionarHorarios.setVisible(false);
+        this.adicionarHorarios1.setVisible(true);
     }
 
     public void inicializarComponentes() {
