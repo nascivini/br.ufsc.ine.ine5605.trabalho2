@@ -49,6 +49,7 @@ public class TelaListagemAcessosNegados extends JFrame {
     private JButton sair;
 
     public TelaListagemAcessosNegados(TelaAcesso telaAcesso) {
+        super("Tela De Listagem de Acessos Negados");
         this.telaAcesso = telaAcesso;
         this.modelo = new DefaultTableModel();
         this.criaTabela(modelo);
