@@ -54,7 +54,6 @@ public class TelaAlteracaoCargo extends JFrame {
     public TelaCargo getTelaCargo() {
         return telaCargo;
     }
-    
 
     private void inicializarComponentes() {
         this.setLayout(new BorderLayout());
@@ -142,7 +141,7 @@ public class TelaAlteracaoCargo extends JFrame {
                 horarios = "Cargo Gerencial, não possui horários.";
             }
 
-            modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), tabelaTipos.getCellRenderer().getTableCellRendererComponent(tabelaCargos, c.getTipoCargo(), false, rootPaneCheckingEnabled, 0, 0), horarios});
+            modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), tabelaTipos.getCellRenderer().getTableCellRendererComponent(tabelaCargos, c.getTipoCargo(), true, rootPaneCheckingEnabled, 0, 0), horarios});
         }
     }
 
@@ -178,19 +177,24 @@ public class TelaAlteracaoCargo extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == alterar) {
-                int objAtual = tabelaCargos.getSelectedRow();
-                int codigo = (int) tabelaCargos.getModel().getValueAt(objAtual, 0);
-                String nome = (String) tabelaCargos.getModel().getValueAt(objAtual, 1);
-                TipoCargo tipo = (TipoCargo) tabelaCargos.getModel().getValueAt(objAtual, 2);
 
                 try {
+                    int objAtual = tabelaCargos.getSelectedRow();
+                    int codigo = (int) tabelaCargos.getModel().getValueAt(objAtual, 0);
+                    String nome = (String) tabelaCargos.getModel().getValueAt(objAtual, 1);
+                    CargoComboBoxRenderer tipoRenderer = (CargoComboBoxRenderer) tabelaCargos.getCellRenderer(objAtual, 2)
+                    ;
+                    TipoCargo tipo = (TipoCargo)tipoRenderer.getSelectedItem();
                     Cargo alterado = telaCargo.getControladorCargo().findCargoByCodigo(codigo);
-                    if (!(tipo == alterado.getTipoCargo())) {
-                        if (tipo.equals(TipoCargo.GERENCIAL) && (alterado.getTipoCargo() != TipoCargo.GERENCIAL)) {
+                    
+                    if (!(tipo.equals(alterado.getTipoCargo()))) {
+                        if ((tipo.equals(TipoCargo.GERENCIAL)) && (!(alterado.getTipoCargo().equals(TipoCargo.GERENCIAL)))) {
                             alterado.setTipoCargo(tipo);
-                            alterado.setHorarios(new ArrayList<Calendar>());
-                        } 
-                        else if (tipo.equals(TipoCargo.COMUM) && (!alterado.equals(TipoCargo.COMUM))) {
+                            alterado.getHorarios().clear();
+                            JOptionPane.showMessageDialog(null, "Cargo Alterado com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                        } else if (tipo.equals(TipoCargo.COMUM) && (!alterado.equals(TipoCargo.COMUM))) {
+                            alterado.setTipoCargo(tipo);
                             JOptionPane.showMessageDialog(null, "Você alterou o tipo de Cargo do cargo selecionado para Comum. Será necessário cadastrar horários para este Cargo.", "Aviso!", JOptionPane.WARNING_MESSAGE);
                             TelaContinuarCadastroHorarios tela = new TelaContinuarCadastroHorarios(alterado, telaAlteracaoCargo);
                             tela.adicionarHorarios.setVisible(false);
@@ -198,14 +202,17 @@ public class TelaAlteracaoCargo extends JFrame {
                             tela.setLocationRelativeTo(null);
                             tela.updateData();
                             tela.setVisible(true);
+                        } else if (tipo.equals(TipoCargo.CONVIDADO) && (!alterado.equals(TipoCargo.CONVIDADO))) {
+                            alterado.setTipoCargo(tipo);
+                            alterado.getHorarios().clear();
+                            JOptionPane.showMessageDialog(null, "Cargo Alterado com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
-
                     telaCargo.getControladorCargo().findCargoByNome(nome);
                     alterado.setNome(nome);
-                } 
-                catch (IllegalArgumentException ex) {
+                    updateData(modelo);
+                } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
                     updateData(modelo);
                 }
