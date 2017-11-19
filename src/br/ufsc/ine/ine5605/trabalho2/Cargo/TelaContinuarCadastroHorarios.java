@@ -203,6 +203,7 @@ public class TelaContinuarCadastroHorarios extends JFrame {
                         setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Horários Adicionados!", "Sucesso!", JOptionPane.YES_OPTION);
+                        JOptionPane.showMessageDialog(null, "Cargo Alterado com Sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         setVisible(false);
                         updateData();
                         telaAlteracaoCargo.setVisible(true);
