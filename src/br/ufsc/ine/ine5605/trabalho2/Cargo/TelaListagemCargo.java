@@ -42,30 +42,32 @@ public final class TelaListagemCargo extends JFrame {
     }
 
     public void inicializarComponentes() {
+        this.setLayout(new BorderLayout());
         barraRolagem = new JScrollPane(tabela);
         painelTabela = new JPanel();
-        painelTabela.setLayout(new BorderLayout());
         painelTabela.add(BorderLayout.CENTER, barraRolagem);
+        Dimension dimensaoBotoes = new Dimension(200,40);
         
         GerenciadorBotoesListagem gerenciador = new GerenciadorBotoesListagem();
         painelBotoes = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(10,0,0,0);
+        c.insets = new Insets(10,10,10,10);
         
         voltar = new JButton("Voltar ao Menu De Cargos");
-        c.gridy = 0;
+        c.gridy = 1;
         c.gridx = 0;
-        c.anchor = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.WEST;
         voltar.addActionListener(gerenciador);
+        voltar.setPreferredSize(dimensaoBotoes);
         painelBotoes.add(voltar, c);
         
         sair = new JButton("Sair");
-        c.gridy = 0;
+        c.gridy = 1;
         c.gridx = 2;
-        c.anchor = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.EAST;
+        sair.setPreferredSize(dimensaoBotoes);
         sair.addActionListener(gerenciador);
         painelBotoes.add(sair, c);
-        
         
         this.add(BorderLayout.PAGE_START, painelTabela);
         this.add(BorderLayout.PAGE_END, painelBotoes);
@@ -86,6 +88,7 @@ public final class TelaListagemCargo extends JFrame {
         tabela.getColumnModel().getColumn(2).setPreferredWidth(50);
         tabela.getColumnModel().getColumn(3).setPreferredWidth(150);
         tabela.setPreferredScrollableViewportSize(new Dimension(650, 200));
+        tabela.setRowHeight(20);
         this.pesquisar(modelo);
     }
 
