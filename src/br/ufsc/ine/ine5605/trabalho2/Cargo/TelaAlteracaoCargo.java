@@ -1,7 +1,6 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -10,18 +9,15 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 /**
@@ -197,6 +193,7 @@ public class TelaAlteracaoCargo extends JFrame {
             this.codigo = new JLabel("Código: " + Integer.toString(cargoAlterado.getCodigo()));
             c.gridx = 0;
             c.gridy = 1;
+            c.gridwidth = 2;
             container.add(codigo, c);
 
             this.nome = new JLabel("Nome: ");
