@@ -185,8 +185,8 @@ public class TelaAlteracaoCargo extends JFrame {
 
                 try {
                     Cargo alterado = telaCargo.getControladorCargo().findCargoByCodigo(codigo);
-                    if (!tipo.equals(alterado.getTipoCargo())) {
-                        if (tipo.equals(TipoCargo.GERENCIAL) && (!alterado.equals(TipoCargo.GERENCIAL))) {
+                    if (!(tipo == alterado.getTipoCargo())) {
+                        if (tipo.equals(TipoCargo.GERENCIAL) && (alterado.getTipoCargo() != TipoCargo.GERENCIAL)) {
                             alterado.setTipoCargo(tipo);
                             alterado.setHorarios(new ArrayList<Calendar>());
                         } 
@@ -195,6 +195,7 @@ public class TelaAlteracaoCargo extends JFrame {
                             TelaContinuarCadastroHorarios tela = new TelaContinuarCadastroHorarios(alterado, telaAlteracaoCargo);
                             tela.adicionarHorarios.setVisible(false);
                             tela.adicionarHorarios1.setVisible(true);
+                            tela.setLocationRelativeTo(null);
                             tela.updateData();
                             tela.setVisible(true);
                         }

@@ -69,7 +69,7 @@ public class TelaContinuarCadastroHorarios extends JFrame {
         this.horario2Editavel = new JTextField();
         this.adicionarHorarios = new JButton("Adicionar Horários");
         this.horariosJaCadastrados = new JLabel();
-        this.adicionarHorarios1 = new JButton();
+        this.adicionarHorarios1 = new JButton("Adicionar Horários");
 
         c.gridx = 1;
         c.gridy = 0;
