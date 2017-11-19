@@ -107,12 +107,15 @@ public class TelaPrincipal extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == botaoCargo){
+                setVisible(false);
                 controladorPrincipal.getControladorCargo().getTelaCargo().setVisible(true);
             }
             else if(e.getSource() == botaoFuncionario){
+                setVisible(false);
                 controladorPrincipal.getControladorFuncionario().getTelaFuncionario().setVisible(true);
             }
             else if(e.getSource() == botaoAcesso){
+                setVisible(false);
                 controladorPrincipal.getControladorAcesso().getTelaAcesso().setVisible(true);
             }
             else if(e.getSource() == sair){
