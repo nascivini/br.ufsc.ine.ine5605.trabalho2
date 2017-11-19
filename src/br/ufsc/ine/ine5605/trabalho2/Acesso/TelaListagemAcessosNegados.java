@@ -7,6 +7,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -14,6 +17,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -47,7 +51,8 @@ public class TelaListagemAcessosNegados extends JFrame {
 
     public TelaListagemAcessosNegados(TelaAcesso telaAcesso) {
         this.telaAcesso = telaAcesso;
-        this.criaTabela(new DefaultTableModel());
+        this.modelo = new DefaultTableModel();
+        this.criaTabela(modelo);
         this.inicializarComponentes();
 
     }
@@ -67,40 +72,61 @@ public class TelaListagemAcessosNegados extends JFrame {
         this.listarTodos = new JCheckBox("Listar Todos");
         this.listarMatricula = new JCheckBox("Listar por Matrícula");
         this.listarMotivo = new JCheckBox("Listar por Motivo");
-
+        this.buscar = new JButton("Buscar");
+        
+        MotivoAcesso [] motivos = {MotivoAcesso.ATRASADO, MotivoAcesso.BLOQUEADO, MotivoAcesso.OK, MotivoAcesso.OUTRO, MotivoAcesso.PERMISSAO};
+        this.motivosAcesso = new JComboBox(motivos);
+        this.dadosAcesso = new JTextField();
+        
         c.gridx = 0;
-        c.gridy = 0;
-        c.insets = new Insets(10, 0, 0, 0);
-        painelBotoesOpcoes.add(opcaoAcessar, c);
-
-        c.gridx = 1;
-        c.gridy = 0;
+        c.gridy = 1;
+        listarTodos.addItemListener(gerenciador);
         painelBotoesOpcoes.add(listarTodos, c);
 
-        c.gridx = 2;
-        c.gridy = 0;
+        c.gridx = 1;
+        c.gridy = 1;
+        listarMatricula.addItemListener(gerenciador);
         painelBotoesOpcoes.add(listarMatricula, c);
 
-        c.gridx = 3;
-        c.gridy = 0;
+        c.gridx = 2;
+        c.gridy = 1;
+        listarMotivo.addItemListener(gerenciador);
         painelBotoesOpcoes.add(listarMotivo, c);
 
         c.insets = new Insets(10, 10, 10, 10);
         voltar = new JButton("Voltar ao Menu De Acessos");
-        c.gridy = 1;
+        c.gridy = 2;
         c.gridx = 0;
         c.anchor = GridBagConstraints.WEST;
         voltar.addActionListener(gerenciador);
         voltar.setPreferredSize(dimensaoBotoes);
         painelBotoesOpcoes.add(voltar, c);
-
+        
+        c.gridy = 2;
+        c.gridx = 1;
+        dadosAcesso.setPreferredSize(new Dimension(150,30));
+        c.anchor = GridBagConstraints.CENTER;
+        painelBotoesOpcoes.add(dadosAcesso, c);
+        
         sair = new JButton("Sair");
-        c.gridy = 1;
+        c.gridy = 2;
         c.gridx = 2;
         c.anchor = GridBagConstraints.EAST;
         sair.setPreferredSize(dimensaoBotoes);
         sair.addActionListener(gerenciador);
         painelBotoesOpcoes.add(sair, c);
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(10, 0, 0, 0);
+        c.gridwidth = 2;
+        painelBotoesOpcoes.add(opcaoAcessar, c);
+        
+        c.gridx = 2;
+        c.gridy = 0;
+        buscar.addActionListener(gerenciador);
+        painelBotoesOpcoes.add(buscar, c);
 
         this.add(BorderLayout.PAGE_START, painelTabela);
         this.add(BorderLayout.PAGE_END, painelBotoesOpcoes);
@@ -113,13 +139,11 @@ public class TelaListagemAcessosNegados extends JFrame {
         tabelaListagem = new JTable(modelo);
         modelo.addColumn("Funcionário");
         modelo.addColumn("Descrição Acesso");
-        modelo.addColumn("Qtde Acessos já realizados");
         modelo.addColumn("Horário");
         tabelaListagem.getColumnModel().getColumn(0).setPreferredWidth(10);
         tabelaListagem.getColumnModel().getColumn(1).setPreferredWidth(20);
-        tabelaListagem.getColumnModel().getColumn(2).setPreferredWidth(50);
-        tabelaListagem.getColumnModel().getColumn(3).setPreferredWidth(150);
-        tabelaListagem.setPreferredScrollableViewportSize(new Dimension(650, 200));
+        tabelaListagem.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tabelaListagem.setPreferredScrollableViewportSize(new Dimension(650, 180));
         tabelaListagem.setRowHeight(20);
     }
 
@@ -135,22 +159,33 @@ public class TelaListagemAcessosNegados extends JFrame {
         }
     }
 
-    public class GerenciadorBotoesListagem implements ActionListener {
+    public class GerenciadorBotoesListagem implements ItemListener, ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void itemStateChanged(ItemEvent e) {
             if (e.getSource() == listarTodos) {
                 if (listarTodos.isSelected()) {
                     listarMatricula.setVisible(false);
                     listarMotivo.setVisible(false);
                     dadosAcesso.setVisible(false);
-                    motivosAcesso.setVisible(true);
+                    motivosAcesso.setVisible(false);
+                }
+                else{
+                    listarMatricula.setVisible(true);
+                    listarMotivo.setVisible(true);
+                    dadosAcesso.setVisible(true);
+                    motivosAcesso.setVisible(false);
                 }
             } else if (e.getSource() == listarMatricula) {
                 if (listarMatricula.isSelected()) {
                     listarMotivo.setVisible(false);
                     listarTodos.setVisible(false);
-                    motivosAcesso.setVisible(true);
+                    motivosAcesso.setVisible(false);
+                }
+                else{
+                    listarMotivo.setVisible(true);
+                    listarTodos.setVisible(true);
+                    motivosAcesso.setVisible(true);                
                 }
             } else if (e.getSource() == listarMotivo) {
                 if (listarMotivo.isSelected()) {
@@ -158,6 +193,46 @@ public class TelaListagemAcessosNegados extends JFrame {
                     listarMatricula.setVisible(false);
                     motivosAcesso.setVisible(true);
                 }
+                else{
+                    listarTodos.setVisible(true);
+                    listarMatricula.setVisible(true);
+                    motivosAcesso.setVisible(false);
+                }
+                }
+            }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == buscar) {
+                if (listarTodos.isSelected()) {
+                    updateData(telaAcesso.getControladorAcesso().findAcessosNegados());
+                    listarMatricula.setVisible(true);
+                    listarMotivo.setVisible(true);
+                    dadosAcesso.setVisible(true);
+                    motivosAcesso.setVisible(false);
+                }
+
+                if (listarMatricula.isSelected()) {
+                    try {
+                        int matricula = Integer.parseInt(dadosAcesso.getText());
+                        telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().findFuncionarioByMatricula(matricula);
+                        updateData(telaAcesso.getControladorAcesso().findAcessosNegadosByMatricula(matricula));
+                        listarMotivo.setVisible(true);
+                        listarTodos.setVisible(true);
+                        motivosAcesso.setVisible(false);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "A matrícula deve ser um número inteiro, e deve ser de um funcionário cadastrado. Tente novamente", "Alerta", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+
+                if (listarMotivo.isSelected()) {
+                    MotivoAcesso motivo = (MotivoAcesso)motivosAcesso.getSelectedItem();
+                    updateData(telaAcesso.getControladorAcesso().findAcessosNegadosByMotivo(motivo));
+                    listarMotivo.setVisible(true);
+                    listarTodos.setVisible(true);
+                    motivosAcesso.setVisible(false); 
+                }
+
             }
         }
 
