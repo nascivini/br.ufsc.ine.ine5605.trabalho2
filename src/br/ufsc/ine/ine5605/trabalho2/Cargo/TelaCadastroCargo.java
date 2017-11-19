@@ -213,7 +213,7 @@ public class TelaCadastroCargo extends JFrame {
             } 
             
             else if (event.getSource() == cadastrar) {
-                if (tipoEditavel.getSelectedItem() != TipoCargo.GERENCIAL) {
+                if (tipoEditavel.getSelectedItem() == TipoCargo.COMUM) {
                     ArrayList<Calendar> horarios = new ArrayList<>();
                     Calendar h1 = Calendar.getInstance();
                     Calendar h2 = Calendar.getInstance();
@@ -255,6 +255,7 @@ public class TelaCadastroCargo extends JFrame {
                         
                     }
                 } 
+                
                 else {
                     try {
                         telaCargo.getControladorCargo().findCargoByNome(nomeEditavel.getText());
@@ -289,7 +290,7 @@ public class TelaCadastroCargo extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == tipoEditavel){
-                if(tipoEditavel.getSelectedItem() == TipoCargo.GERENCIAL){
+                if(tipoEditavel.getSelectedItem() == TipoCargo.GERENCIAL ||tipoEditavel.getSelectedItem() == TipoCargo.CONVIDADO){
                     horario1Editavel.setVisible(false);
                     horario2Editavel.setVisible(false);
                 }

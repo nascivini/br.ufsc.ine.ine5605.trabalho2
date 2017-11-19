@@ -2,7 +2,14 @@ package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,10 +25,13 @@ import javax.swing.table.DefaultTableModel;
 public final class TelaListagemCargo extends JFrame {
 
     private final TelaCargo telaCargo;
-    private Container painelFundo;
+    private JPanel painelTabela;
     private JTable tabela;
     private JScrollPane barraRolagem;
     public final DefaultTableModel modelo;
+    private JPanel painelBotoes;
+    private JButton voltar;
+    private JButton sair;
 
     public TelaListagemCargo(TelaCargo telaCargo) {
         super("Tela de Listagem de Cargos");
@@ -32,13 +42,36 @@ public final class TelaListagemCargo extends JFrame {
     }
 
     public void inicializarComponentes() {
+        this.setLayout(new BorderLayout());
         barraRolagem = new JScrollPane(tabela);
-        painelFundo = new JPanel();
-        painelFundo.setLayout(new BorderLayout());
-        painelFundo.add(BorderLayout.CENTER, barraRolagem);
-
-        getContentPane().add(painelFundo);
-        setSize(650, 150);
+        painelTabela = new JPanel();
+        painelTabela.add(BorderLayout.CENTER, barraRolagem);
+        Dimension dimensaoBotoes = new Dimension(200,40);
+        
+        GerenciadorBotoesListagem gerenciador = new GerenciadorBotoesListagem();
+        painelBotoes = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(10,10,10,10);
+        
+        voltar = new JButton("Voltar ao Menu De Cargos");
+        c.gridy = 1;
+        c.gridx = 0;
+        c.anchor = GridBagConstraints.WEST;
+        voltar.addActionListener(gerenciador);
+        voltar.setPreferredSize(dimensaoBotoes);
+        painelBotoes.add(voltar, c);
+        
+        sair = new JButton("Sair");
+        c.gridy = 1;
+        c.gridx = 2;
+        c.anchor = GridBagConstraints.EAST;
+        sair.setPreferredSize(dimensaoBotoes);
+        sair.addActionListener(gerenciador);
+        painelBotoes.add(sair, c);
+        
+        this.add(BorderLayout.PAGE_START, painelTabela);
+        this.add(BorderLayout.PAGE_END, painelBotoes);
+        this.setSize(700, 400);
         this.setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -54,8 +87,9 @@ public final class TelaListagemCargo extends JFrame {
         tabela.getColumnModel().getColumn(1).setPreferredWidth(20);
         tabela.getColumnModel().getColumn(2).setPreferredWidth(50);
         tabela.getColumnModel().getColumn(3).setPreferredWidth(150);
+        tabela.setPreferredScrollableViewportSize(new Dimension(650, 200));
+        tabela.setRowHeight(20);
         this.pesquisar(modelo);
-        
     }
 
     public void pesquisar(DefaultTableModel modelo) {
@@ -74,7 +108,21 @@ public final class TelaListagemCargo extends JFrame {
             }
             modelo.addRow(new Object[]{c.getCodigo(), c.getNome(), c.getTipoCargo().getDescricao(), horarios});
             }
-            
-
+           
         }
+    
+    public class GerenciadorBotoesListagem implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == voltar){
+                setVisible(false);
+                telaCargo.setVisible(true);
+            }
+            else if(e.getSource() == sair){
+                System.exit(0);
+            }
+        }
+    
+    }
     }
