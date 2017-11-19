@@ -11,7 +11,7 @@ import java.util.Calendar;
  * @author Marco Aurelio Geremias
  */
 public class ControladorAcesso implements IControladorAcesso {
-    
+
     private AcessoDAO acessoDAO;
     private final ArrayList<Acesso> acessos;
     private final ControladorPrincipal controladorPrincipal;
@@ -20,6 +20,7 @@ public class ControladorAcesso implements IControladorAcesso {
     /**
      * Recebe o controlador Principal como parametro para possibilitar a
      * comunicacao e cria um objeto da Classe ControladorAcesso
+     *
      * @param controladorPrincipal ControladorPrincipal em execução no programa.
      */
     public ControladorAcesso(ControladorPrincipal controladorPrincipal) {
@@ -81,24 +82,24 @@ public class ControladorAcesso implements IControladorAcesso {
     }
 
     @SuppressWarnings("static-access")
-	@Override
+    @Override
     public Acesso verificaAcesso(int matricula, int hora, int minuto) {
         Calendar dataAgora = Calendar.getInstance();
-		dataAgora.set(0,0,0,hora,minuto);
+        dataAgora.set(0, 0, 0, hora, minuto);
         if (this.controladorPrincipal.getControladorFuncionario().validaMatricula(matricula)) { //validou a matricula, logo possui um funcionario com essa matricula
             if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isEhGerencial()) {
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.OK);
                 this.acessoDAO.put(acesso);
                 return acesso; //cargo gerencial possui acesso em qualquer hora
-            } else if(this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados() >= 3) {
-            	int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados();
-            	this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
-            	Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.BLOQUEADO);
+            } else if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados() >= 3) {
+                int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados();
+                this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
+                Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.BLOQUEADO);
                 this.acessoDAO.put(acesso);
                 return acesso; //acesso bloqueado, mais de 3 tentativas de acesso invalidas
             } else if (!this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
-            	int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados();
-            	this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
+                int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados();
+                this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.PERMISSAO);
                 this.acessoDAO.put(acesso);
                 return acesso; //nao possui permissao em qualquer horario
@@ -108,7 +109,7 @@ public class ControladorAcesso implements IControladorAcesso {
                     Calendar horaEntrada = listaHorariosCargo.get(i);
                     Calendar horaSaida = listaHorariosCargo.get(i + 1);
                     //rever a partir daqui ....
-                    if (horaEntrada.getTime().compareTo(horaSaida.getTime()) <= 0 && horaEntrada.getTime().compareTo(dataAgora.getTime()) <= 0 && horaSaida.getTime().compareTo(dataAgora.getTime()) >= 0) {
+                    if (horaEntrada.getTime().before(horaSaida.getTime()) && horaEntrada.getTime().before(dataAgora.getTime()) && horaSaida.getTime().after(dataAgora.getTime())) {
                         Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.OK);
                         this.acessoDAO.put(acesso);
                         return acesso;
@@ -129,7 +130,7 @@ public class ControladorAcesso implements IControladorAcesso {
                     }
                 } //até aqui :3
                 int valorNAcessoN = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getnAcessosNegados();
-            	this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
+                this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).setnAcessosNegados(valorNAcessoN + 1);
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.ATRASADO);
                 this.acessoDAO.put(acesso);
                 return acesso;
@@ -141,6 +142,5 @@ public class ControladorAcesso implements IControladorAcesso {
         }
         return null; //nao eh para acontecer nunca.
     }
-
 
 }
