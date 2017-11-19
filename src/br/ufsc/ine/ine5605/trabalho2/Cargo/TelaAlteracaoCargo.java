@@ -141,11 +141,15 @@ public class TelaAlteracaoCargo extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == alterar) {
-                int objAtual = tabelaCargos.getSelectedRow();
-                int codigo = (int) tabelaCargos.getModel().getValueAt(objAtual, 0);
-                Cargo alterado = telaCargo.getControladorCargo().findCargoByCodigo(codigo);
-                TelaAlteracaoDados telaAlteracaoDados = new TelaAlteracaoDados(alterado, telaAlteracaoCargo);
-                telaAlteracaoDados.setVisible(true);
+                if (tabelaCargos.getRowCount() > 0) {
+                    int objAtual = tabelaCargos.getSelectedRow();
+                    int codigo = (int) tabelaCargos.getModel().getValueAt(objAtual, 0);
+                    Cargo alterado = telaCargo.getControladorCargo().findCargoByCodigo(codigo);
+                    TelaAlteracaoDados telaAlteracaoDados = new TelaAlteracaoDados(alterado, telaAlteracaoCargo);
+                    telaAlteracaoDados.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ainda não há cargos cadastrados!", "Alerta", JOptionPane.WARNING_MESSAGE);
+                }
 
             } else if (e.getSource() == voltar) {
                 setVisible(false);
@@ -245,40 +249,71 @@ public class TelaAlteracaoCargo extends JFrame {
                             cargoAlterado.getHorarios().clear();
                             cargoAlterado.setEhGerencial(true);
                             cargoAlterado.setTipoCargo(tipoSelecionado);
-                        } 
-                        else if (tipoRegistrado.equals(TipoCargo.CONVIDADO) && tipoSelecionado.equals(TipoCargo.GERENCIAL)) {
+                            if (!cargoAlterado.getNome().equals(nomeEditavel.getText())) {
+                                cargoAlterado.setNome(nomeEditavel.getText());
+                            }
+                            JOptionPane.showMessageDialog(null, "Alterações Salvas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        } else if (tipoRegistrado.equals(TipoCargo.CONVIDADO) && tipoSelecionado.equals(TipoCargo.GERENCIAL)) {
                             cargoAlterado.getHorarios().clear();
                             cargoAlterado.setEhGerencial(true);
                             cargoAlterado.setPermiteAcesso(true);
                             cargoAlterado.setTipoCargo(tipoSelecionado);
-                        } 
-                        else if (tipoRegistrado.equals(TipoCargo.GERENCIAL) && (tipoSelecionado.equals(TipoCargo.COMUM) || tipoSelecionado.equals(TipoCargo.CONVIDADO))) {
-                            cargoAlterado.getHorarios().clear();
-                            cargoAlterado.setEhGerencial(false);
-                            cargoAlterado.setPermiteAcesso(true);
-                            cargoAlterado.setTipoCargo(tipoSelecionado);
-                            TelaContinuarCadastroHorarios telaContinuar = new TelaContinuarCadastroHorarios(cargoAlterado, telaAlteracaoCargo);
-                            telaContinuar.updateData();
-                            telaContinuar.setVisible(true);
-                        }
-                        else if(tipoRegistrado.equals(TipoCargo.CONVIDADO) && tipoSelecionado.equals(TipoCargo.COMUM)){
+                            if (!cargoAlterado.getNome().equals(nomeEditavel.getText())) {
+                                cargoAlterado.setNome(nomeEditavel.getText());
+                            }
+                            JOptionPane.showMessageDialog(null, "Alterações Salvas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        } else if (tipoRegistrado.equals(TipoCargo.COMUM) && tipoSelecionado.equals(TipoCargo.CONVIDADO)) {
                             cargoAlterado.getHorarios().clear();
                             cargoAlterado.setEhGerencial(false);
                             cargoAlterado.setPermiteAcesso(false);
                             cargoAlterado.setTipoCargo(tipoSelecionado);
+                            if (!cargoAlterado.getNome().equals(nomeEditavel.getText())) {
+                                cargoAlterado.setNome(nomeEditavel.getText());
+                            }
+                            JOptionPane.showMessageDialog(null, "Alterações Salvas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        } else if (tipoRegistrado.equals(TipoCargo.GERENCIAL) && tipoSelecionado.equals(TipoCargo.COMUM)) {
+                            cargoAlterado.getHorarios().clear();
+                            cargoAlterado.setEhGerencial(false);
+                            cargoAlterado.setPermiteAcesso(true);
+                            cargoAlterado.setTipoCargo(tipoSelecionado);
+                            if (!cargoAlterado.getNome().equals(nomeEditavel.getText())) {
+                                cargoAlterado.setNome(nomeEditavel.getText());
+                            }
+                            JOptionPane.showMessageDialog(null, "Você alterou o tipo de Cargo de Gerencial para Comum. Será necessário cadastrar horários para este Cargo.", "Alerta", JOptionPane.WARNING_MESSAGE);
                             TelaContinuarCadastroHorarios telaContinuar = new TelaContinuarCadastroHorarios(cargoAlterado, telaAlteracaoCargo);
                             telaContinuar.updateData();
-                            telaContinuar.setVisible(true);                            
+                            telaContinuar.setLocationRelativeTo(null);
+                            telaContinuar.setVisible(true);
+                        } else if ((tipoRegistrado.equals(TipoCargo.CONVIDADO) && tipoSelecionado.equals(TipoCargo.COMUM))) {
+                            cargoAlterado.getHorarios().clear();
+                            cargoAlterado.setEhGerencial(false);
+                            cargoAlterado.setPermiteAcesso(true);
+                            cargoAlterado.setTipoCargo(tipoSelecionado);
+                            if (!cargoAlterado.getNome().equals(nomeEditavel.getText())) {
+                                cargoAlterado.setNome(nomeEditavel.getText());
+                            }
+                            JOptionPane.showMessageDialog(null, "Você alterou o tipo de Cargo de Convidado para Comum. Será necessário cadastrar horários para este Cargo.", "Alerta", JOptionPane.WARNING_MESSAGE);
+                            TelaContinuarCadastroHorarios telaContinuar = new TelaContinuarCadastroHorarios(cargoAlterado, telaAlteracaoCargo);
+                            telaContinuar.updateData();
+                            telaContinuar.setLocationRelativeTo(null);
+                            telaContinuar.setVisible(true);
+                        } else if (tipoRegistrado.equals(TipoCargo.GERENCIAL) && tipoSelecionado.equals(TipoCargo.CONVIDADO)) {
+                            cargoAlterado.getHorarios().clear();
+                            cargoAlterado.setEhGerencial(false);
+                            cargoAlterado.setPermiteAcesso(false);
+                            cargoAlterado.setTipoCargo(tipoSelecionado);
+                            if (!cargoAlterado.getNome().equals(nomeEditavel.getText())) {
+                                cargoAlterado.setNome(nomeEditavel.getText());
+                            }
+                            JOptionPane.showMessageDialog(null, "Alterações Salvas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         }
-                    } 
-                    else {
+                    } else if (!cargoAlterado.getNome().equals(nomeEditavel.getText())) {
                         cargoAlterado.setNome(nomeEditavel.getText());
+                        JOptionPane.showMessageDialog(null, "Nome Alterado!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     }
-                    JOptionPane.showMessageDialog(null, "Alterações Salvas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    telaCargo.getControladorCargo().getCargoDAO().persist();
                 }
             }
-
         }
     }
-
 }
