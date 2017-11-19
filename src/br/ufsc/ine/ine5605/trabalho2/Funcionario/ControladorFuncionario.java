@@ -107,7 +107,7 @@ public class ControladorFuncionario implements IControladorFuncionario {
     public void findFuncionarioByMatricula(int matricula) {
         for(Funcionario funcionario : getFuncionarios()){
             if (funcionario.getMatricula() == matricula) {
-            }
+            } 
         }
         throw new IllegalArgumentException("Matrícula não encontrada.");
     }
