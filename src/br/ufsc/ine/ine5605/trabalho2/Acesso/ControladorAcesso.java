@@ -113,10 +113,10 @@ public class ControladorAcesso implements IControladorAcesso {
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.PERMISSAO);
                 this.acessoDAO.put(acesso);
                 return acesso; //nao possui permissao em qualquer horario
-            } else if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
+            } 
+            else if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
                 ArrayList<Calendar> listaHorariosCargo = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().getHorarios();
                 for (int i = 0; i < listaHorariosCargo.size(); i = i + 2) {
-                    dataAgora.setTime(listaHorariosCargo.get(i).getTime());
                     Calendar horaEntrada = listaHorariosCargo.get(i);
                     Calendar horaSaida = listaHorariosCargo.get(i + 1);
                     //rever a partir daqui ....

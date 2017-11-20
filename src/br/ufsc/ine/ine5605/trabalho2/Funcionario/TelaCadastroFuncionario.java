@@ -246,7 +246,9 @@ public class TelaCadastroFuncionario extends JFrame {
                         Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, erro);
                         JOptionPane.showConfirmDialog(null, erro.getMessage(), "Funcionário não cadastrado", JOptionPane.OK_CANCEL_OPTION);
                         
-                    }
+                    } catch (ExceptionFuncionario ex) {
+                    Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             } 
             else if(e.getSource() == limparTela) {
