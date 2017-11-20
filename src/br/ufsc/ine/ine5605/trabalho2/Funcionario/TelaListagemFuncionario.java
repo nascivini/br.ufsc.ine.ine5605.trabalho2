@@ -50,6 +50,9 @@ public class TelaListagemFuncionario extends JFrame {
 
     }
 
+    /**
+     * Cria tabela de acordo com as configurações
+     */
     private void criaTabela() {
         tabela = new JTable(modelo);
         modelo.addColumn("Matrícula");
@@ -71,7 +74,10 @@ public class TelaListagemFuncionario extends JFrame {
         this.pesquisar(modelo);
         
     }
-    
+        /**
+         * Dados a serem exibidos na tabela
+         * @param modelo 
+         */
         public void pesquisar(DefaultTableModel modelo) {
         modelo.setNumRows(0);
         

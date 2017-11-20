@@ -49,6 +49,9 @@ public class TelaFuncionario extends JFrame {
         return controladorFuncionario;
     }
     
+    /**
+     * Configura os botões e descrição do menu de Funcionários
+     */
     private void inicializarComponentesFuncionario(){
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
@@ -114,14 +117,10 @@ public class TelaFuncionario extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
-       public Image getImage(String path) {
-        URL imageURL = getClass().getResource(path);
-        if (imageURL == null)
-            return null;
-        return new ImageIcon(imageURL).getImage();    
-    }
-
-        
+        /**
+         * Aponta ações ao clicar em cada um dos botões
+         */
+      
         private class GerenciadorBotoesFuncionario implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {

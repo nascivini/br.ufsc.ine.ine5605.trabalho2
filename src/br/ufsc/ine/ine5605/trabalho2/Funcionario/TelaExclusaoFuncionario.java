@@ -47,6 +47,9 @@ public class TelaExclusaoFuncionario extends JFrame {
         this.inicializarComponentes();
     }
     
+    /**
+     * Configuração dos botões e labels da tela
+     */
     public void inicializarComponentes() {
         this.setLayout(new BorderLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -91,7 +94,10 @@ public class TelaExclusaoFuncionario extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     }
-
+    
+    /**
+     * Cria a tabela de acordo com configurações
+     */
     private void criaTabela() {
         tabelaFuncionarios = new JTable(modelo);
         tabelaFuncionarios.setPreferredScrollableViewportSize(dimensaoTabela);
@@ -115,6 +121,10 @@ public class TelaExclusaoFuncionario extends JFrame {
         
     }
     
+    
+    /**
+     * Dados da tabela
+     */
     public void updateData(DefaultTableModel modelo) {
         modelo.setNumRows(0);
         
@@ -125,7 +135,9 @@ public class TelaExclusaoFuncionario extends JFrame {
         }
     }
     
-
+    /**
+     * Aponta ações ao clicar nos botões da tela de exclusão do funcionário
+     */
     
     public class GerenciadorBotoesExclusaoFuncionario implements ActionListener {
         public void actionPerformed(ActionEvent e) {

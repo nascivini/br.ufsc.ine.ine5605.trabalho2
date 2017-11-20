@@ -50,6 +50,9 @@ public class TelaCadastroFuncionario extends JFrame {
         this.inicializarComponentes();
     }
 
+    /**
+     * Configura os botões e labels da página
+     */
     private void inicializarComponentes() {
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
@@ -198,7 +201,10 @@ public class TelaCadastroFuncionario extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-
+    
+    /**
+     * Limpa a tela
+     */
     public void updateData() {
         this.matricula.setText(telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial() + " (gerado automaticamente)");
         this.cpf.setText("");
@@ -212,7 +218,10 @@ public class TelaCadastroFuncionario extends JFrame {
             cargo.addItem(cargoAtual);
         }
     }
-
+    
+    /**
+     * Aponta ações ao clicar em cada um dos botões da tela
+     */
     private class GerenciadorBotoesCadastroFuncionario implements ActionListener {
 
         @Override
