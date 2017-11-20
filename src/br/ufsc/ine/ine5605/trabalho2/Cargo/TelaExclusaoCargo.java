@@ -1,5 +1,6 @@
 package br.ufsc.ine.ine5605.trabalho2.Cargo;
 
+import br.ufsc.ine.ine5605.trabalho2.Funcionario.ExceptionFuncionario;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -7,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -109,11 +112,11 @@ public class TelaExclusaoCargo extends JFrame {
             if(e.getSource() == excluir){
                 if(cargoEditavel.getSelectedItem() != null){
                     try{
-                        //telaCargo.getControladorCargo().getControladorPrincipal().getControladorFuncionario().findFuncionarioByCargo((Cargo)cargoEditavel.getSelectedItem());
+                        telaCargo.getControladorCargo().getControladorPrincipal().getControladorFuncionario().findFuncionarioByCargo((Cargo)cargoEditavel.getSelectedItem());
                         telaCargo.getControladorCargo().excluirCargo((Cargo)cargoEditavel.getSelectedItem());
                         JOptionPane.showMessageDialog(null, "Cargo excluído!");
                     }
-                    catch(IllegalArgumentException ex){
+                       catch (ExceptionCargo | ExceptionFuncionario ex) {
                         JOptionPane.showMessageDialog(null, "Erro desconhecido. Contate o administrador do sistema.");
                     }
                 }

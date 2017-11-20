@@ -185,6 +185,8 @@ public class TelaContinuarCadastroHorarios extends JFrame {
                 } catch (IllegalArgumentException exc) {
                     Logger.getLogger(TelaContinuarCadastroHorarios.class.getName()).log(Level.SEVERE, null, exc);
                     JOptionPane.showMessageDialog(null, exc.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+                } catch (ExceptionCargo ex) {
+                    Logger.getLogger(TelaContinuarCadastroHorarios.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (e.getSource() == adicionarHorarios1) {
                 Calendar h1 = Calendar.getInstance();
@@ -212,12 +214,12 @@ public class TelaContinuarCadastroHorarios extends JFrame {
                         telaAlteracaoCargo.setVisible(true);
                         telaAlteracaoCargo.updateData(telaAlteracaoCargo.modelo);
                     }
-                } catch (ParseException ex) {
-                    Logger.getLogger(TelaContinuarCadastroHorarios.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "Respeite o Formato HH:mm", "Erro!", JOptionPane.ERROR_MESSAGE);
-                } catch (IllegalArgumentException exc) {
+                } catch (ParseException exc) {
                     Logger.getLogger(TelaContinuarCadastroHorarios.class.getName()).log(Level.SEVERE, null, exc);
-                    JOptionPane.showMessageDialog(null, exc.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Respeite o Formato HH:mm", "Erro!", JOptionPane.ERROR_MESSAGE);
+                } catch (ExceptionCargo ex) {
+                    Logger.getLogger(TelaContinuarCadastroHorarios.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
                 }
 
             }

@@ -241,7 +241,6 @@ public class TelaListagemAcessosNegados extends JFrame {
                 if (listarMatricula.isSelected()) {
                     try {
                         Funcionario funcionario = (Funcionario) dadosAcessoMatricula.getSelectedItem();
-                        telaAcesso.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().findFuncionarioByMatricula(funcionario.getMatricula());
                         updateData(telaAcesso.getControladorAcesso().findAcessosNegadosByMatricula(funcionario.getMatricula()));
                         listarMotivo.setVisible(true);
                         listarTodos.setVisible(true);

@@ -208,7 +208,7 @@ public class TelaCadastroCargo extends JFrame {
                     Logger.getLogger(TelaCadastroCargo.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(null, "Horário inválido! Respeite o padrão HH:MM");
                 } 
-                catch (IllegalArgumentException exc) {
+                catch (ExceptionCargo exc) {
                     Logger.getLogger(TelaCadastroCargo.class.getName()).log(Level.SEVERE, null, exc);
                     JOptionPane.showMessageDialog(rootPane, exc.getMessage());
                 }
@@ -251,7 +251,7 @@ public class TelaCadastroCargo extends JFrame {
                         Logger.getLogger(TelaCadastroCargo.class.getName()).log(Level.SEVERE, null, ex);
                         JOptionPane.showMessageDialog(null, "Horário Inválido! Respeite o padrão HH:mm", "Erro!", JOptionPane.ERROR_MESSAGE);
                     } 
-                    catch (IllegalArgumentException e) {
+                    catch (ExceptionCargo e) {
                         Logger.getLogger(TelaCadastroCargo.class.getName()).log(Level.SEVERE, null, e);
                         JOptionPane.showMessageDialog(null, e.getMessage());
                         
@@ -269,7 +269,7 @@ public class TelaCadastroCargo extends JFrame {
                         updateData();
                         
                     } 
-                    catch (IllegalArgumentException e) {
+                    catch (ExceptionCargo e) {
                         Logger.getLogger(TelaCadastroCargo.class.getName()).log(Level.SEVERE, null, e);
                         JOptionPane.showConfirmDialog(null, e.getMessage(), "", JOptionPane.OK_CANCEL_OPTION);
                     }
