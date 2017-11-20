@@ -83,7 +83,7 @@ public class FuncionarioDAO {
 
             
         } catch (FileNotFoundException ex) {
-            persist();
+            System.out.println("Ainda não há funcionários cadastrados.");
         } catch (IOException ex) {
             Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

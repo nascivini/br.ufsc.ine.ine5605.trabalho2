@@ -43,9 +43,9 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public Cargo incluirCargo (DadosCargo conteudo) throws IllegalArgumentException{
+    public Cargo incluirCargo (DadosCargo conteudo) throws ExceptionCargo{
         if(this.findCargoByNome(conteudo.nome) != null){
-            throw new IllegalArgumentException("Já existe um cargo com este nome no sistema.");
+            throw new ExceptionCargo("Já existe um cargo com este nome no sistema.");
         }
         Cargo novo = new Cargo(conteudo, this.geraSequencialCargo());
         cargoDAO.put(novo);
@@ -53,12 +53,12 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public boolean excluirCargo(Cargo cargo) throws IllegalArgumentException{
+    public boolean excluirCargo(Cargo cargo) throws ExceptionCargo{
         if(this.findCargoByCodigo(cargo.getCodigo()) != null){
             this.cargoDAO.remove(this.cargoDAO.get(cargo.getCodigo()));
             return true;
         }
-        throw new IllegalArgumentException();
+        throw new ExceptionCargo("Cargo não existente!");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public boolean verificaHorarios (ArrayList<Calendar> horarios, Calendar horario1, Calendar horario2) throws IllegalArgumentException{
+    public boolean verificaHorarios (ArrayList<Calendar> horarios, Calendar horario1, Calendar horario2) throws ExceptionCargo{
 
         if (horarios.isEmpty()) {
             if (horario1.compareTo(horario2) != 0) {
@@ -109,14 +109,14 @@ public class ControladorCargo implements IControladorCargo {
                         horario1OK = true;
                     } else {
                         horario1OK = false;
-                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
+                        throw new ExceptionCargo("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
                     }
                 } else {
                     if ((!(horario1.after(horarios.get(i)) && horario1.before(horarios.get(i + 1))))) {
                         horario1OK = true;
                     } else {
                         horario1OK = false;
-                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
+                        throw new ExceptionCargo("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
                     }
                 }
             }
@@ -126,7 +126,7 @@ public class ControladorCargo implements IControladorCargo {
                         horario2OK = true;
                     } else {
                         horario2OK = false;
-                        throw new IllegalArgumentException("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
+                        throw new ExceptionCargo("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
                     }
                 } else {
                     if (horario1.after(horario2) && horario1.after(horarios.get(i + 1)) && horario2.before(horarios.get(i))) {
@@ -139,7 +139,7 @@ public class ControladorCargo implements IControladorCargo {
                         }
                     } else {
                         horario2OK = false;
-                        throw new IllegalArgumentException("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
+                        throw new ExceptionCargo("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente.");
                     }
                 }
             }

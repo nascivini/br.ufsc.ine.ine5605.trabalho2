@@ -1,10 +1,13 @@
 package br.ufsc.ine.ine5605.trabalho2.Acesso;
 
 import br.ufsc.ine.ine5605.trabalho2.Principal.ControladorPrincipal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -85,8 +88,14 @@ public class ControladorAcesso implements IControladorAcesso {
     @Override
     public Acesso verificaAcesso(int matricula, int hora, int minuto) {
         Calendar dataAgora = Calendar.getInstance();
-        dataAgora.set(0,0,0,0,0);
-        dataAgora.setTime(new Date(0, 0, 0, hora, minuto));
+        dataAgora.set(0, 0, 0, 0, 0);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
+        String horario = (hora + ":" + minuto);
+        try {
+            dataAgora.setTime(sdf.parse(horario));
+        } catch (ParseException ex) {
+            Logger.getLogger(ControladorAcesso.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (this.controladorPrincipal.getControladorFuncionario().validaMatricula(matricula)) { //validou a matricula, logo possui um funcionario com essa matricula
             if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isEhGerencial()) {
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.OK);
@@ -107,10 +116,11 @@ public class ControladorAcesso implements IControladorAcesso {
             } else if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
                 ArrayList<Calendar> listaHorariosCargo = this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().getHorarios();
                 for (int i = 0; i < listaHorariosCargo.size(); i = i + 2) {
+                    dataAgora.setTime(listaHorariosCargo.get(i).getTime());
                     Calendar horaEntrada = listaHorariosCargo.get(i);
                     Calendar horaSaida = listaHorariosCargo.get(i + 1);
                     //rever a partir daqui ....
-                    if(dataAgora.getTime().after(horaEntrada.getTime()) && dataAgora.getTime().before(horaSaida.getTime())) {
+                    if (horaEntrada.getTime().before(horaSaida.getTime()) && horaEntrada.getTime().before(dataAgora.getTime()) && horaSaida.getTime().after(dataAgora.getTime())) {
                         Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.OK);
                         this.acessoDAO.put(acesso);
                         return acesso;

@@ -18,14 +18,14 @@ public interface IControladorCargo {
      * @param codigo Código do cargo (gerado automaticamente).
      * @return Cargo Cargo incluído.
      */
-    public Cargo incluirCargo(DadosCargo conteudo);
+    public Cargo incluirCargo(DadosCargo conteudo) throws ExceptionCargo;
 
     /**
      * Exclui o cargo da lista de cargos com base no código informado via
      * parâmetro.
      * @return True or false indicando se o cargo foi exclu[ido ou não.
      */
-    public boolean excluirCargo(Cargo cargo) throws IllegalArgumentException;
+    public boolean excluirCargo(Cargo cargo) throws ExceptionCargo;
 
     /**
      * "Varre" a lista de cargos cadastrados, buscando por um cargo que contenha
@@ -44,7 +44,7 @@ public interface IControladorCargo {
      * @param horario2 horarioFinal  da faixa de horário a ser verificado
      * @return Verdadeiro se a checagem estiver ok, falso caso contrário
      */
-    public boolean verificaHorarios(ArrayList<Calendar> horarios, Calendar horario1, Calendar horario2);
+    public boolean verificaHorarios(ArrayList<Calendar> horarios, Calendar horario1, Calendar horario2) throws ExceptionCargo;
     
     
 }

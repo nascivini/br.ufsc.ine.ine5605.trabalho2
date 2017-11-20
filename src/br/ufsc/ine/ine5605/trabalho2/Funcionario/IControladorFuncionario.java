@@ -38,7 +38,7 @@ public interface IControladorFuncionario {
     /**
      * @param matricula Matrícula a ser buscada
      */    
-    public void findFuncionarioByMatricula(int matricula);
+    public void findFuncionarioByMatricula(int matricula) throws ExceptionFuncionario;
     
     /**
      * É utilizado na TelaFuncionario e garante que nenhum funcionário tenha CPF igual a outro
@@ -46,7 +46,7 @@ public interface IControladorFuncionario {
      * @return Verdadeiro se o CPF já estiver em uso por algum funcionário já cadastrado
      * Falso caso contrário
      */    
-    public void findFuncionarioByCpf(long cpf);    
+    public void findFuncionarioByCpf(long cpf) throws ExceptionFuncionario;    
     
      /** 
      * @param matricula Matrícula a ser validada

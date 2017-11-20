@@ -73,10 +73,10 @@ public class ControladorFuncionario implements IControladorFuncionario {
     }
     
     @Override
-    public void findFuncionarioByMatricula(int matricula) {
+    public void findFuncionarioByMatricula(int matricula) throws ExceptionFuncionario {
         for(Funcionario funcionario : getFuncionarios()){
             if (funcionario.getMatricula() == matricula) {
-                throw new IllegalArgumentException("Matrícula já existente!");
+                throw new ExceptionFuncionario("Matrícula já existente!");
             }
         }
         
@@ -88,20 +88,20 @@ public class ControladorFuncionario implements IControladorFuncionario {
            
     
     @Override
-    public void findFuncionarioByCpf(long cpf) {
+    public void findFuncionarioByCpf(long cpf) throws ExceptionFuncionario {
         for (Funcionario funcionario : getFuncionarios()) {
             if (funcionario.getCpf() == cpf) {
-                throw new IllegalArgumentException("CPF já está cadastrado.");
+                throw new ExceptionFuncionario("CPF já está cadastrado.");
             }
         }
     }
     
-    public void findFuncionarioByCargo(Cargo cargo){
+    public void findFuncionarioByCargo(Cargo cargo) throws ExceptionFuncionario{
         for(Funcionario funcionarioAtual : this.getFuncionarios()){
             if(funcionarioAtual.getCargo().getCodigo() == cargo.getCodigo()){
             }
         }
-        throw new IllegalArgumentException();
+        throw new ExceptionFuncionario("");
     }
     
     @Override
