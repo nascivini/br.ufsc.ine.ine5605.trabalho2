@@ -43,8 +43,6 @@ public interface IControladorFuncionario {
     /**
      * É utilizado na TelaFuncionario e garante que nenhum funcionário tenha CPF igual a outro
      * @param cpf CPF do Funcionário a ser buscado
-     * @return Verdadeiro se o CPF já estiver em uso por algum funcionário já cadastrado
-     * Falso caso contrário
      */    
     public void findFuncionarioByCpf(long cpf);    
     

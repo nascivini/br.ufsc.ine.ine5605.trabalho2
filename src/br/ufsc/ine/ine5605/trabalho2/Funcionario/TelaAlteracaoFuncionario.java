@@ -382,8 +382,7 @@ public class TelaAlteracaoFuncionario extends JFrame {
       
                     JOptionPane.showMessageDialog(null, "Funcionário alterado com sucesso!", "Alterado!", JOptionPane.DEFAULT_OPTION);
                     telaAlteracaoFuncionario.updateData(modelo);
-                    setVisible(false);
-                   
+                    setVisible(false);   
                 }
                 
                 catch (IllegalArgumentException erro) {
