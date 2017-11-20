@@ -6,7 +6,6 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -24,23 +23,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class TelaFuncionario extends JFrame {
-    //private final Scanner teclado;
-    private Image image;
     private final ControladorFuncionario controladorFuncionario;
     private JLabel descricao;
     private JButton botaoCadastrar, botaoExcluir, botaoAlterar, botaoListar, botaoVoltar;
-    private boolean shouldFill;
-    private boolean shouldWeightX;
-    Dimension dimensao = new Dimension(300, 70);
     private TelaCadastroFuncionario telaCadastroFuncionario;
     private TelaExclusaoFuncionario telaExclusaoFuncionario;
     private TelaAlteracaoFuncionario telaAlteracaoFuncionario;
     private TelaListagemFuncionario telaListagemFuncionario;
+    Dimension dimensao = new Dimension(300, 70);
     Font fonte = new Font("Tahoma", Font.BOLD, 14);
 
 
     public TelaFuncionario(ControladorFuncionario controladorFuncionario){
-        super("Configurações de Funcionário");
+        super("Tela de Manutenção de Funcionários");
         this.controladorFuncionario = controladorFuncionario;
         inicializarComponentesFuncionario();
         this.telaCadastroFuncionario = new TelaCadastroFuncionario(this);

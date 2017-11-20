@@ -62,33 +62,6 @@ public class ControladorCargo implements IControladorCargo {
     }
 
     @Override
-    public Cargo alterarCargo(DadosCargo conteudo, int codigo) {
-        Cargo alterado = findCargoByCodigo(codigo);
-        if (conteudo != null) {
-            if (conteudo.horarios == null) {
-                alterado.setHorarios(new ArrayList<Calendar>());
-            }
-            if (conteudo.tipoCargo != null) {
-                alterado.setTipoCargo(conteudo.tipoCargo);
-                return alterado;
-            } else if (conteudo.nome != null) {
-                alterado.setNome(conteudo.nome);
-                return alterado;
-            } else if (conteudo.permiteAcesso == false) {
-                alterado.setPermiteAcesso(false);
-                return alterado;
-            } else if (conteudo.permiteAcesso) {
-                alterado.setPermiteAcesso(true);
-                return alterado;
-            } else {
-                throw new IllegalArgumentException("Dado inválido! O cargo não foi alterado.");
-            }
-        }
-
-        return null;
-    }
-
-    @Override
     public Cargo findCargoByNome(String nome) {
         for (Cargo cargoAtual : this.cargoDAO.getList()) {
             if (cargoAtual.getNome().equals(nome)) {

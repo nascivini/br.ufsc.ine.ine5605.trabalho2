@@ -1,8 +1,10 @@
 package br.ufsc.ine.ine5605.trabalho2.Acesso;
 
 import br.ufsc.ine.ine5605.trabalho2.Principal.ControladorPrincipal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -13,7 +15,6 @@ import java.util.Calendar;
 public class ControladorAcesso implements IControladorAcesso {
 
     private AcessoDAO acessoDAO;
-    private final ArrayList<Acesso> acessos;
     private final ControladorPrincipal controladorPrincipal;
     private final TelaAcesso telaAcesso;
 
@@ -26,7 +27,6 @@ public class ControladorAcesso implements IControladorAcesso {
     public ControladorAcesso(ControladorPrincipal controladorPrincipal) {
         this.acessoDAO = new AcessoDAO();
         this.controladorPrincipal = controladorPrincipal;
-        this.acessos = new ArrayList<>();
         this.telaAcesso = new TelaAcesso(this);
     }
 
@@ -85,7 +85,8 @@ public class ControladorAcesso implements IControladorAcesso {
     @Override
     public Acesso verificaAcesso(int matricula, int hora, int minuto) {
         Calendar dataAgora = Calendar.getInstance();
-        dataAgora.set(0, 0, 0, hora, minuto);
+        dataAgora.set(0,0,0,0,0);
+        dataAgora.setTime(new Date(0, 0, 0, hora, minuto));
         if (this.controladorPrincipal.getControladorFuncionario().validaMatricula(matricula)) { //validou a matricula, logo possui um funcionario com essa matricula
             if (this.controladorPrincipal.getControladorFuncionario().retornaFuncionarioByMatricula(matricula).getCargo().isEhGerencial()) {
                 Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.OK);
@@ -109,7 +110,7 @@ public class ControladorAcesso implements IControladorAcesso {
                     Calendar horaEntrada = listaHorariosCargo.get(i);
                     Calendar horaSaida = listaHorariosCargo.get(i + 1);
                     //rever a partir daqui ....
-                    if (horaEntrada.getTime().before(horaSaida.getTime()) && horaEntrada.getTime().before(dataAgora.getTime()) && horaSaida.getTime().after(dataAgora.getTime())) {
+                    if(dataAgora.getTime().after(horaEntrada.getTime()) && dataAgora.getTime().before(horaSaida.getTime())) {
                         Acesso acesso = new Acesso(dataAgora, matricula, MotivoAcesso.OK);
                         this.acessoDAO.put(acesso);
                         return acesso;

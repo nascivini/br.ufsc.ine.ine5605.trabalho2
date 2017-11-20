@@ -28,16 +28,6 @@ public interface IControladorCargo {
     public boolean excluirCargo(Cargo cargo) throws IllegalArgumentException;
 
     /**
-     * Altera os dados de um cargo para os novos dados informados via parâmetro,
-     * com exceção de seu código. O código de um cargo não pode ser alterado.
-     *
-     * @param conteudo Conteúdo a ser alterado no cargo.
-     * @param codigo Código do cargo que sofrerá alterações.
-     * @return Cargo Retorna o cargo que sofreu alterações.
-     */
-    public Cargo alterarCargo(DadosCargo conteudo, int codigo);  
-    
-    /**
      * "Varre" a lista de cargos cadastrados, buscando por um cargo que contenha
      * o nome passado como parâmetro. Retorna um Cargo nulo, caso não o
      * encontre, e o Cargo encontrado, caso o encontre.
