@@ -25,15 +25,6 @@ public interface IControladorFuncionario {
     public void excluirFuncionario(Funcionario funcionario);
     
     /**
-     * Altera dados cadastrais dos funcionários de acordo com o solicitado. Se a entrada do campo for 0 (ou 00/00/00 para nascimento)
-     * o dados se mantém, caso contrário, é alterado com a informação de entrada correspondente
-     * @param matricula Matrícula do funcionário a ser alterado
-     * @param dados Conteúdo a ser alterado
-     * @return Funcionario que sofreu alterações
-     */    
-    public Funcionario alterarFuncionario(int matricula, DadosFuncionario dados);
-    
-    /**
      * É utilizado pela TelaFuncionario para exibir a lista de funcionários já cadastrados.
     */    
     public void listarFuncionarios();

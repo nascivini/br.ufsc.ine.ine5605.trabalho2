@@ -8,7 +8,6 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
 import br.ufsc.ine.ine5605.trabalho2.Cargo.Cargo;
 import br.ufsc.ine.ine5605.trabalho2.Principal.ControladorPrincipal;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class ControladorFuncionario implements IControladorFuncionario {
 
@@ -56,36 +55,6 @@ public class ControladorFuncionario implements IControladorFuncionario {
 
     public void excluirFuncionario(Funcionario funcionario) {
         funcionarioDAO.remove(funcionario);
-    }
-    
-    public Funcionario alterarFuncionario(int matricula, DadosFuncionario conteudo) {
-        if (validaMatricula(matricula)) {
-            if (conteudo != null) {
-                if (conteudo.cpf != 0) {
-                    this.findFuncionarioByMatricula(matricula).setCpf(conteudo.cpf);
-                }
-                if (!conteudo.nome.equals("0")) {
-                    this.findFuncionarioByMatricula(matricula).setNome(conteudo.nome);
-                }
-                if (!conteudo.cargo.equals(0)) {
-                    this.findFuncionarioByMatricula(matricula).setCargo(conteudo.cargo);
-                }
-                if (!conteudo.nascimento.equals(00/00/00)) {
-                    this.findFuncionarioByMatricula(matricula).setNascimento(conteudo.nascimento);
-                }
-                if (conteudo.telefone != 0) {
-                    this.findFuncionarioByMatricula(matricula).setTelefone(conteudo.telefone);
-                }
-                if (conteudo.salario != 0) {
-                    this.findFuncionarioByMatricula(matricula).setSalario(conteudo.salario);
-                }              
-            } else {
-                this.findFuncionarioByMatricula(matricula);
-            }
-        } else {
-            return null;
-        }
-        return null;
     }
     
     @Override

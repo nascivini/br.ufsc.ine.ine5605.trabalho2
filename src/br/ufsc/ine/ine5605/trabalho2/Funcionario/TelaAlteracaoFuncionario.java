@@ -164,6 +164,7 @@ public class TelaAlteracaoFuncionario extends JFrame {
                 telaFuncionario.setVisible(true);
             }   
     }
+    }
     
     
     public class TelaAlteracaoDadosFunc extends JFrame {
@@ -344,6 +345,7 @@ public class TelaAlteracaoFuncionario extends JFrame {
         this.salario.setText(Float.toString(funcAlterado.getSalario()));
     }
     
+    
     private class GerenciadorBotoesAlteracaoDadosFunc implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == salvar) {
@@ -384,7 +386,9 @@ public class TelaAlteracaoFuncionario extends JFrame {
             }
         }
         }
-    
+    }
 }
+    
+
     
    
