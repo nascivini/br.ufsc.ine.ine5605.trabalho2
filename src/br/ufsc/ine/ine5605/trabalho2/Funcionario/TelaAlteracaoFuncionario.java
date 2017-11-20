@@ -59,6 +59,9 @@ public class TelaAlteracaoFuncionario extends JFrame {
         this.inicializarComponentes();
     }
     
+    /**
+     * Configura os botões e labels da página
+     */
     private void inicializarComponentes() {
         this.setLayout(new BorderLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -102,7 +105,10 @@ public class TelaAlteracaoFuncionario extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     }
-
+    
+    /**
+     * Método para criar a tabela com os dados dos funcionários
+     */
     private void criaTabela() {
         tabelaFuncionarios = new JTable(modelo);
         tabelaFuncionarios.setPreferredScrollableViewportSize(dimensaoTabela);
@@ -126,6 +132,11 @@ public class TelaAlteracaoFuncionario extends JFrame {
         
     }
     
+    /**
+     * Dados da tabela
+     * @param modelo 
+     */
+    
     public void updateData(DefaultTableModel modelo) {
         modelo.setNumRows(0);
         
@@ -137,7 +148,9 @@ public class TelaAlteracaoFuncionario extends JFrame {
     }
     
 
-    
+    /**
+     * Aponta ações ao clicar em cada um dos botões da tela
+     */
     public class GerenciadorBotoesAlteracaoFuncionario implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == alterar){
@@ -161,7 +174,9 @@ public class TelaAlteracaoFuncionario extends JFrame {
     }
     }
     
-    
+    /**
+     * Tela que abre quando o usuário clica em alterar
+     */
     public class TelaAlteracaoDadosFunc extends JFrame {
         private TelaAlteracaoFuncionario telaAlteracaoFuncionario;
         private Funcionario funcAlterado;
@@ -180,6 +195,9 @@ public class TelaAlteracaoFuncionario extends JFrame {
             this.inicializarComponentes();
         }
         
+        /**
+         * Configura os botões e labels da tela
+         */
         private void inicializarComponentes() {
             Container container = this.getContentPane();
             container.setLayout(new GridBagLayout());
@@ -327,6 +345,9 @@ public class TelaAlteracaoFuncionario extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Dados que aparecem nos campos JTextField e JComboBox, relacionados ao funcionário selecionado
+     */
     public void updateData() {
         this.matricula.setText(telaFuncionario.getControladorFuncionario().gerarMatriculaSequencial() + " (gerado automaticamente)");
         this.cpf.setText(Long.toString(funcAlterado.getCpf()));
@@ -341,12 +362,14 @@ public class TelaAlteracaoFuncionario extends JFrame {
     }
     
     
+    /**
+     * Aponta ações ao clicar em cada um dos botões da tela
+     */
     private class GerenciadorBotoesAlteracaoDadosFunc implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == salvar) {
 
                 try {
-                    //telaFuncionario.getControladorFuncionario().excluirFuncionario(funcAlterado);
                
                     funcAlterado.setCpf(Long.parseLong(cpf.getText()));
                     funcAlterado.setNome(nome.getText());
@@ -356,13 +379,7 @@ public class TelaAlteracaoFuncionario extends JFrame {
                     funcAlterado.setSalario(Float.parseFloat(salario.getText()));
                    
                     telaFuncionario.getControladorFuncionario().getFuncionarioDAO().persist();
-                    /*
-                    DadosFuncionario funcionarioAlt = new DadosFuncionario(Long.parseLong(cpf.getText().replaceAll("[.-]", "")), 
-                            nome.getText(), (Cargo)cargo.getSelectedItem(), nascimento.getText(), Long.parseLong(telefone.getText().replaceAll("[()-]","")), 
-                            Float.parseFloat(salario.getText()));
-                    
-                    telaFuncionario.getControladorFuncionario().incluirFuncionario(funcionarioAlt);
-                    */
+      
                     JOptionPane.showMessageDialog(null, "Funcionário alterado com sucesso!", "Alterado!", JOptionPane.DEFAULT_OPTION);
                     telaAlteracaoFuncionario.updateData(modelo);
                     setVisible(false);

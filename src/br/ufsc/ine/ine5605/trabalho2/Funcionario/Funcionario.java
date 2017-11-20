@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public class Funcionario implements Serializable {
+public class Funcionario /*extends Pessoa*/ implements Serializable {
     private int matricula;
     private long cpf;
     private String nome;
@@ -20,6 +20,7 @@ public class Funcionario implements Serializable {
     private int nAcessosNegados;
 
     public Funcionario(int matricula, DadosFuncionario conteudo) {
+        //super(cpf, nome, nascimento, telefone);
         this.matricula = matricula;
         this.cpf = conteudo.cpf;
         this.nome = conteudo.nome;
@@ -30,6 +31,10 @@ public class Funcionario implements Serializable {
         this.setnAcessosNegados(0);
     }
     
+    /**
+     * 
+     * @return A matrícula e nome do funcionário
+     */
     public String toString() {
         return "Matrícula: " +getMatricula()+ " | Nome:" +getNome();
     }
