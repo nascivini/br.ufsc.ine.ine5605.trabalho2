@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -142,23 +141,19 @@ public class TelaAlteracaoFuncionario extends JFrame {
     public class GerenciadorBotoesAlteracaoFuncionario implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == alterar){
-                try {
-                    int funcAtual = tabelaFuncionarios.getSelectedRow();
-                    int matricula = (int) tabelaFuncionarios.getModel().getValueAt(funcAtual, 0);
-                        if (funcAtual >= 0) {
+                        if (tabelaFuncionarios.getRowCount() > 0 && tabelaFuncionarios.getSelectedRow() >=0) {
+                            int funcAtual = tabelaFuncionarios.getSelectedRow();
+                            int matricula = (int) tabelaFuncionarios.getModel().getValueAt(funcAtual, 0);
                             Funcionario selecionado = telaFuncionario.getControladorFuncionario().retornaFuncionarioByMatricula(matricula);
                             TelaAlteracaoDadosFunc telaAlteracaoDadosFunc = new TelaAlteracaoDadosFunc(selecionado, telaAlteracaoFuncionario);
-                            telaAlteracaoDadosFunc.updateData();
                             telaAlteracaoDadosFunc.setVisible(true);
                         }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Selecione um funcionário.");
-                        }
-                }
-                catch(IllegalArgumentException ex){
-                    JOptionPane.showMessageDialog(null, "Erro desconhecido. Contate o administrador do sistema.");
-                }
-                        
+                        else if (!(tabelaFuncionarios.getSelectedRow() >=0)) {
+                            JOptionPane.showMessageDialog(null, "Selecione um funcionário para poder alterá-lo.", "Alerta", JOptionPane.WARNING_MESSAGE);
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Ainda não há funcionários cadastrados!", "Alerta", JOptionPane.WARNING_MESSAGE);
+                        }                   
             } else if (e.getSource() == voltar) {
                 setVisible(false);
                 telaFuncionario.setVisible(true);
