@@ -10,16 +10,16 @@ package br.ufsc.ine.ine5605.trabalho2.Funcionario;
  * @author ClipEscolaEstagiario
  */
 public class Pessoa {
-    public String cpf;
+    public long cpf;
     public String nome;
     public String nascimento;
     public long telefone;
 
-    public Pessoa(String cpf, String nome, String nascimento, long telefone) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.nascimento = nascimento;
-        this.telefone = telefone;
+    public Pessoa(DadosFuncionario dados) {
+        this.cpf = dados.cpf;
+        this.nome = dados.nome;
+        this.nascimento = dados.nascimento;
+        this.telefone = dados.telefone;
     }
     
     

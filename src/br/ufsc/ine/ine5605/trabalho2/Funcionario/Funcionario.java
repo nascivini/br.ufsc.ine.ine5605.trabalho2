@@ -9,24 +9,16 @@ import java.io.Serializable;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public class Funcionario /*extends Pessoa*/ implements Serializable {
+public class Funcionario extends Pessoa implements Serializable {
     private int matricula;
-    private long cpf;
-    private String nome;
     private Cargo cargo;
-    private String nascimento;
-    private long telefone;
     private float salario;
     private int nAcessosNegados;
 
     public Funcionario(int matricula, DadosFuncionario conteudo) {
-        //super(cpf, nome, nascimento, telefone);
+        super(conteudo);
         this.matricula = matricula;
-        this.cpf = conteudo.cpf;
-        this.nome = conteudo.nome;
         this.cargo = conteudo.cargo;
-        this.nascimento = conteudo.nascimento;
-        this.telefone = conteudo.telefone;
         this.salario = conteudo.salario;
         this.setnAcessosNegados(0);
     }
