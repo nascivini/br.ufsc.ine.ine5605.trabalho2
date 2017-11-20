@@ -101,7 +101,7 @@ public class ControladorFuncionario implements IControladorFuncionario {
             if(funcionarioAtual.getCargo().getCodigo() == cargo.getCodigo()){
             }
         }
-        throw new ExceptionFuncionario("");
+        throw new ExceptionFuncionario("Há um funcionário com este cargo!");
     }
     
     @Override

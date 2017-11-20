@@ -117,7 +117,7 @@ public class TelaExclusaoCargo extends JFrame {
                         JOptionPane.showMessageDialog(null, "Cargo excluído!");
                     }
                        catch (ExceptionCargo | ExceptionFuncionario ex) {
-                        JOptionPane.showMessageDialog(null, "Erro desconhecido. Contate o administrador do sistema.");
+                        JOptionPane.showMessageDialog(null, ex.getMessage() + " Exclua todos os Funcionários com este Cargo antes de excluir o Cargo.", "Alerta", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 updateData();
