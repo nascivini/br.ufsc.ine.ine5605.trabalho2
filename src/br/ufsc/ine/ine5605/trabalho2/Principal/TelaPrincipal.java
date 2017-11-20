@@ -1,9 +1,8 @@
 package br.ufsc.ine.ine5605.trabalho2.Principal;
 
-import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,7 +12,6 @@ import static java.awt.image.ImageObserver.WIDTH;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *
@@ -29,6 +27,7 @@ public class TelaPrincipal extends JFrame {
     private JButton botaoAcesso;
     private JButton sair;
     Dimension d = new Dimension(300, 70);
+    Font fonte = new Font("Tahoma", Font.BOLD, 14);
     
     /**
      * Recebe o controladorPrincipal como parametro para possibilitar a
@@ -54,9 +53,9 @@ public class TelaPrincipal extends JFrame {
         botaoAcesso = new JButton();
         sair = new JButton();
         
-        descricao.setText("Clique nos botões para acessar os módulos.");
+        descricao.setText("Clique nos botões para acessar os módulos:");
         botaoCargo.setText("Cargos");
-        botaoFuncionario.setText("Funcionarios");
+        botaoFuncionario.setText("Funcionários");
         botaoAcesso.setText("Acessos");
         sair.setText("Sair do Sistema");
         
@@ -77,25 +76,28 @@ public class TelaPrincipal extends JFrame {
         
         c.gridx = 0;
         c.gridy = 1;
-        botaoCargo.setPreferredSize(d);
+        botaoCargo.setFont(fonte);
         container.add(botaoCargo, c);
         
         c.gridx = 0;
         c.gridy = 2;
+        botaoFuncionario.setFont(fonte);
         container.add(botaoFuncionario, c);
         
         c.gridx = 0;
         c.gridy = 3;
+        botaoAcesso.setFont(fonte);
         container.add(botaoAcesso, c);
         
         c.gridx = 0;
         c.gridy = 4;
+        sair.setFont(fonte);
         container.add(sair, c);
         
         this.setVisible(true);
-        this.setSize(500, 500);
+        this.setSize(600, 600);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
     public ControladorPrincipal getControladorPrincipal(){
@@ -107,15 +109,15 @@ public class TelaPrincipal extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == botaoCargo){
-                setVisible(false);
+                setVisible(true);
                 controladorPrincipal.getControladorCargo().getTelaCargo().setVisible(true);
             }
             else if(e.getSource() == botaoFuncionario){
-                setVisible(false);
+                setVisible(true);
                 controladorPrincipal.getControladorFuncionario().getTelaFuncionario().setVisible(true);
             }
             else if(e.getSource() == botaoAcesso){
-                setVisible(false);
+                setVisible(true);
                 controladorPrincipal.getControladorAcesso().getTelaAcesso().setVisible(true);
             }
             else if(e.getSource() == sair){
