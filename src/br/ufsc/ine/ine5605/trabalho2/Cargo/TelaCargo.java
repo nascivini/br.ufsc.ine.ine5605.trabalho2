@@ -3,6 +3,7 @@ package br.ufsc.ine.ine5605.trabalho2.Cargo;
 import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -27,6 +28,7 @@ public class TelaCargo extends JFrame{
     private final TelaExclusaoCargo telaExclusaoCargo;
     private final TelaListagemCargo telaListagemCargo;
     private final TelaAlteracaoCargo telaAlteracaoCargo;
+    Font fonte = new Font("Tahoma", Font.BOLD, 14);
     
     public TelaCargo(ControladorCargo controladorCargo) {
         super("Tela de Manutenção de Cargos");
@@ -55,7 +57,7 @@ public class TelaCargo extends JFrame{
         this.botaoAlteracao = new JButton("Alterar um Cargo");
         this.botaoListagem = new JButton("Listar Cargos Cadastrados");
         this.botaoVoltar = new JButton("Voltar ao Menu Principal");
-        this.descricaoPrincipal = new JLabel("Clique nos botões para acessar os módulos.");
+        this.descricaoPrincipal = new JLabel("Clique em uma das opções:");
                   
         botaoCadastro.addActionListener(gerenciador);
         botaoExclusao.addActionListener(gerenciador);
@@ -70,30 +72,35 @@ public class TelaCargo extends JFrame{
         
         c.gridx = 0;
         c.gridy = 2;
+        botaoCadastro.setFont(fonte);
         botaoCadastro.setPreferredSize(dimensao);
         container.add(botaoCadastro, c);
         
         c.gridx = 0;
         c.gridy = 4;
+        botaoExclusao.setFont(fonte);
         botaoExclusao.setPreferredSize(dimensao);
         container.add(botaoExclusao, c);
         
         c.gridx = 0;
         c.gridy = 6;
+        botaoAlteracao.setFont(fonte);
         botaoAlteracao.setPreferredSize(dimensao);
         container.add(botaoAlteracao, c);
         
         c.gridx = 0;
         c.gridy = 8;
+        botaoListagem.setFont(fonte);
         botaoListagem.setPreferredSize(dimensao);
         container.add(botaoListagem, c);
         
         c.gridx = 0;
         c.gridy = 10;
+        botaoVoltar.setFont(fonte);
         botaoVoltar.setPreferredSize(dimensao);
         container.add(botaoVoltar, c);
         
-        this.setSize(500, 500);
+        this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   
     }
