@@ -2,6 +2,7 @@ package br.ufsc.ine.ine5605.trabalho2.Acesso;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -21,10 +22,11 @@ import javax.swing.JLabel;
 public class TelaAcesso extends JFrame {
 
     private final ControladorAcesso controladorAcesso;
-    private JButton realizarA, listarA, voltar, sair;
+    private JButton realizarA, listarA, voltar;
     private JLabel descricao;
     private TelaRealizarAcesso telaRealizarAcesso;
     private TelaListagemAcessosNegados telaListagemAcessosNegados;
+    Font fonte = new Font("Tahoma", Font.BOLD, 14);
 
     /**
      * Recebe o controlador Acesso como parametro para possibilitar a
@@ -55,16 +57,16 @@ public class TelaAcesso extends JFrame {
         GerenciadorBotoesAcesso gerenciador = new GerenciadorBotoesAcesso();
         GridBagConstraints c = new GridBagConstraints();
         
-        this.descricao = new JLabel("Clique nos botões para acessar os módulos.");
+        this.descricao = new JLabel("Clique em uma das opções:");
         this.realizarA = new JButton("Realizar um Acesso");
         this.listarA = new JButton("Listar Acessos Negados");
         this.voltar = new JButton("Voltar ao Menu Principal");
-        this.sair = new JButton("Sair do Sistema");
+        
         
         this.realizarA.addActionListener(gerenciador);
         this.listarA.addActionListener(gerenciador);
         this.voltar.addActionListener(gerenciador);
-        this.sair.addActionListener(gerenciador);
+       
         
         c.gridx = 0;
         c.gridy = 0;
@@ -74,26 +76,23 @@ public class TelaAcesso extends JFrame {
         c.gridx = 0;
         c.gridy = 1;
         c.anchor = GridBagConstraints.CENTER;
+        realizarA.setFont(fonte);
         realizarA.setPreferredSize(dimensaoBotoes);        
         container.add(this.realizarA, c);
         
         c.gridx = 0;
         c.gridy = 2;
         c.anchor = GridBagConstraints.CENTER;
+        listarA.setFont(fonte);
         listarA.setPreferredSize(dimensaoBotoes);        
         container.add(this.listarA, c);
         
         c.gridx = 0;
         c.gridy = 3;
         c.anchor = GridBagConstraints.CENTER;
+        voltar.setFont(fonte);
         voltar.setPreferredSize(dimensaoBotoes);        
         container.add(this.voltar, c);
-
-        c.gridx = 0;
-        c.gridy = 4;
-        c.anchor = GridBagConstraints.CENTER;
-        sair.setPreferredSize(dimensaoBotoes);        
-        container.add(this.sair, c);
         
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
@@ -118,9 +117,6 @@ public class TelaAcesso extends JFrame {
             else if(e.getSource() == voltar){
                 setVisible(false);
                 controladorAcesso.getControladorPrincipal().getTelaPrincipal().setVisible(true);
-            }
-            else if(e.getSource() == sair){
-                System.exit(0);
             }
         }
     }
