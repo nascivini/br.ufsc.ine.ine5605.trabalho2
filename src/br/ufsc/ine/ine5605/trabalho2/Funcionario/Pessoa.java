@@ -5,11 +5,13 @@
  */
 package br.ufsc.ine.ine5605.trabalho2.Funcionario;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ClipEscolaEstagiario
  */
-public class Pessoa {
+public class Pessoa implements Serializable{
     public long cpf;
     public String nome;
     public String nascimento;
